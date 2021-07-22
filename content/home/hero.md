@@ -24,7 +24,11 @@ advanced:
 
 Profesor: [Irvin Rojas](https://www.rojasirvin.com/) (irvin.rojas@cide.edu).
 
+Laboratorista: por confirmar.
+
 Horario de clases: martes y jueves (11:30 a 13:00).
+
+Horario de laboratorio: por confirmar.
 
 Plataforma de enseñanza: Microsoft Teams.
 
