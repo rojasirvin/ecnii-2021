@@ -9,6 +9,7 @@ design:
     gradient_start: 'rgb(255,255,255)'
     gradient_end: 'rgb(255,255,255)'
     text_color_light: false
+date: "`r as.Date(file.mtime(knitr::current_input()))`"
 cta:
   url:
   label:
@@ -24,11 +25,11 @@ advanced:
 
 Profesor: [Irvin Rojas](https://www.rojasirvin.com/) (irvin.rojas@cide.edu).
 
-Laboratorista: por confirmar.
+Laboratorista: Federico Daverio (federico.daverio@alumnos.cide.edu).
 
 Horario de clases: martes y jueves (11:30 a 13:00).
 
-Horario de laboratorio: por confirmar.
+Horario de laboratorio: lnes (8:00 a 9:30).
 
 Plataforma de enseñanza: Microsoft Teams.
 

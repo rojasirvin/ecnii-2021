@@ -2,7 +2,7 @@
 linkTitle: Programa
 title: "Programa del curso"
 type: book
-date: 2021-07-21
+date: "`r as.Date(file.mtime(knitr::current_input()))`"
 toc: true
 weight: 10
 ---
@@ -20,11 +20,11 @@ weight: 10
 
 El curso se basa en los siguientes textos:
 
-1. Angrist, J.D. y Pischke, J.S. (2013). Mostly *Harmless Econometrics: An Empiricists Companion*. Princeton University Press.
-2. Angrist, J.D. y Pischke, J.S. (2014). *Mastering 'Metrics: The Path from Cause to Effect*. Princeton University Press.
-3. \* (CT) Cameron, A.C. y Trivedi, P.K. (2005). *Microeconometrics: Methods and applications*. Oxford University Press.
-4.	Hayashi, F. (2000). *Econometrics*. Princeton University Press.
-5.	\* (W) Wooldridge, J.M. (2010). *Econometric analysis of cross section and panel data*. Segunda edición, MIT Press.
+* Angrist, J.D. y Pischke, J.S. (2013). Mostly *Harmless Econometrics: An Empiricists Companion*. Princeton University Press.
+* Angrist, J.D. y Pischke, J.S. (2014). *Mastering 'Metrics: The Path from Cause to Effect*. Princeton University Press.
+* \* (CT) Cameron, A.C. y Trivedi, P.K. (2005). *Microeconometrics: Methods and applications*. Oxford University Press.
+*	Hayashi, F. (2000). *Econometrics*. Princeton University Press.
+*	\* (W) Wooldridge, J.M. (2010). *Econometric analysis of cross section and panel data*. Segunda edición, MIT Press.
 
 ## Contenido temático
 
@@ -63,7 +63,6 @@ Unidad 6. Extensiones
 + Modelos de riesgo y de sobrevivencia
 + Regresión por cuantiles
 + Métodos semi paramétricos y no paramétricos
-+ Efectos de tratamiento
 + Modelos de efectos de pares
 + Variables instrumentales shift share
 + Econometría espacial
@@ -76,13 +75,19 @@ Unidad 6. Extensiones
 + Exposición: 5%
 
 ## Tareas
-Cuatro tareas teórico-prácticas. Las tareas deben entregarse de manera individual, pero se recomienda ampliamente colaborar en grupos de estudio. Las secciones teóricas deben estar desarrolladas en un procesador de textos y enviadas en formato .docx o .pdf. Las secciones prácticas deberán contener archivos de código replicable y archivos de salida en R (o similares, en caso de usar otro software) para considerarse completas. Las tareas deben entregarse el día señalado antes del inicio de la clase, a través de Teams.
+
+Cuatro tareas teórico-prácticas. Las tareas deben entregarse de manera individual, pero se recomienda ampliamente colaborar en grupos de estudio. Las tareas deberán entregarse en Teams antes de la fecha y hora señalada. No se aceptarán tareas fuera de tiempo. Por favor, no comprima los archivos en carpetas comprimidas. Las tareas deberán contener dos archivos:
+
+Un primer documento de respuestas donde se incluyan las respuestas a las preguntas teóricas y conceptuales. Este documento puede ser redactado en Word o cualquier otro software, o si lo prefiere, a mano, pero deberá estar impreso en .pdf. En este documento también se deben incluir las respuestas a preguntas sobre conclusiones que se desprenden de las secciones prácticas. Por ejemplo, si una pregunta pide obtener la media de la variable x en cierta base de datos, entonces el documento de respuestas debe incluir la pregunta y respuesta correspondiente: “la media de la variable x es 32.6”. En este documento también deberán incluirse las tablas y gráficas que se soliciten.
+
+Un segundo archivo deberá contener el código replicable usado para generar los resultados de la sección práctica. El código debe también crear las tablas y gráficas solicitadas. Los archivos de código se verificarán para comprobar su replicabilidad.
 
 ## Software
-R será el paquete standard usado en las sesiones prácticas. Más aún, el uso de cualquier software es aceptado siempre que se cumplan con los requisitos de replicabilidad y reportes de salidas en las tareas y exámenes.
+
+R será el paquete standard usado en las sesiones prácticas. Más aún, el uso de cualquier software es aceptado siempre que se cumplan con los requisitos de replicabilidad y reportes de las tareas y exámenes.
 
 ## Exámenes
-+ Examen parcial: por definir
++ Examen parcial: jueves 7 de octubre de 2021 en el horario de clase
 + Examen final: por definir
 
 ## Exposición
