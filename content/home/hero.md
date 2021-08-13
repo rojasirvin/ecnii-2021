@@ -27,7 +27,7 @@ Profesor: [Irvin Rojas](https://www.rojasirvin.com/) (irvin.rojas@cide.edu).
 
 Laboratorista: Federico Daverio (federico.daverio@alumnos.cide.edu).
 
-Horario de clases: martes y jueves (11:30 a 13:00) en Zoom.
+Horario de clases: martes y jueves (12:00 a 13:00) en Zoom.
 
 Horario de laboratorio: lunes (8:00 a 9:30).
 
