@@ -29,7 +29,7 @@ Laboratorista: Federico Daverio (federico.daverio@alumnos.cide.edu).
 
 Horario de clases: martes y jueves (11:30 a 13:00).
 
-Horario de laboratorio: lnes (8:00 a 9:30).
+Horario de laboratorio: lunes (8:00 a 9:30).
 
 Plataforma de enseñanza: Microsoft Teams.
 
