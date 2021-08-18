@@ -11,4 +11,7 @@ Por favor, seleccione una de las lecturas marcadas con una "+" de la lista de le
 
 | **Autores** | **Tema** | **Fecha de exposición** | **Presentador** |
 | --- | --- | --- | --- |
-| Pendiente | Pendiente   | Pendiente | Pendiente |
+| Avila-Foucat et al. (2015) | Binaria   | Sofía Huidobro | 21 de septiembre de 2021 |
+| López-Feldman y Chávez (2017) | VI | Diego Tome | 5 de octubre de 2021 |
+| Antman (2011) | Panel | Yolanda Rodríguez | 28 de octubre |
+| Uña-Alvarez et al. (2003) | Riesgo | Yolanda Rodríguez | 18 de noviembre de 2021 |
