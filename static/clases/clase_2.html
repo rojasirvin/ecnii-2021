@@ -223,9 +223,21 @@ class: inverse, center, middle
 
 - Sea `\(\{b_N\}\)` una secuencia de parámetros estimados `\(\hat{\theta}\)`
 
-- Un estimador `\(\hat{\theta}\)` es consistente si:
+- Un estimador `\(\hat{\theta}\)` es consistente para `\(\theta_0\)` si:
 
 `$$p\lim \hat{\theta}=\theta_0$$`
+--
+
+- Si un estimador es insesgado **no implica** que sea consistente
+
+  - Un estimador insesgado permite variabilidad alrededor de `\(\theta_0\)` que puede no desaparecer cuando `\(N\to \infty\)`
+  
+- Si un estimador es consistente **no implica** qie sea insesgado
+
+  - Contraejemplo: sumar `\(1/N\)` a un estimador insesgado y consistente
+  - El nuevo estimador será sesgado pero consistente
+
+
 ---
 
 # Teorema de Slutsky
@@ -242,6 +254,12 @@ class: inverse, center, middle
 - Las LGN son teoremas de convergencia en probabilidad cuando `\(\{b_N\}\)` es un promedio muestral, `\(b_N\equiv \bar{X}_N\)`
 
 - Son teoremas para establecer el límite de una secuencia `\(\{b_N\}\)` en vez de usar *fuerza bruta* y aplicar la definición 
+
+- `\(X_i\)` aquí representa una variable aleatoria, no necesariamente "las `\(X\)`" de unos datos
+
+- Podría ser `\(X_i=x_iu_i\)`
+
+--
 
 - *Una ley de grandes números débil*
 
@@ -274,7 +292,7 @@ class: inverse, center, middle
 
 $$
 `\begin{aligned}
-p\lim {X}_N&amp;=\lim E(\bar{X}_N) \\
+p\lim \bar{X}_N&amp;=\lim E(\bar{X}_N) \\
 &amp;=\lim N^{-1}\sum_{i=1}^N E(X_i) \\
 &amp;=\mu \quad \text{si} 
 \end{aligned}`
@@ -294,9 +312,11 @@ si las `\(X_i\)` son iid
 
 # Convergencia en distribución
 
-- La convergencia en distribución implica que `\(\hat{\theta}\)` tiene una distribución degenerada que se colapsa a `\(\theta_0\)`
+- Dada la consistencia, `\(\hat{\theta}\)` tiene una distribución degenerada que se colapsa a `\(\theta_0\)`
 
-- Pero si reescalamos, podemos hacer afirmaciones sobre la distribución límite de `\(b_n=\sqrt{N}(\hat{\theta}-\theta_0)\)`
+- No podríamos hacer inferencia estadística
+
+- Pero si reescalamos (hacemos más grande) `\(\hat{\theta}\)`, podemos obtener una variable aleatorio con distribución no degenerada
 
 - Una secuencia `\(\{b_N\}\)` converge en distribución a la variable `\(b\)` si `\(\lim_{N\to\infty} F_N= F\)`
 
@@ -321,11 +341,13 @@ donde `\(F\)` es la función de distribución acumulada (cdf) de `\(b\)` en todo
 
   1. `\(a_N+b_N \xrightarrow{d}a+b\)`
   
-  1. `\(a_n b_N \xrightarrow{d}ab\)`
+  1. `\(a_N b_N \xrightarrow{d}ab\)`
   
   1. `\(a_N/b_N\xrightarrow{d}a/b\)`
   
 - Es decir, podemos decir algo sobre objetos potencialmente complejos (como productos o cocientes) si sabemos algo de sus partes
+
+- Podemos enfocarnos en obtener la distribución límite de `\(a_N\)` y la probabilidad límite de `\(b_N\)`
 
 ---
 
@@ -345,10 +367,12 @@ Entonces `\(H_N a_N \xrightarrow{d}\mathcal{N}(H\mu,HAH')\)`
 
 - Son teoremas de convergencia en distribución cuand `\(\{b_N\}\)` es una media muestral
 
+- Por una LGN `\(b_N\)` tiene una distribución degenerada que converge a una constante
+
+
 - Primero reescalamos definiendo
 
 $$ b_N\equiv Z_N=\frac{\bar{X}_N-E(\bar{X}_N)}{\sqrt{V(\bar{X}_N)}}\sim(0,1) $$
-
 - Un TLC da condiciones sobre las `\(X_i\)` en `\(\bar{X}_N\)` para que
 
 $$ Z_N\xrightarrow{d}\mathcal{N}(0,1) $$
@@ -363,13 +387,15 @@ $$ Z_N\xrightarrow{d}\mathcal{N}(0,1) $$
 
 $$ Z_N=\frac{\sqrt{N}(\bar{X}_N-\mu)}{\sigma}\xrightarrow{d} \mathcal N(0,1) $$
 
- - Noten que si `\(\bar{X}_N\)` satisface un TLC, entonces también `\(h(N)\bar{X}_N\)` lo satisface
+--
+
+- Noten que si `\(\bar{X}_N\)` satisface un TLC, entonces también `\(h(N)\bar{X}_N\)` lo satisface
  
  - Por ejemplo, `\(h(N)=\sqrt{N}\)`, dado que
  
 $$ Z_N=\frac{h(N)\bar{X}_N-E(h(N)\bar{X}_N)}{\sqrt{V(h(N)\bar{X}_N)}}$$
 
-- En la mayoría de los casos, se usan los TLC a la versión normalizada de `\(\bar{X_N}\)`, es decir, `\(\sqrt{N}\bar{X}_N\)` porque `\(V(h(N)\bar{X}_N)\)` es finita
+- En la mayoría de los casos, se usan los TLC a la versión normalizada de `\(\bar{X}_N\)`, es decir, `\(\sqrt{N}\bar{X}_N=N^{-1/2}\sum_{i=1}^N X_i\)` porque `\(V(h(N)\bar{X}_N)\)` es finita
 
 ---
 
@@ -408,7 +434,7 @@ class: inverse, center, middle
 
 # Consistencia
 
-- Consideremos el proceso generador de datos `\(y=X\beta+\)`
+- Consideremos el proceso generador de datos `\(y=X\beta+u\)`
 
 $$
 `\begin{aligned}
@@ -422,7 +448,7 @@ $$
 - Reescalando:
 
 `$$\hat{\beta}_{MCO}=\beta+(N^{-1}X'X)^{-1}N^{-1}X'u$$`
-- Noten que `\(N^{-1}X'X=N^{-1}\sum_{i=1}{N}x_ix_i'\)` es un promedio
+- Noten que `\(N^{-1}X'X=N^{-1}\sum_{i=1}^{N}x_ix_i'\)` es un promedio
 
 - Si  `\(x_ix_i'\)` permite aplicar una LGN, entonces el promedio converge en probabilidad a una matriz finita distinta de `\(\mathbf{0}\)`
 
@@ -483,7 +509,7 @@ $$
 
 - A la matriz `\(V(\hat{\beta})=N^{-1}M_{XX}^{-1}M_{X\Omega X}M_{XX}^{-1}\)` es la *matriz de varianza asintótica*
 
-- Eliminado los límites y las expectativas, una forma más compacta de escribit la distribución del estimador de MCO es
+- Eliminado los límites y las expectativas, una forma más compacta de escribir la distribución del estimador de MCO es
 
 `$$\hat{\beta}_{MCO} \stackrel{a}{\sim} \mathcal{N}(\beta,(X'X)^{-1}X'\Omega X (X'X)^{-1})$$`
 
@@ -505,7 +531,6 @@ $$
 
 `$$\hat{V}(\hat{\beta}_{MCO,iid})=\hat{s}^2(X'X)^{-1}$$`
 
-- Con errores heterocedásticos, es decir, que dependen de `\(X_i\)`, la v
 
 - Pero si `\(V(u_i|x_i)=E(u_i^2|x_i)=\sigma_i^2\)`, es decir, los errores varían con `\(i\)`, White (1980) propone usar como estimador de la varianza a `\(\hat{M}_{X\Omega X}=N^{-1}\sum_i \hat{u}_i^2x_ix_i'\)`, dando lugar a:
 
