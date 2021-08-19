@@ -9,8 +9,9 @@ weight: 50
 
 Por favor, seleccione una de las lecturas marcadas con una "+" de la lista de lecturas y envíe un correo al profesor para que se le asigne una fecha de presentación.
 
-| **Autores** | **Tema** | **Fecha de exposición** | **Presentador** |
+| **Autores** | **Tema** | **Presentador** | **Fecha de exposición** |
 | --- | --- | --- | --- |
 | Avila-Foucat et al. (2015) | Binaria   | Sofía Huidobro | 21 de septiembre de 2021 |
 | López-Feldman y Chávez (2017) | VI | Diego Tome | 5 de octubre de 2021 |
+| Antman (2011) | Panel | Alejandro Parada | Jueves 28 de octubre de 2021 |
 | Uña-Alvarez et al. (2003) | Riesgo | Yolanda Rodríguez | 18 de noviembre de 2021 |
