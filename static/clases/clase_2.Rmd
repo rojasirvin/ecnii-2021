@@ -199,7 +199,9 @@ class: inverse, center, middle
 
 # Teoría asintótica
 
-- Consideremos secuencias de variables aleatorios $b_N$
+- Basado en CT Apéndice A (A1 - A6)
+
+- Consideremos secuencias de variables aleatorias $b_N$
 
 - Queremos decir algo sobre $b_N$ cuando $N\to \infty$:
 
