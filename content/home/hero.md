@@ -33,4 +33,4 @@ Horario de laboratorio: lunes (8:00 a 9:30).
 
 Plataforma del curso: Microsoft Teams.
 
-Horario de oficina: por definir.
+Horario de oficina: lunes y miércoles (12:00 a 13:00).
