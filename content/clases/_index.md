@@ -11,5 +11,7 @@ weight: 70
 
 [Clase 2](https://ecnii-2021.netlify.app/clases/clase_2.html#1). Revisión de regresión lineal y teoría asintótica
 
+[Clase 3](https://ecnii-2021.netlify.app/clases/clase_3.html#1). Estimadores M
 
+[Clase 4](https://ecnii-2021.netlify.app/clases/clase_4.html#1). Máxima verosimilitud y mínimos cuadrados no lineales
 
