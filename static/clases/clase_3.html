@@ -84,7 +84,7 @@ class: inverse, middle, center
 
 - Buscamos estimar el vector de parámetros `\(\theta=(\theta_1,\ldots,\theta_q)'\)`
 
-- Consideremos la función objetivo estocástica `\(Q_N(\theta)=Q_N(y,x,\theta=\frac{1}{N}\sum_i q(y_i,x_i,\theta\)`, donde `\(q(\cdot)\)` es una función escalar
+- Consideremos la función objetivo estocástica `\(Q_N(\theta)=Q_N(y,x,\theta==\frac{1}{N}\sum_i q(y_i,x_i,\theta)\)`, donde `\(q(\cdot)\)` es una función escalar
 
 - Un **estimador extremo** `\(\hat{\theta}\)` es un estimador que maximiza `\(Q_N\)`
 
@@ -113,10 +113,10 @@ class: inverse, middle, center
 
 - El **estimador de máxima verosimilitud** es el estimador que maximiza la función de log verosimilitud
 
-- Formalmente, se conoce como el **estimador de maxima verosimilitud condicional** al máximo local que satisface la condición de primer orden:
+- Formalmente, se conoce como el **estimador de máxima verosimilitud condicional** al máximo local que satisface la condición de primer orden:
 
 `$$\frac{1}{N}\frac{\partial \mathcal{L}_N(\theta)}{\partial \theta }=\frac{1}{N}\sum_i\frac{\partial \ln f(y_i|x_i,\theta)}{\partial \theta}=0$$`
-- El adjetivo de **condicional** se debe a que el estimador se bajas en la densidad de `\(y\)` dado `\(x\)`, pero comúnmente se emplea solo el término de estimador de máxima verosimilitud
+- El adjetivo de **condicional** se debe a que el estimador se basa en la densidad de `\(y\)` dado `\(x\)`, pero comúnmente se emplea solo el término de estimador de máxima verosimilitud
 
 - Al vector gradiente de primeras derivadas parciales `\(s(\theta)=\frac{\mathcal{L}_N(\theta)}{\partial \theta}\)` se le conoce como **vector score**
 
@@ -164,9 +164,11 @@ class: inverse, middle, center
   
 - Entonces, la solución a `\(\partial Q_N(\theta)/\partial \theta =0\)` es consistente para `\(\theta_0\)`
 
---
+---
 
-- La condición clave es la 3. y nos dice que le máximo local debe de `\(Q_N(\theta)\)` debe ocurrir en `\(\theta_0\)`
+# Consistencia de estimadores M
+
+- La condición clave es la 3. y nos dice que le máximo local de `\(Q_N(\theta)\)` debe ocurrir en `\(\theta_0\)`
 
 - Los primeros dos supuestos se cumplirán en la mayoría de las aplicaciones que usaremos en el curso
 
