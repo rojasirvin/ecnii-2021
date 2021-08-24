@@ -536,7 +536,11 @@ $$
 
 - Pero si `\(V(u_i|x_i)=E(u_i^2|x_i)=\sigma_i^2\)`, es decir, los errores varían con `\(i\)`, White (1980) propone usar como estimador de la varianza a `\(\hat{M}_{X\Omega X}=N^{-1}\sum_i \hat{u}_i^2x_ix_i'\)`, dando lugar a:
 
-`$$\hat{V}(\hat{\beta}_{MCO,White})=(X'X)^{-1}X'\hat{\Omega}X(X'X)^{-1}$$`
+$$
+`\begin{aligned}
+\hat{V}(\hat{\beta}_{MCO,White}) &amp;= (X'X)^{-1}X'\hat{\Omega}X(X'X)^{-1} \\ &amp;= (X'X)^{-1} \sum_i \hat{u}^2_i x_i x_i' (X'X)^{-1} 
+\end{aligned}`
+$$
 
 ---
 
@@ -584,8 +588,8 @@ sample &lt;- rnorm(100,10,2)
 
 # Veamos 10 de las observaciones
 head(sample,10)
-#  [1] 11.679922 10.180688  8.030958  8.018253  7.965878  5.945978 10.727039
-#  [8]  6.837412  9.181732  9.916600
+#  [1] 11.679922 10.180688  8.030958  8.018253  7.965878  5.945978
+#  [7] 10.727039  6.837412  9.181732  9.916600
 
 #¿Cuál es la media muestral?
 mean(sample)
