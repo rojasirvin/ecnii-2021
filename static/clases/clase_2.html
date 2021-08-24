@@ -156,7 +156,7 @@ donde `\(E(y|X)\)` es la esperanza condicional de `\(y\)` dado `\(X\)` y `\(u\)`
 `$$y=\underbrace{X}_\text{(n x k)}\overbrace{\beta}^\text{(k x 1)}+u$$`
 - El estimador de MCO se define como el estimador que minimiza la suma de errores cruadráticos:
 
-`$$\sum_{i=1}^N u_i^2=u'u(y-X\beta)'(y-X\beta)$$`
+`$$\sum_{i=1}^N u_i^2=u'u=(y-X\beta)'(y-X\beta)$$`
 
 
 ---
@@ -218,7 +218,7 @@ class: inverse, center, middle
 - **Convergencia en probabilidad**: `\(\{b_N\}\)` converge en probabilidad a `\(b\)` si para todo `\(\varepsilon\)` y `\(\delta&gt;0\)` existe `\(N^*=N*(\varepsilon, \delta)\)` tal que:
 
 `$$Pr(|b_n-b|&lt;\varepsilon) &gt; 1-\delta$$`
-- La notación más usada es escribir `\(p\lim b=b\)` o `\(b_n\xrightarrow{p}b\)`, donde `\(b\)` puede ser una constante o una variable aleatoria
+- La notación más usada es escribir `\(p\lim b_n=b\)` o `\(b_n\xrightarrow{p}b\)`, donde `\(b\)` puede ser una constante o una variable aleatoria
 ---
 
 # Consistencia
@@ -332,7 +332,7 @@ donde `\(F\)` es la función de distribución acumulada (cdf) de `\(b\)` en todo
 
 # Teorema del mapeo continuo
 
-- Sea `\(b_N\)` un vector de dimensión finita y sea `\(g(\cdot)\)` una función real:
+- Sea `\(b_N\)` un vector de dimensión finita y sea `\(g(\cdot)\)` una función real y continua:
 
 `$$b_N\xrightarrow{d}b \implies g(b_N) \xrightarrow{d}g(b)$$`
 ---
