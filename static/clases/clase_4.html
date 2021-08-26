@@ -89,7 +89,7 @@ con `\(y=0,1,2,\ldots\)`
 
 # Ejemplo Poisson
 
-- El problema de máxima verosimilitud con una muestra `\(\{(y_i,x_i\}\)` con `\(N\)` datos consiste en encontre `\(\beta\)` que maximice la función de log verosimilitud
+- El problema de máxima verosimilitud con una muestra `\(\{(y_i,x_i\)}\)` con `\(N\)` datos consiste en encontre `\(\beta\)` que maximice la función de log verosimilitud
 
 - La función de verosimilitud es la densidad conjunta
 
@@ -119,8 +119,9 @@ con `\(y=0,1,2,\ldots\)`
 
 # Condiciones de regularidad
 
-- Las dos condiciones de regularidad son:
+- Los resultados asintóticos de los estimadores M se cumplen para el estimador de MV si la densidad está bien especificada y el rango de `\(y\)` no depende de `\(\theta\)`
 
+- Las dos condiciones de regularidad son:
 
 1. El vector score tiene esperanza cero: `$$E_f\left(\frac{\partial \ln f(y|x,\theta)}{\partial \theta}\right)=\int\frac{\partial \ln f(y|x,\theta)}{\partial \theta}f(y|x,\theta)=0$$`
 
@@ -149,7 +150,7 @@ con `\(y=0,1,2,\ldots\)`
 
 --
 
-- En nuestro problema de MV, la igualdad de la matriz de información implica y la segunda condición de regularidad implican:
+- En nuestro problema de MV, la segunda condición de regularidad implica:
 
  `$$\mathcal{I}=E_f\left(\frac{\partial \mathcal{L}_N(\theta)}{\partial \theta} \frac{\partial \mathcal{L}_N(\theta)}{\partial \theta'}\Bigg|_{\theta_0}\right)=-E_f\left(\frac{\partial^2\mathcal{L}_N(\theta))}{\partial \theta \partial \theta'}\Bigg|_{\theta_0}\right)$$`
 - Esta relación se conoce como la **igualdad de la matriz de información** e implica que podemos obtener la matriz de información a partir del score
@@ -167,17 +168,19 @@ con `\(y=0,1,2,\ldots\)`
   
 --
 
-- La igualdad de la matriz de información también implica que `\(-A_0=B_0\)`
+- La igualdad de la matriz de información implica que `\(-A_0=B_0\)`
 
 
 - Por lo tanto, la varianza asintótica se simplifica a:
 
 `$$A_0^{-1}B_0A_0^{-1}=-A_0^{-1}=B_0^{-1}$$`
+--
+
+- Las condiciones de regularidad hacen que los resultados asintóticos de los estimadores M se simplifiquen en el caso de MV
 
 ---
 
 # Distribución del estimador de MV
-
 
 - **Distribución del estimador de MV** (Proposición 5.5 en CT)
 
@@ -307,7 +310,7 @@ class: inverse, middle, center
 
   1. El modelo es `\(y_i=g(x_i,\beta)+u_i\)`
   1. En el pgd, `\(E(u_i|x_i)=0\)` y `\(E(uu'|X)=\Omega_0\)`, con `\(\Omega_{0,ij}=\sigma_{ij}\)`
-  1. La función `\(g(\cdot)\)` satisface `\(g(x,\beta^{(1)}=g(x,\beta^{(2)})\)` si y solo si `\(\beta^{(1)}=\beta^{(2)}\)`
+  1. La función `\(g(\cdot)\)` satisface `\(g(x,\beta^{(1)})=g(x,\beta^{(2)})\)` si y solo si `\(\beta^{(1)}=\beta^{(2)}\)`
   1. La matriz `\(A_0\)` existe y es positiva definida
   1. `\(N^{-1/2}\frac{\partial g_i}{\partial \beta} u_i|_{\beta0}\xrightarrow{d} \mathcal{N}(0,B_0)\)`
 
@@ -362,7 +365,7 @@ donde `\(D=\frac{\partial \mathbf{g}}{\partial \beta'}\Big|_{\beta_0}\)` es una 
 
 - Bajo independencia, `\(B_0\)` se simplifica a `\(B_0=p\lim\frac{1}{N}\sum_i\sigma_{i}^2 \frac{\partial g_i}{\partial \beta} \frac{\partial g_i}{\partial \beta'}\Big|_{\beta_0}\)`
 
-- COmo en el caso de MCO, White (1980) porpone un estimador para `\(B_0\)` (más no para `\(\sigma_i^2\)`):
+- Como en el caso de MCO, White (1980) porpone un estimador para `\(B_0\)` (más no para `\(\sigma_i^2\)`):
 
 `$$\hat{B}_0=\frac{1}{N}\sum_i\hat{u}_i^2\frac{\partial g_i}{\partial \beta} \frac{\partial g_i}{\partial \beta'}\Bigg|_{\hat{\beta}}=\frac{1}{N}\frac{\partial \mathbf{g}'}{\partial \beta}\Bigg|_{\hat{\beta}}\hat{\Omega}\frac{\partial \mathbf{g}}{\partial \beta}\Bigg|_{\hat{\beta}}$$`
 con `\(\hat{u}_i=y_i-g(x_i,\hat{\beta})\)`
@@ -383,7 +386,13 @@ con `\(\hat{D}=\frac{\partial \mathbf{g}}{\partial \beta'}\Big|_{\hat{\beta}}\)`
 
 - Hablaré sobre pruebas de hipótesis en general
 
+  - CT, Capítulo 7
+  
 - De nuevo, será muy útil la teoría asintótica para hacer afirmaciones sobre la distribución de estadísticos de prueba
+
+- El jueves abordaremos un caso especial que se estima por MV: variable dependiente binaria
+
+  - CT, Capítulo 14 (secciones 14.1 - 14.4)
 
 ---
 

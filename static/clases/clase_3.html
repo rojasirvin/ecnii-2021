@@ -84,7 +84,7 @@ class: inverse, middle, center
 
 - Buscamos estimar el vector de parámetros `\(\theta=(\theta_1,\ldots,\theta_q)'\)`
 
-- Consideremos la función objetivo estocástica `\(Q_N(\theta)=Q_N(y,x,\theta==\frac{1}{N}\sum_i q(y_i,x_i,\theta)\)`, donde `\(q(\cdot)\)` es una función escalar
+- Consideremos la función objetivo estocástica `\(Q_N(\theta)=Q_N(y,x,\theta)=\frac{1}{N}\sum_i q(y_i,x_i,\theta)\)`, donde `\(q(\cdot)\)` es una función escalar
 
 - Un **estimador extremo** `\(\hat{\theta}\)` es un estimador que maximiza `\(Q_N\)`
 
@@ -131,7 +131,7 @@ class: inverse, middle, center
 `$$\frac{\partial Q_N(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}}=0$$`
 - Hacemos énfasis en el máximo local pues es lo que se distribuye asintóticamente normal
 
-- Noten que `\(Q_N\)` se definió de forma que es un promedio muestral, de forma análoga a la suma de resiguales cuadrados
+- Noten que `\(Q_N\)` se definió de forma que es un promedio muestral, de forma análoga a la suma de residuales cuadrados
 
 - Nuestro objetivo es establecer las propiedades asintóticas en términos de
 
@@ -243,7 +243,6 @@ con `\(A_0=p\lim \partial^2Q_N(\theta)/\partial\theta\partial\theta'|_{\theta_0}
 
 - Son dos casos particulares de estimadores M
 
-- Repasen la teoría de los estimadores M para que sea fácil ver cómo los problemas de MV y MCNL son casos especiales
 
 ---
 
