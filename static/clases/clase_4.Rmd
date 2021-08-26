@@ -121,7 +121,7 @@ $$\ln f(y_i|x_i,\beta)=-exp(x_i\beta)+y_ix_i'\beta-\ln y_i!$$
 
 - El estimador $\hat{\beta}_{MV}$ maximiza:
 
-$$Q_N(\beta)=\frac{1}{N}\sum_i\{-exp(x_i\beta)+y_ix_i'\beta-\ln y_i!\}$$
+$$Q_N(\beta)=\frac{1}{N}\sum_i\{-exp(x_i'\beta)+y_ix_i'\beta-\ln y_i!\}$$
 
 - La condición de primer orden es:
 
@@ -266,7 +266,7 @@ $$\hat{\theta}_{MV}\stackrel{a}{\sim}\mathcal{N}\left(\theta,-\left( E\left(\fra
 $$s_i(\beta)=(y_i-exp(x_i'\beta))x_i$$
 - Por lo que la segunda derivada es:
 
-$$\frac{\partial s_i(\beta)}{\partial \beta \partial \beta}=-exp(x_i'\beta)x_ix_i'$$
+$$\frac{\partial s_i(\beta)}{\partial \beta}=-exp(x_i'\beta)x_ix_i'$$
 --
 
 - Por tanto, un estimador de la varianza del estimador de MV será:
