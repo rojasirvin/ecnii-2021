@@ -153,7 +153,7 @@ con `\(y=0,1,2,\ldots\)`
 - En nuestro problema de MV, la segunda condición de regularidad implica:
 
  `$$\mathcal{I}=E_f\left(\frac{\partial \mathcal{L}_N(\theta)}{\partial \theta} \frac{\partial \mathcal{L}_N(\theta)}{\partial \theta'}\Bigg|_{\theta_0}\right)=-E_f\left(\frac{\partial^2\mathcal{L}_N(\theta))}{\partial \theta \partial \theta'}\Bigg|_{\theta_0}\right)$$`
-- Esta relación se conoce como la **igualdad de la matriz de información** e implica que podemos obtener la matriz de información a partir del score
+- Esta relación se conoce como la **igualdad de la matriz de información** e implica que podemos obtener la matriz de información a partir del score o del hesiano
 
 ---
 
@@ -289,7 +289,7 @@ class: inverse, middle, center
 
 - Seguimos un procedimiento similar al usado en el caso de MV
 
-- Realizamos una expansión de Taylor a las condiciones de primer orden alrededor de `\(\beta_0\)` y ordenamos términos para obtener:
+- Realizamos una aproximación exacta de primer orden a las condiciones de primer orden alrededor de `\(\beta_0\)` y ordenamos términos para obtener:
 
 `$$\sqrt{N}(\hat{\beta}_{MCNL}-\beta_0)=-\left(-\frac{1}{N}\sum_i\frac{\partial g_i}{\partial \beta} \frac{\partial g_i}{\partial \beta'}+\sum_i\frac{1}{N}\frac{\partial^2g_i}{\partial \beta\partial\beta'}(y_i-g_i)\Bigg|_{\beta^+}\right)^{-1}\left(\frac{1}{\sqrt{N}}\sum_i\frac{\partial g_i}{\partial \beta}u_i\Bigg|_{\beta_{0}}\right)$$`
 - Recordemos que `\(\beta^+\)` es un valor entre `\(\hat{\beta}_{MCNL}\)` y `\(\beta_0\)`

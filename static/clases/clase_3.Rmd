@@ -78,11 +78,11 @@ xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 
 class: inverse, middle, center
 
-# Estimadores extremos
+# Estimadores M
 
 ---
 
-# Estimadores extremos
+# Estimadores M
 
 - Nos centraremos por ahora en secciones cruzadas
 
@@ -100,7 +100,7 @@ class: inverse, middle, center
 
 - Consideremos la función objetivo estocástica $Q_N(\theta)=Q_N(y,x,\theta)=\frac{1}{N}\sum_i q(y_i,x_i,\theta)$, donde $q(\cdot)$ es una función escalar
 
-- Un **estimador extremo** $\hat{\theta}$ es un estimador que maximiza $Q_N$
+- Un **estimador M** $\hat{\theta}$ es un estimador que maximiza $Q_N$
 
 - Hay muchos estimadores M, dependiendo de la forma de $q(\cdot)$, entre ellos, los estimadores de máxima verosimilitud y los estimadores de mínimos cuadrados no lineales
 
@@ -140,9 +140,10 @@ $$\frac{1}{N}\frac{\partial \mathcal{L}_N(\theta)}{\partial \theta }=\frac{1}{N}
 
 # Propiedades asintóticas de los estimadores M
 
-- De forma general, un estimador extremo es un máximo local, calculado como la solución de las condiciones de primer orden :
+- De forma general, un estimador M es un máximo local, calculado como la solución de las condiciones de primer orden :
 
 $$\frac{\partial Q_N(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}}=0$$
+
 - Hacemos énfasis en el máximo local pues es lo que se distribuye asintóticamente normal
 
 - Noten que $Q_N$ se definió de forma que es un promedio muestral, de forma análoga a la suma de residuales cuadrados
@@ -196,6 +197,12 @@ $$\frac{\partial Q_N(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}}=0$$
 # Distribución asintótica de estimadores M
 
 - Consideremos $\hat{\theta}$ que resuleve $\frac{\partial Q_N(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}}=0$
+
+- El [**teorema del valor medio**](https://es.wikipedia.org/wiki/Teorema_del_valor_medio) nos dice que para toda función diferenciable $f(\cdot)$, existe un punto $x^+$ entre $x$ y $x_0$ tal que:
+
+$$f(x)=f(x_0)+f'(x^+)(x-x_0)$$
+
+--
 
 - Realicemos una proximación exacta de primer orden alrededor de $\theta_0$:
 
