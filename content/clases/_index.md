@@ -15,3 +15,4 @@ weight: 70
 
 [Clase 4](https://ecnii-2021.netlify.app/clases/clase_4.html#1). Máxima verosimilitud y mínimos cuadrados no lineales
 
+[Clase 5](https://ecnii-2021.netlify.app/clases/clase_5.html#1). Pruebas de hipótesis

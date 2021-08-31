@@ -20,7 +20,7 @@ class: title-slide
 
 
 .title[
-# Clase 4. Pruebas de hipótesis
+# Clase 5. Pruebas de hipótesis
 ]
 .subtitle[
 ## Econometría II
@@ -53,6 +53,8 @@ class: inverse, middle, center
 
 # Test de Wald
 
+- Para un test de Wald se estima un modelo no restringido y se busca determinar qué tan probable es observar un estadístico bajo la hipótesis nula
+
 - Es uno de los más usados en pruebas de hipótesis en econometría
 
 - En Econometría I seguramente vieron la versión lineal de este test (quizás sin el nombre) cuando querían probar restricciones lineales en un modelo lineal
@@ -68,10 +70,10 @@ class: inverse, middle, center
 - Tenemos una hipótesis nula y una alternativa:
 
 $$
-`\begin{aligned}
+\begin{aligned}
 H_0: R\beta_0-r=0 \\
 H_a: R\beta_0-r\neq 0
-\end{aligned}`
+\end{aligned}
 $$
 ---
 
@@ -79,14 +81,13 @@ $$
 
 - En este caso, la matriz `\(R\)` tiene la forma:
 
-$$
-R=
-`\begin{pmatrix}
+`$$R=\begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; -1 &amp;  0 \\
-\end{pmatrix}`
-$$
+0 &amp; 1 &amp; -1 &amp;  0  \\
+\end{pmatrix}$$`
+
 - Mientras que `\(r=\begin{pmatrix} 1 \\ 2 \\ \end{pmatrix}\)`
+
 
 --
 
@@ -113,12 +114,12 @@ $$
 - En la práctica, no observamos `\(W_1\)`, así que usamos la versión con la varianza estimada:
 
 `$$W_2=(R\hat{\beta}-r)'\left(\hat{s}^2R(X'X)^{-1}R'\right)^{-1}(R\hat{\beta}-r)$$`
-- `\(W_2\)` tiene una distribución asintítica `\(\chi^2(h)\)` bajo la `\(H0\)`
+- `\(W_2\)` tiene una distribución asintítica `\(\chi^2(h)\)` bajo la `\(H_0\)`
 
 
 - Podemos calcular `\(W_2\)` y la probabilidad de que dicho valor ocurra en una distribución `\(\chi^2(h)\)`
 
-- Si la probabilidad es menor al nivel de significancia elegido (típicamente 5% en economía), se rechaza la `\(H0\)`
+- Si la probabilidad es menor al nivel de significancia elegido (típicamente 5% en economía), se rechaza la `\(H_0\)`
 
 --
 
@@ -135,6 +136,7 @@ class: inverse, middle, center
 
 # Hipótesis no lineales
 
+
 - Consideremos `\(h\)` restricciones, posiblemente no lineales en los parámetros
 
 - El vector de parámetros es de dimensión `\(q\times 1\)` con `\(h\leq q\)`
@@ -144,10 +146,10 @@ class: inverse, middle, center
 - Queremos probar:
 
 $$
-`\begin{aligned}
+\begin{aligned}
 H_0: h(\theta_0)=0 \\
 H_a: h(\theta_0)\neq 0
-\end{aligned}`
+\end{aligned}
 $$
 
 ---
@@ -160,11 +162,11 @@ $$
 
 con `\(\hat{h}=h(\hat{\theta})\)` y con `\(\hat{R}=\frac{\partial h(\hat{\theta})}{\partial \theta'}\Bigg|_{\hat{\theta}}\)`
 
-- `\(W_{NL}\)` se distribuye asintóticamente como `\(\chi^2(h)\)` bajo la `\(H0\)`
+- `\(W_{NL}\)` se distribuye asintóticamente como `\(\chi^2(h)\)` bajo la `\(H_0\)`
 
-- Rechazamos `\(H0\)` en favor de `\(Ha\)` a un nivel de significancia `\(\alpha\)` si `\(W_{NL}&gt;\chi^2_{\alpha}(h)\)`
+- Rechazamos `\(H_0\)` en favor de `\(Ha\)` a un nivel de significancia `\(\alpha\)` si `\(W_{NL}&gt;\chi^2_{\alpha}(h)\)`
 
-- O, equivalentemente, rechazamos `\(H0\)` a un nivel `\(\alpha\)` si el valor `\(p\)`, es decir `\(P(\chi^2(h)&gt;W)\)` es menor que `\(\alpha\)`
+- O, equivalentemente, rechazamos `\(H_0\)` a un nivel `\(\alpha\)` si el valor `\(p\)`, es decir `\(P(\chi^2(h)&gt;W)\)` es menor que `\(\alpha\)`
 
 ---
 
@@ -181,28 +183,82 @@ con `\(\hat{h}=h(\hat{\theta})\)` y con `\(\hat{R}=\frac{\partial h(\hat{\theta}
 `$$\sqrt{N}(h(\hat{\theta})-h(\theta_0))=R(\theta^+)\sqrt{N}(\hat{\theta}-\theta_0)$$`
 donde, en adelante, `\(R(\theta)=\frac{\partial h(\theta)}{\partial \theta}\)`
 
+- ¿Cuál es la distribución del lado derecho?
+
 ---
 
 # Derivación del estadístico de Wald no lineal
 
-- Si podemos aplicar una LGN y un TLC, sabemos la distribución límite del lado izquierdo:
+- El lado derecho es `\(R(\theta^+)\sqrt{N}(\hat{\theta}-\theta_0)\)`
+
+- Partimos del hecho de que el estimador `\(\hat{\theta}\)` es consistente y que `\(\sqrt{N}(\hat{\theta}-\theta_0)\to\mathcal{N}(\mathbf{0},C_0)\)`
+
+- Por su parte `\(R(\theta^+)\xrightarrow{d} R(\theta_0)\)` (la expansión de primer orden implica esto)
+
+- Entonces por la regla del límite del producto normal:
+
+`$$R(\theta^+)\sqrt{N}(\hat{\theta}-\theta_0)\xrightarrow{d}\mathcal{N}(\mathbf{0},R_0C_0R_0')$$`
+---
+
+# Derivación del estadístico de Wald no lineal
+
+- Por tanto:
 
 
-`$$\sqrt{N}(h(\hat{\theta})-h(\theta_0))=\xrightarrow{d}\mathcal{N}(0,R_0C_0R_0')$$`
+`$$\sqrt{N}(h(\hat{\theta})-h(\theta_0))\xrightarrow{d}\mathcal{N}(0,R_0C_0R_0')$$`
 con `\(C_0=V(\hat{\theta})\)`
 
-- Y bajo `\(H0\)`:
+- Y bajo `\(H_0\)`:
 
-`$$\sqrt{N}h(\hat{\theta})=\xrightarrow{d}\mathcal{N}(0,R_0C_0R_0')$$`
+
+`$$\sqrt{N}h(\hat{\theta})\xrightarrow{d}\mathcal{N}(0,R_0C_0R_0')$$`
+
 ---
 
 # Derivación del estadístico de Wald no lineal
-- Recordemos que si `\(z\sim\mathcal{N}(0,\Omega)\)`, entonces `\(z'\Omega^-1z\sim\chi^2(dim(\Omega))\)`
 
-- Entonces 
+- Recordemos que si `\(z\sim\mathcal{N}(0,\Omega)\)`, entonces `\(z'\Omega^{-1}z\sim\chi^2(dim(\Omega))\)`
 
-`$$h(\hat{\theta})'\left(R_0C_0R_0'\right)^{-1}h(\hat{\theta}) \xrightarrow{d}\chi^2(h)$$`
-- El estadístico `\(W_{NL}\)` se obtiene reemplazando `\(R_0\)` y `\(C_0\)` por estimadores consistentes
+- Entonces, bajo la `\(H_0\)`:
+
+`$$N h(\hat{\theta})'\left(R_0C_0R_0'\right)^{-1}h(\hat{\theta}) \xrightarrow{d}\chi^2(h)$$`
+- El estadístico `\(W_{NL}\)` se obtiene reemplazando `\(R_0\)` y `\(C_0\)` por estimadores consistentes:
+
+`$$W=N\hat{h}'(\hat{R}\hat{C}\hat{R}')^{-1}\hat{h}$$`
+con `\(\hat{h}=h(\hat{\theta})\)` y `\(\hat{R}=\frac{\partial h(\theta)}{\partial \theta'}\Bigg|_{\hat{\theta}}\)`
+
+- Y sustituyendo un estimador consistente de la varianza de `\(\hat{\theta}\)`, `\(\hat{V}(\hat{\theta})=N^{-1}\hat{C}\)`, obtenemos el resultado dado en la definición del estadístico de Wald, `\(W_{NL}=\hat{h}'(\hat{R}\hat{V}(\hat{\theta})\hat{R}')\hat{h}\)`
+
+---
+
+# Versiones del test de Wald
+
+**1. Estadístico F **
+
+- Sabemos que `$$F=\frac{W}{h}\xrightarrow{d}\mathcal{F}(h,N-q)$$`
+
+- En muestras grandes, deberíamos obtener el mismo valor `\(p\)` que al usar el estadístico `\(W_{NL}\)`
+
+- En modelos no lineales es más común usar `\(W_{NL}\)`, mientras que `\(F\)` es preferida en muestras pequeñas
+
+
+---
+
+# Versiones del test de Wald
+
+**2. Estadístico `\(t\)` **
+
+- Permite probar una restricción de exclusión
+
+- Una normal estándar al cuadrado es una chi cuadrada con un grado de libertad, entonces
+
+`$$W_z=\frac{\hat{h}}{\sqrt{\hat{r}N^{-1}\hat{C}\hat{r}'}}$$`
+
+donde `\(\hat{r}=\frac{\partial h(\theta)}{\partial \theta'}\Bigg|_{\hat{\theta}}\)`
+
+- `\(W_z\)` es entonces asintóticamente normal bajo la `\(H_0\)`
+
+- De forma equivalente, `\(W_z\)` es asintóticamente una `\(t\)` con `\(N-q\)` grados de libertad, pues una `\(t\)` converge a una normal estándar con `\(N\to\infty\)`
 
 ---
 
@@ -234,11 +290,15 @@ class: inverse, middle, center
 
 - Queremos probar que los últimos `\(h\)` componentes de `\(\theta\)` son 0
 
-- Partimos `\(\theta\)` como `\(\theta(\theta_1'\;\theta_2')'\)`
+- Partimos `\(\theta\)` como `\(\theta=(\theta_1'\;\theta_2')'\)`
 
 - La restricción es: `\(h(\theta)=\theta_2=0\)`
 
-- En este caso, el estadístico de Wald es:
+- En este caso, `\(R(\theta{})=\frac{\partial h(\theta)}{\partial \theta'}=\left(\frac{\partial \theta_2}{\partial \theta_1'} \quad \frac{\partial \theta_2}{\partial \theta_2'}\right)=\left(\mathbf{0} \quad \mathbf{I}_h\right)\)`
+
+--
+
+- Y entonces el estadístico de Wald es:
 
 `$$W=\hat{\theta}_2^2(N^{-1}\hat{C}_{22})^{-1}\hat{\theta}_2$$`
 
@@ -246,7 +306,7 @@ donde `\(N^{-1}\hat{C}_{22}=\hat{V}(\hat{\beta}_2)\)`
 
 - `\(W\)` se distribuye `\(\chi^2(h)\)` bajo la `\(H_0\)`
 
-- Este test es la generalización de la prueba `\(F\)` que ustedes han usado ya
+- Este test es la generalización de las pruebas `\(t\)` y `\(F\)` que ustedes han usado ya
 
 ---
 
@@ -257,20 +317,16 @@ donde `\(N^{-1}\hat{C}_{22}=\hat{V}(\hat{\beta}_2)\)`
 `$$H_0:\;h(\theta)=\frac{\theta_1}{\theta_2}-1=0$$`
 --
 
-- En este caso, `\(R(\theta)=\left(\frac{\partial h(\theta)}{\partial \theta_1}\;\frac{\partial h(\theta)}{\partial \theta_2}\; 0\right)=\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; 0\right)\)`
+- En este caso, `\(R(\theta)=\left(\frac{\partial h(\theta)}{\partial \theta_1}\;\frac{\partial h(\theta)}{\partial \theta_2}\; 0\right)=\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; \mathbf{0}\right)\)`
 
 - Noten que en este caso solo hay una hipótesis, por lo que `\(W\)` es un escalar:
 
-$$
-W=
-N\left(\frac{\theta_1}{\theta_2}-1\right)^2\left(\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; 0\right)
-`\begin{pmatrix}
-\hat{c}_1^1 &amp; \hat{c}_1^2 &amp; \cdots  \\
-\hat{c}_2^1 &amp; \hat{c}_2^2 &amp; \cdots  \\
+`$$W=N\left(\frac{\hat{\theta_1}}{\hat{\theta_2}}-1\right)^2\left(\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; \mathbf{0}\right)\begin{pmatrix}\hat{c}_{11} &amp; \hat{c}_{12} &amp; \cdots  \\
+\hat{c}_{21} &amp; \hat{c}_{22} &amp; \cdots  \\
 \vdots &amp; \vdots &amp; \ddots \\
-\end{pmatrix}`
-\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; 0\right)'\right)^{-1}
-$$
+\end{pmatrix}
+\left(\frac{1}{\hat{\theta}_2}\;-\frac{\hat{\theta}_1}{\hat{\theta}_2^2}\; \mathbf{0}\right)'\right)^{-1}$$`
+
 - `\(W\)` se distribuye asintóticamente `\(\chi^2(1)\)` (por lo que `\(\sqrt{W}\)` es `\(\mathcal{N}(0,1)\)`)
 
 ---
@@ -293,42 +349,25 @@ class: inverse, middle, center
 
 # Método delta
 
-- Supongamos que `\(\hat{\gamma}=h(\theta)\)`
+- Supongamos que estimamos un modelo donde parametrizamos `\(E(y|x)=\exp\{x'\beta\}\)` y estimamos `\(\hat{\beta}\)`
 
-- Y que sabemos que `\(\sqrt{N}(\hat{\theta}-\theta_0)\xrightarrow{d}\mathcal{N}(0,C_0)\)`
+- Estamos interesados en un intervalo de confianza para `\(E(y|x_p)\)`, es decir, la media condicional para un valor dado `\(x_p\)`
 
---
+- En este caso:
 
-- El método delta implica hacer la expansión de Taylor alrededor de `\(\theta_0\)` y resolver, para obtener:
+`$$h(\beta)=\exp\{x_p'\beta\}$$`
 
-`$$\sqrt{N}(\hat{\gamma}-\gamma_0)\xrightarrow{d}\mathcal{N}(0,R_0C_0R_0')$$`
-- Y podemos estimar la variance de `\(\hat{\gamma}\)` como `\(\hat{V}(\hat{\gamma})=\hat{R}N^{-1}\hat{C}\hat{R}\)`
+`$$R(\beta)=\partial h(\beta)/\partial \beta'=\exp\{x_p'\beta\}x_p$$`
 
---
+- Y el método delta nos dice la forma del error estándar:
 
-- Podemos entonces estimar el error estándar `\(\hat{\gamma}\)`: `$$se(\hat{\gamma})=\sqrt{\hat{r}N^{-1}\hat{C}\hat{r}'}$$`
+`$$se(\exp\{x_p'\hat{\beta}\})=\sqrt{\exp\{x_p'\hat{\beta}\}^2x_p'N^{-1}\hat{C}x_P}=\exp\{x_p'\hat{\beta}\}\sqrt{x_p'N^{-1}\hat{C}x_P}$$`
+- `\(\hat{C}\)` es un estimador consistente de la matriz de varianzas de `\(\sqrt{N}(\hat{\beta}-\beta_0)\)`
 
-
-donde `\(r(\theta)=\partial\gamma/\partial\theta'=\partial h(\theta)/\partial\theta'\)`
+- Y formamos un intervalo de confianza de 95% con `\(\exp\{x_p'\hat{\beta}\}\pm 1.96 se(\exp\{x_p'\hat{\beta}\})\)` 
 
 
 ---
-
-# Ejemplo: exponencial
-
-- Supongamos que estimamos `\(\beta\)` de un modelo no lineal tal que podemos también estimar consistentemente la varianza de `\(\sqrt{N}(\hat{\beta}-\beta_0)\)` como `\(\hat{C}\)`
-
-- Supongamos que por alguna razón nos interesa conocer `\(\exp\{\beta\}=h(\beta)\)`
-
-- En este caso `\(\partial h /\partial \beta=\exp\{\beta\}\)`
-
---
-
-- Entonces, el error estándar será:
-
-`$$se(\exp\{\hat{\beta}\})=\sqrt{N^{-1}\exp\{\hat{\beta}\}^2\hat{V}(\hat{\beta})}=\exp\{\hat{\beta}\}se(\hat{\beta})$$`
-
-
 
 ---
 
@@ -344,7 +383,7 @@ class: inverse, middle, center
 
 - Queremos probar la hipótesis `\(h(\theta_0)=0\)`
 
-- Para el test de razón de verosimilitud (LR) y para el test de multiplicador de Lagrange (LM), se requiere llevar a cabo la estimación con las restricciones:
+- Para el test de razón de verosimilitud (LR) y para el test de multiplicador de Lagrange (LM), se requiere llevar a cabo la estimación con y sin restricciones:
   
   - `\(\hat{\theta}_u\)`: estimador no restringido
   - `\(\tilde{\theta}_r\)`: estimador restringido
@@ -385,33 +424,48 @@ class: inverse, middle, center
 
 # Test de multiplicador de Lagrange
 
-- Sabemos que en el máximo, `\(\frac{\mathcal{L}(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}_u}=0\)`
+- Sabemos que en el máximo, `\(\partial\frac{\mathcal{L}(\theta)}{\partial \theta}\Bigg|_{\hat{\theta}_u}=0\)`
 
-- Si la `\(H_0\)` es verdadera, entonces debe suceder que `\(\frac{\mathcal{L}(\theta)}{\partial \theta}\Bigg|_{\tilde{\theta}_r}\approx 0\)`
+- Si la `\(H_0\)` es verdadera, entonces debe suceder que `\(\frac{\partial\mathcal{L}(\theta)}{\partial \theta}\Bigg|_{\tilde{\theta}_r}\approx 0\)`
 
-- Noten que esto implica diferencias en el score evaluado en distintos `\(\theta\)`, por lo que a este test también se le conoce como **test de scores**
+- Noten que esto implica diferencias en el *score* evaluado en distintos `\(\theta\)`, por lo que a este test también se le conoce como **test de scores**
 
 
 --
 
 - El test se define como
 
-`$$LM=N^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r}\tilde{A}^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r}$$`
-- De nuevo, este test tiene una distribución asintótica `\(\chi^2(h)\)`
+`$$LM=-N^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r}\tilde{A}^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r}$$`
+- Recordemos que por la igualdad de la matriz de información `\(V(\hat{\theta})=p\lim N^{-1}\frac{\partial^2\mathcal{L}}{\partial \theta \partial \theta'}\Bigg|_{\theta_0}\)`
+
+- Por tanto, `\(\tilde{A}\)` es un estimador consistente de `\(A_0\)`, pero evaluado en `\(\hat{\theta}_r\)`
+
+
+---
+
+# Test de multiplicador de Lagrange
+
+- La intuición del nombre de este test viene de que el problema equivale a resolver el problema de optimización restringido de maximizar `\(\mathcal{L}(\theta)-\lambda'h(\theta)\)`
+
+
+- La prueba entonces consiste en ver qué tan cercano es el multiplicador de Lagrange de este problema
+
+--
 
 - Para su implementación se obtiene una expresión para el score y se evalúa en `\(\tilde{\theta}_r\)`, de ahí que algunos consideren más apropiado el nombre de test de score
+
+- De nuevo, este test tiene una distribución asintótica `\(\chi^2(h)\)`
+
+
 
 ---
 
 # Próxima sesión
 
-- Comenzaré con los modelos de variable categórica
+- Comenzaré con los modelos de variable binaria
 
   - CT Capítulo 16
 
-- El jueves comenzamos con conteo
-
-  - CT capítulo 20
 ---
 
 class: center, middle
