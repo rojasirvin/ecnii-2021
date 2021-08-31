@@ -383,8 +383,6 @@ $$se(\exp\{x_p'\hat{\beta}\})=\sqrt{\exp\{x_p'\hat{\beta}\}^2x_p'N^{-1}\hat{C}x_
 
 ---
 
----
-
 class: inverse, middle, center
 
 # Tests basados en la verosimilitud
@@ -430,9 +428,9 @@ class: inverse, middle, center
 
 $$LR=-2(\mathcal{L}(\tilde{\theta}_r)-\mathcal{L}(\hat{\theta}_u))$$
 
-- Se puede mostrar que bajo $H_0$
-$$LR\sim\chi^2(h)$$
+- Se puede mostrar que bajo $H_0$ este test tiene una distribución asintótica $\chi^2(h)$
 
+$$LR\sim\chi^2(h)$$
 
 ---
 
@@ -454,7 +452,6 @@ $$LM=-N^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r
 
 - Por tanto, $\tilde{A}$ es un estimador consistente de $A_0$, pero evaluado en $\hat{\theta}_r$
 
-
 ---
 
 # Test de multiplicador de Lagrange
@@ -470,7 +467,66 @@ $$LM=-N^{-1}\frac{\partial \mathcal{L}}{\partial\theta'}\Bigg|_{\tilde{\theta}_r
 
 - De nuevo, este test tiene una distribución asintótica $\chi^2(h)$
 
+$$LM\sim\chi^2(h)$$
 
+---
+
+# Regla de decisión
+
+- Los tests basados en verosimilitud que hemos visto convergen en distribución a una $\chi^2(h)$ bajo la $H_0$
+
+- La regla de decisión se puede escribir de dos formas alternativas
+
+  - Rechazar $H_0$ al nivel de significancia elegido $\alpha$ si el estadístico es mayor que $\chi_{\alpha}(h)$
+  
+  - Rechazar $H_0$ a un nivel $\alpha$ si $p\leq\alpha$, donde $p=P(\chi_{\alpha}(h))>t$, donde $p$ se conoce como *valor* $p$ y $t$ es el estadístico calculado
+
+
+---
+
+class: inverse, middle, center
+
+# Valores $p$
+
+---
+
+# El valor $p$
+
+- La otra cara de la moneda de los estadísticos de prueba es el valor $p$
+
+- El valor $p$ es la probabilidad de observar un valor mayor que el estadístico cuando la $H_0$ es verdadera
+
+- Un valor $p$ muy pequeño indica que es muy poco probable observar el estadístico de prueba bajo la $H_0$, por lo que hay evidencia para rechazar la $H_0$
+
+- Otra forma de intepretar el valor $p$ es la probabilidad de que se observen tests iguales o más grandes a los observados debido al error muestral (*por suerte*)
+
+---
+
+# Valores $p$
+
+- Consideremos el estadísto $t$ de una prueba de significancia estadística, donde $H_0: \beta_0=0$
+
+- Supongamos $\hat{\beta}=100$ con un valor $p$ de 0.07
+
+- Entonces, incluso si $\beta_0=0$, todavía sería posible ver $\hat{\beta}=100$ o más en el 7% de los casos debido al error muestral
+
+- En este breve texto de [Krzywinski & Altman (2013)](https://www.nature.com/articles/nmeth.2698) pueden leer algunos otros detalles sobre el valor $p$
+
+```{r, out.width="80%",fig.cap='Fuente: Krzywinski & Altman (2013)',fig.align='center'}
+knitr::include_graphics("figures/pvalue.jpg")
+```
+
+---
+
+# Valores $p$
+
+- ¿Qué tanto toleramos que nuestros resultados puedan ser *por suerte*?
+
+- Fijamos un nivel de significancia $\alpha$, definido como la probabilidad de rechazar la $H_0$ dado que esta es verdadera
+
+- Es decir, la probabilidad de cometer el **error tipo 1** o **falso positivo**
+
+- En economía usamos frecuentemente los valores $\alpha$ de 0.10, 0.05 y 0.01 como niveles de significancia más comúnes
 
 ---
 
