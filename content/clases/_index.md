@@ -17,4 +17,4 @@ weight: 70
 
 [Clase 5](https://ecnii-2021.netlify.app/clases/clase_5.html#1). Pruebas de hipótesis
 
-[Clase 6](https://ecnii-2021.netlify.app/clases/clase_5.html#1). Variable dependiente binaria
+[Clase 6](https://ecnii-2021.netlify.app/clases/clase_6.html#1). Variable dependiente binaria
