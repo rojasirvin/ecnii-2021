@@ -69,12 +69,7 @@ class: inverse, middle, center
 
 - Tenemos una hipótesis nula y una alternativa:
 
-$$
-\begin{aligned}
-H_0: R\beta_0-r=0 \\
-H_a: R\beta_0-r\neq 0
-\end{aligned}
-$$
+`$$\begin{aligned}H_0: R\beta_0-r=0 \\ H_a:R\beta_0-r\neq 0 \end{aligned}$$`
 ---
 
 # Test de Wald
@@ -145,12 +140,7 @@ class: inverse, middle, center
 
 - Queremos probar:
 
-$$
-\begin{aligned}
-H_0: h(\theta_0)=0 \\
-H_a: h(\theta_0)\neq 0
-\end{aligned}
-$$
+`$$\begin{aligned}H_0: h(\theta_0)=0 \\ H_a: h(\theta_0)\neq 0 \end{aligned}$$`
 
 ---
 
@@ -181,7 +171,7 @@ con `\(\hat{h}=h(\hat{\theta})\)` y con `\(\hat{R}=\frac{\partial h(\hat{\theta}
 - Como ya hemos hecho antes, podemos reescalar y resolver:
 
 `$$\sqrt{N}(h(\hat{\theta})-h(\theta_0))=R(\theta^+)\sqrt{N}(\hat{\theta}-\theta_0)$$`
-donde, en adelante, `\(R(\theta)=\frac{\partial h(\theta)}{\partial \theta}\)`
+donde, en adelante, `\(R(\theta)=\frac{\partial h(\theta)}{\partial \theta'}\)`
 
 - ¿Cuál es la distribución del lado derecho?
 
@@ -191,9 +181,9 @@ donde, en adelante, `\(R(\theta)=\frac{\partial h(\theta)}{\partial \theta}\)`
 
 - El lado derecho es `\(R(\theta^+)\sqrt{N}(\hat{\theta}-\theta_0)\)`
 
-- Partimos del hecho de que el estimador `\(\hat{\theta}\)` es consistente y que `\(\sqrt{N}(\hat{\theta}-\theta_0)\to\mathcal{N}(\mathbf{0},C_0)\)`
+- Partimos del hecho de que el estimador `\(\hat{\theta}\)` es consistente y que `\(\sqrt{N}(\hat{\theta}-\theta_0)\xrightarrow{d}\mathcal{N}(\mathbf{0},C_0)\)`
 
-- Por su parte `\(R(\theta^+)\xrightarrow{d} R(\theta_0)\)` (la expansión de primer orden implica esto)
+- Por su parte `\(R(\theta^+)\xrightarrow{p} R(\theta_0)\)` (la expansión de primer orden implica esto)
 
 - Entonces por la regla del límite del producto normal:
 
@@ -281,7 +271,7 @@ class: inverse, middle, center
 
 - En este caso, el estadístico de Wald queda como:
 
-`$$W_z=\frac{\hat{\theta}}{se(\hat{\theta}_j)}$$`
+`$$W_z=\frac{\hat{\theta}_j}{se(\hat{\theta}_j)}$$`
 - Un objeto familiar para ustedes, comúnmente llamdo estadístico `\(t\)`, aunque estrictamente, se distribuye asintóticamente como una normal (de hecho, normal estándar, de ahí su nombre `\(z\)`)
 
 ---
@@ -300,7 +290,7 @@ class: inverse, middle, center
 
 - Y entonces el estadístico de Wald es:
 
-`$$W=\hat{\theta}_2^2(N^{-1}\hat{C}_{22})^{-1}\hat{\theta}_2$$`
+`$$W=\hat{\theta}_2'(N^{-1}\hat{C}_{22})^{-1}\hat{\theta}_2$$`
 
 donde `\(N^{-1}\hat{C}_{22}=\hat{V}(\hat{\beta}_2)\)`
 
