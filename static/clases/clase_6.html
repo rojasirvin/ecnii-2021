@@ -59,7 +59,7 @@ class: title-slide
 
 - Frecuentemente nos encontramos con problemas donde la variable dependiente es categórica
 
-  - Probabilidad de comprar o no comporar un producto
+  - Probabilidad de comprar o no comprar un producto
   
   - Probabilidad de escoger el producto `\(j\)` de entre `\(J\)` posibles alternativas
   
@@ -403,7 +403,8 @@ class: inverse, center, middle
   
 
 ```r
-data_fishing &lt;- read_csv("./fishing_data.csv", locale = locale(encoding = "latin1")) %&gt;% clean_names()
+data_fishing &lt;- read_csv("./fishing_data.csv", locale = locale(encoding = "latin1")) %&gt;% 
+    clean_names()
 ```
 
 ---
@@ -416,14 +417,15 @@ head(data_fishing, n = 5)
 
 ```
 ## # A tibble: 5 x 17
-##   client  mode price  crate dbeach dpier dprivate dcharter pbeach ppier pprivate pcharter qbeach  qpier qprivate qcharter
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;
-## 1      1     4 183.  0.539       0     0        0        1  158.  158.     158.     183.  0.0678 0.0503    0.260    0.539
-## 2      2     4  34.5 0.467       0     0        0        1   15.1  15.1     10.5     34.5 0.105  0.0451    0.157    0.467
-## 3      3     3  24.3 0.241       0     0        1        0  162.  162.      24.3     59.3 0.533  0.452     0.241    1.03 
-## 4      4     2  15.1 0.0789      0     1        0        0   15.1  15.1     55.9     84.9 0.0678 0.0789    0.164    0.539
-## 5      5     3  41.5 0.108       0     0        1        0  107.  107.      41.5     71.0 0.0678 0.0503    0.108    0.324
-## # ... with 1 more variable: income &lt;dbl&gt;
+##   client  mode price  crate dbeach dpier dprivate dcharter pbeach ppier pprivate
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+## 1      1     4 183.  0.539       0     0        0        1  158.  158.     158. 
+## 2      2     4  34.5 0.467       0     0        0        1   15.1  15.1     10.5
+## 3      3     3  24.3 0.241       0     0        1        0  162.  162.      24.3
+## 4      4     2  15.1 0.0789      0     1        0        0   15.1  15.1     55.9
+## 5      5     3  41.5 0.108       0     0        1        0  107.  107.      41.5
+## # ... with 6 more variables: pcharter &lt;dbl&gt;, qbeach &lt;dbl&gt;, qpier &lt;dbl&gt;,
+## #   qprivate &lt;dbl&gt;, qcharter &lt;dbl&gt;, income &lt;dbl&gt;
 ```
 
 ```r
@@ -431,8 +433,9 @@ names(data_fishing)
 ```
 
 ```
-##  [1] "client"   "mode"     "price"    "crate"    "dbeach"   "dpier"    "dprivate" "dcharter" "pbeach"   "ppier"   
-## [11] "pprivate" "pcharter" "qbeach"   "qpier"    "qprivate" "qcharter" "income"
+##  [1] "client"   "mode"     "price"    "crate"    "dbeach"   "dpier"   
+##  [7] "dprivate" "dcharter" "pbeach"   "ppier"    "pprivate" "pcharter"
+## [13] "qbeach"   "qpier"    "qprivate" "qcharter" "income"
 ```
 
 ---

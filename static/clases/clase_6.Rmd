@@ -34,10 +34,6 @@ library(pacman)
 library(janitor)
 library(sandwich)
 library(modelsummary)
-p_load(tidyverse, foreign, reshape2, psych, qwraps2, forcats, readxl, 
-       broom, lmtest, margins, plm, rdrobust, multiwayvcov,
-       wesanderson, sandwich, stargazer,
-       readstata13, pscore, optmatch, kdensity, MatchIt, bootstrap, matlib, dplyr)
 
 xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 ```
@@ -80,7 +76,7 @@ xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 
 - Frecuentemente nos encontramos con problemas donde la variable dependiente es categórica
 
-  - Probabilidad de comprar o no comporar un producto
+  - Probabilidad de comprar o no comprar un producto
   
   - Probabilidad de escoger el producto $j$ de entre $J$ posibles alternativas
   
