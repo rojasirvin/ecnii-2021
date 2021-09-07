@@ -16,5 +16,7 @@ Por favor, seleccione una de las lecturas marcadas con una "+" de la lista de le
 | López-Feldman & Chávez (2017) | VI | Diego Tome | Martes 5 de octubre de 2021 |
 | Hackett & Márquez (2019) | VI | Daniela Peña | Martes 5 de octubre de 2021 |
 | Antman (2011) | Panel | Alejandro Parada | Jueves 28 de octubre de 2021 |
+| Bwalya (2006) | Panel | Javier Rendón | Jueves 28 de octubre de 2021|
 | Uña-Alvarez et al. (2003) | Riesgo | Yolanda Rodríguez |  Jueves 18 de noviembre de 2021 |
 | Engelhardt & Kumar (2011) | Cuantil | Genaro Basulto |  Jueves 18 de noviembre de 2021 |
+| Li & Maddala (1999) | Bootstrap | José Quijano | Jueves 18 de noviembre de 2021 |
