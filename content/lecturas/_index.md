@@ -129,9 +129,11 @@ Las lecturas obligatorias (marcadas con “*”) permiten una discusión informa
 ## Semana 15
 
 * Modelos de efectos de pares
-  + \* Carrell, S. E., Malmstrom, F. V., & West, J. E. (2008). Peer effects in academic cheating. *Journal of human resources*, 43(1), 173-207.
-  + \+ **Pares**: Sacerdote, B. (2011). Peer effects in education: How might they work, how big are they and how much do we know thus far?. In *Handbook of the Economics of Education* (Vol. 3, pp. 249-277). Elsevier.
   + Angrist, J. D. (2014). The perils of peer effects. _Labour Economics_, 30, 98-108.
+  + **Pares**: Carrell, S. E., Malmstrom, F. V., & West, J. E. (2008). Peer effects in academic cheating. *Journal of human resources*, 43(1), 173-207.
+  + \+ **Pares**: Roychowdhury, P. (2019). Peer effects in consumption in India: An instrumental variables approach using negative idiosyncratic shocks. *World Development*, 114, 122-137.
+  + **Pares**: Sacerdote, B. (2011). Peer effects in education: How might they work, how big are they and how much do we know thus far?. In *Handbook of the Economics of Education* (Vol. 3, pp. 249-277). Elsevier.
+
 
 * Shift share
   + \* Broxterman, D. A., & Larson, W. D. (2020). An empirical examination of shift‐share instruments. *Journal of Regional Science*.
