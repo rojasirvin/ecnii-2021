@@ -275,7 +275,7 @@ $$\mathcal{L}_N(\beta)=\sum_i\left(a(g(x_i,\beta)+b(y_i)+c(g(x_i,\beta))y_i\righ
 - Las condiciones de primer orden serán
 
 $$\frac{\partial \mathcal{L}_N(\beta)}{\partial \beta}=\sum_i\frac{y_i-g(x_i\beta)}{(c'(g(x_i'\beta)))^{-1}}\frac{\partial g(x_i,\beta)}{\partial\beta}=0$$
-- El estimador de CMV resuelve estas condiciones, pero no es necesario asumir que la densidad está correctamente bien especificada
+- El estimador de CMV resuelve estas condiciones, pero sin asumir que la densidad está correctamente bien especificada
 
 - Gouriéroux, Monfort y Trognon (1984) probaron que el estimador de CMV es consistente si $E(y|x)=g(x,\beta_0)$, es decir, si la media condicional de $y$ dado $x$ está bien especificada
 
@@ -327,11 +327,13 @@ $$\hat{V}(\hat{\beta}_{MV})=\left(\sum_i\frac{1}{F(x_i'\hat{\beta})(1-F(x_i'\hat
 
 - Por nuestra discusión de la familia lineal exponencial sabemos que solo necesitamos correcta especificación de la media condicional para tener consistencia
 
-- Pero que se recomienda usar una matriz de sándwich para estimar la varianza del estimador de MV
+- Pero también dijimos que se recomienda usar una matriz de sándwich para estimar la varianza del estimador de MV
 
 ---
 
 # Distribución asintótica
+
+- Pero en el caso Bernoulli, la varianza también está bien especificada
 
 - En el caso Bernoulli, se puede mostrar que $A=-B$, por lo que el sándwich resulta $A^{-1}BA^{-1}=-A^{-1}$
 
