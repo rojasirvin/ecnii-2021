@@ -281,7 +281,7 @@ $$p_{ij}=\frac{exp(x_{ij}'\beta)}{\sum_{l=1}^m exp(x_{il}'\beta)},\quad j=1\ldot
 
 - En el caso del ejemplo de pesca, el logit condicional quedaría así:
 
-$$p_{ij}=\frac{\beta_P P_{ij}+\beta_C C_{ij}}{\sum_{k=1}^4 exp(\beta_P P_{ik}+\beta_C C_{ik})},\quad j=1\ldots,4$$
+$$p_{ij}=\frac{exp(\beta_P P_{ij}+\beta_C C_{ij})}{\sum_{k=1}^4 exp(\beta_P P_{ik}+\beta_C C_{ik})},\quad j=1\ldots,4$$
 - Lo que estimamos es el efecto en la probabilidad de escoger una alternativa cuando cambia el precio o cuando cambia la tasa de pesca
 
 - En el caso del logit condicional, estaremos seguros que un aumento en el precio disminuye la probabilidad de elegir un modo de pesca

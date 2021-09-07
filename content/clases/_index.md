@@ -19,4 +19,4 @@ weight: 70
 
 [Clase 6](https://ecnii-2021.netlify.app/clases/clase_6.html#1). Variable dependiente binaria
 
-[Clase 7](https://ecnii-2021.netlify.app/clases/clase_7.html#1). Modelos multonomiales
+[Clase 7](https://ecnii-2021.netlify.app/clases/clase_7.html#1). Modelos multinomiales
