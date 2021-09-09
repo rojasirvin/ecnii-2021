@@ -131,7 +131,7 @@ que no tienen solución cerrada, por lo que $\hat{\beta}_{MV}$ se obtiene por m�
 
 --
 
-- Contrario a lo que sucedia con los modelos binomiales, aquí sí hace diferencia el uso de una matriz de varianzas de sándwich
+- Contrario a lo que sucedía con los modelos binomiales, aquí sí hace diferencia el uso de una matriz de varianzas de sándwich
 
 
 ---
@@ -211,6 +211,15 @@ $$f(y|\lambda)=\frac{exp(-\lambda)\lambda^y}{y!}$$
 - Supongamos que $\nu$ es iid con densidad $g(\nu|\alpha)$, donde $g(\cdot)$ se conoce como *función mezcladora*
 
 - Podemos ver el modelo negativo binomial como un modelo con heterogeneidad dada por $\nu$
+---
+
+# Modelo negativo binomial
+
+- Queremos recuperar la distribución de $y$, condicional en $\mu$ y $\alpha$:
+
+$$h(y|\mu,\alpha)\int f(y|\mu,\nu)g(\nu|\alpha) d\nu$$
+- Dependiendo de las formas específicas que le damos a $f(\cdot)$ y $g(\cdot)$, tendremos distintas formas para $h(\cdot)$
+
 
 ---
 
