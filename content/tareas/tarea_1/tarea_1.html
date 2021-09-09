@@ -22,9 +22,9 @@ toc: false
 </div>
 <div id="archivos" class="section level2">
 <h2>Archivos</h2>
-<p><a href="/tareas/tarea_1/motral2012.csv">motral2012.csv</a>
-<a href="/tareas/tarea_1/grogger.csv">grogger.csv</a>
-<a href="/tareas/tarea_1/phd_articulos.csv">phd_articulos.csv</a></p>
+<p><a href="/tareas/tarea_1/motral2012.csv">motral2012.csv</a></p>
+<p><a href="/tareas/tarea_1/grogger.csv">grogger.csv</a></p>
+<p><a href="/tareas/tarea_1/phd_articulos.csv">phd_articulos.csv</a></p>
 </div>
 <div id="pregunta-1" class="section level2">
 <h2>Pregunta 1</h2>
@@ -85,7 +85,7 @@ Provea la nueva expresión para el efecto marginal de <span class="math inline">
 <p>En esta pregunta comparará el estimador de MCO, de MV y de MCNL. Antes de comenzar, recuerde fijar una semilla en R (o el software que utilice) para poder replicar sus cálculos. Se recomienda repasar la sección 5.9 en CT.</p>
 <p>Cameron y Trivedi proveen pistas para replicar esta tabla <a href="http://cameron.econ.ucdavis.edu/mmabook/mma05p1mle.do">aquí</a> y <a href="http://cameron.econ.ucdavis.edu/mmabook/mma05p2nls.do">aquí</a>, aunque ellos trabajan en Stata. La idea es entender la <em>anatomía</em> de los distintos estimadores estudiados en clase.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>[2 puntos] Genere una muestra de 10,000 observaciones llamadas <span class="math inline">\(x\)</span> tales que <span class="math inline">\(x\sim\mathcal{N}(1,1)\)</span>. Posteriormente, genere <span class="math inline">\(\lambda=exp(\beta_1+\beta_2x)\)</span>, donde <span class="math inline">\((\beta_1\;\beta_2)=(2\;-1)\)</span>. Note que <span class="math inline">\(1/\lambda\)</span> es conocida como la tasa en la distribución exponencial. En R, <em>rexp</em> requiere especificar como parámetro a la tasa en lugar de <span class="math inline">\(\lambda\)</span>.</p></li>
+<li><p>[2 puntos] Genere una muestra de 10,000 observaciones llamadas <span class="math inline">\(x\)</span> tales que <span class="math inline">\(x\sim\mathcal{N}(1,1)\)</span>. Posteriormente, genere <span class="math inline">\(\lambda=exp(\beta_1+\beta_2x)\)</span>, donde <span class="math inline">\((\beta_1\;\beta_2)=(2\;-1)\)</span>. Finalmente, genere <span class="math inline">\(y|\mathbf{x} \sim exponencial(\lambda)\)</span>. Es decir, el proceso generador de datos es: <span class="math display">\[\begin{aligned}y|\mathbf{x} \sim exponencial(\lambda) \\ \lambda=exp(\beta_1+\beta_2x)\end{aligned} \]</span> Note que <span class="math inline">\(1/\lambda\)</span> es conocida como la tasa en la distribución exponencial. En R, <em>rexp</em> requiere especificar como parámetro a la tasa en lugar de <span class="math inline">\(\lambda\)</span>.</p></li>
 <li><p>[2 puntos] Reporte una tabla con la media, la desviación estándar, el mínimo y el máximo de <span class="math inline">\(x\)</span>, <span class="math inline">\(\lambda\)</span> y <span class="math inline">\(y\)</span>.</p></li>
 <li><p>[2 puntos] Reporte una gráfica donde muestre la relación entre <span class="math inline">\(x\)</span> y <span class="math inline">\(\lambda\)</span> en el plano <span class="math inline">\((x,\lambda)\)</span>. Realice otra gráfica similar, ahora para <span class="math inline">\((x,1/\lambda)\)</span>.</p></li>
 <li><p>[2 puntos] Estime por MCO una regresión entre <span class="math inline">\(y\)</span> y <span class="math inline">\(x\)</span>. Deberá obtener coeficientes parecidos a los de la primera columna de la Tabla 5.7 en CT.</p></li>

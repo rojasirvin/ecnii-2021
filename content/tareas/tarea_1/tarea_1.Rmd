@@ -104,7 +104,7 @@ En esta pregunta comparará el estimador de MCO, de MV y de MCNL. Antes de comen
 
 Cameron y Trivedi proveen pistas para replicar esta tabla [aquí](http://cameron.econ.ucdavis.edu/mmabook/mma05p1mle.do) y [aquí](http://cameron.econ.ucdavis.edu/mmabook/mma05p2nls.do), aunque ellos trabajan en Stata. La idea es entender la *anatomía* de los distintos estimadores estudiados en clase.
 
-a. [2 puntos] Genere una muestra de 10,000 observaciones llamadas $x$ tales que $x\sim\mathcal{N}(1,1)$. Posteriormente, genere $\lambda=exp(\beta_1+\beta_2x)$, donde $(\beta_1\;\beta_2)=(2\;-1)$. Note que $1/\lambda$ es conocida como la tasa en la distribución exponencial. En R, *rexp* requiere especificar como parámetro a la tasa en lugar de $\lambda$.
+a. [2 puntos] Genere una muestra de 10,000 observaciones llamadas $x$ tales que $x\sim\mathcal{N}(1,1)$. Posteriormente, genere $\lambda=exp(\beta_1+\beta_2x)$, donde $(\beta_1\;\beta_2)=(2\;-1)$. Finalmente, genere $y|\mathbf{x} \sim exponencial(\lambda)$. Es decir, el proceso generador de datos es: $$\begin{aligned}y|\mathbf{x} \sim exponencial(\lambda) \\ \lambda=exp(\beta_1+\beta_2x)\end{aligned} $$ Note que $1/\lambda$ es conocida como la tasa en la distribución exponencial. En R, *rexp* requiere especificar como parámetro a la tasa en lugar de $\lambda$. 
 
 a. [2 puntos] Reporte una tabla con la media, la desviación estándar, el mínimo y el máximo de $x$, $\lambda$ y $y$.
 
