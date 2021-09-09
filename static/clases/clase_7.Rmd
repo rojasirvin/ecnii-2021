@@ -359,10 +359,10 @@ donde $x_{ij}$ son características que varían entre alternativas mientras que 
 $$p_{ij}=\frac{exp(\beta_P P_{ij}+\beta_C C_{ij}+\alpha_j+\beta_{Ij}I_i)}{\sum_{k=1}^4exp(\beta_p P_{ik}+\beta_C C_{ik}+\alpha_k+\beta_{Ik}I_i)},\quad j=1\ldots,4$$
 - Una forma de implementar el modelo es con variables dummy para convertirlo en un logit condicional:
 
-$$p_{ij}=\frac{exp(\beta_P P_{ij}+\beta_C C_{ij}+\sum_{l=1}^4(\alpha_jd_{ijl}+\beta_{Il}I_{ijl}))}{\sum_{k=1}^4exp(\beta_p P_{ik}+\beta_C C_{ik}+\sum_{l=1}^4(\alpha_ld_{ijl}+\beta_{Il}I_{ijl}))},\quad j=1\ldots,4$$
+$$p_{ij}=\frac{exp(\beta_P P_{ij}+\beta_C C_{ij}+\sum_{l=1}^4(\alpha_jd_{ijl}+\beta_{Il}dI_{ijl}))}{\sum_{k=1}^4exp(\beta_p P_{ik}+\beta_C C_{ik}+\sum_{l=1}^4(\alpha_ld_{ijl}+\beta_{Il}dI_{ijl}))},\quad j=1\ldots,4$$
 - $d_{ijl}$ es igual a 1 si $j=l$ y 0 en otro caso
 
-- $d_{ijl}I_i=dI_{ijl}$ toma el valor del ingreso si $j=l$
+- Definimos $dI_{ijl}=d_{ijl}I_i$, que toma el valor del ingreso si $j=l$
 
 - Es correr la regresión sobre $P_{ij}$, $C_{ij}$, $d_{ij2}$, $d_{ij3}$, $d_{ij4}$, $dI_{ij2}$, $dI_{ij3}$ y $dI_{ij4}$
 
