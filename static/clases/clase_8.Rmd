@@ -151,7 +151,7 @@ con $w_i=V(y_i|x_i)$
 # Interpretación de coeficientes
 
 - Noten que con la parametrización de la media podemos obtener el efecto de un cambio marginal en el $j$ésimo regresor sobre el valor esperado del conteo
-$$\frac{\partial E(y|x)}{\partial x_i}=\beta_jexp(x'\beta)$$
+$$\frac{\partial E(y|x)}{\partial x_j}=\beta_jexp(x'\beta)$$
 - Como lo mostrarán en la tarea, si $x_j$ está medida en logaritmos, $\beta_j$ es una elasticidad
 
 - Una medida de respuesta promedio usualmente reportada es $\frac{1}{N}\frac{\partial E(y_i|x_i)}{\partial x_{ij}}=\frac{1}{N}\hat{\beta}_j\sum_i exp(x_i'\hat{\beta})$
@@ -280,7 +280,7 @@ con $\alpha=1/\delta$ y siendo $\Gamma(\cdot)$ la integral gamma
 
 # Modelo negativo binomial 1 (NB1)
 
-- Un modelo menos usado especifica una función de varianza lineal: $V(y|\mu\alpha)=(1+\gamma)\mu$
+- Un modelo menos usado especifica una función de varianza lineal: $V(y|\mu,\alpha)=(1+\gamma)\mu$
 
 - Se obtiene al sustituir $\alpha$ por $\gamma/\mu$ en la función de densidad gamma (ver CT, p. 675)
 
