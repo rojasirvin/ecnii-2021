@@ -22,13 +22,14 @@ Recuerde que en Teams debe asegurarse de que los archivos se han subido correcta
 
 ## Fecha de entrega
 
-Martes 14 de septiembre a las 8:00.
+Lunes 20 de septiembre a las 8:00.
 
 
 ## Archivos
 
 [motral2012.csv](/tareas/tarea_1/motral2012.csv)
-
+[grogger.csv](/tareas/tarea_1/grogger.csv)
+[phd_articulos.csv](/tareas/tarea_1/phd_articulos.csv)
 
 ## Pregunta 1
 
