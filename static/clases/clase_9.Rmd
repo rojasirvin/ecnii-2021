@@ -157,7 +157,7 @@ $$f(y|x)=f^*(y|x)^dF^*(L|x)^{1-d}$$
 --
 
 - Y la función de log verosimilitud será
-$$\mathcal{L}_N{\theta}=\sum_i\left(d_i\ln f^*(y_i|x_i,\theta) + (1-d_i)F^*(L_i|x_i,\theta)\right)$$
+$$\mathcal{L}_N(\theta)=\sum_i\left(d_i\ln f^*(y_i|x_i,\theta) + (1-d_i)F^*(L_i|x_i,\theta)\right)$$
 
 - Noten que hemos dejado abierta la opción de que $L$ difiera entre individuos, es decir, que $L=L_i$
 
@@ -182,7 +182,7 @@ $$
 
 - Entonces, la log verosimilitud truncada es:
 
-$$\mathcal{L}_N{\theta}=\sum_i\left(\ln f^*(y_i|x_i,\theta)-\ln(1-F^*(L_i|x_i,\theta))\right)$$
+$$\mathcal{L}_N(\theta)=\sum_i\left(\ln f^*(y_i|x_i,\theta)-\ln(1-F^*(L_i|x_i,\theta))\right)$$
 
 ---
 
@@ -315,7 +315,7 @@ $$
 $$E(y|x,y>0)=x'\beta+E(\varepsilon|\varepsilon>-x'\beta)$$
 --
 
-- Aunque la media condicional de $y^*$ es lineal, la media condicional de $y^*$ no lo es
+- Aunque la media condicional de $y^*$ es lineal, la media condicional de $y^*$, en precensia de truncamiento o censura, no lo es
 
 - El estimador de MCO es inconsistente en presencia de censura o truncamiento
 
@@ -335,7 +335,12 @@ $$E(y|x,y>0)=x'\beta+E(\varepsilon|\varepsilon>-x'\beta)$$
 
 --
 
-- Comúnmente a $\lambda(z)=\frac{\phi(z)}{\Phi{z}}$ se le conoce como **inverso de la razón de Mills** (IRM)
+- Comúnmente a $\lambda(z)=\frac{\phi(z)}{\Phi{z}}$ se le conoce como **inverso de la razón de Mills** (IRM)<sup>1</sup>
+  
+
+.footnote[
+[1] En CT, el IRM es $\frac{\phi(z)}{\Phi{z}}$. En otros textos, el IRM está definido como $1-\frac{\phi(z)}{\Phi{z}}$
+]
 
 
 ---
@@ -504,11 +509,11 @@ ggplot()+
 - Efecto marginal en la media truncada en cero: $\frac{\partial E(y,y>0|x)}{\partial x}=(1-x'\beta\lambda(x'\beta/\sigma)-\lambda(x'\beta/\sigma)^2)\beta$
 
 - Efecto marginal en la media censurada en cero:
-$\frac{\partial E(y|x)}{\partial x}=\Phi(x'\beta/\sigma)\beta$ <sup>1</sup>
+$\frac{\partial E(y|x)}{\partial x}=\Phi(x'\beta/\sigma)\beta$ <sup>2</sup>
   
 
 .footnote[
-[1] Para ver por qué esto es cierto, consideren un modelo con un solo regresor: $y=a+bx$. En este caso, la media censurada es $E(y|x)=\Phi(\frac{a+x}{\sigma})(a+bx)+\sigma\phi(\frac{a+bx}{\sigma})$. Calculamos la derivada:
+[2] Para ver por qué esto es cierto, consideren un modelo con un solo regresor: $y=a+bx$. En este caso, la media censurada es $E(y|x)=\Phi(\frac{a+x}{\sigma})(a+bx)+\sigma\phi(\frac{a+bx}{\sigma})$. Calculamos la derivada:
 
 $$\frac{\partial E(y|x)}{\partial x}=\Phi(\cdot)b+\left(\phi(\cdot)(a+bx)\frac{b}{\sigma}\right)+\sigma\phi'(\cdot)\frac{b}{\sigma}$$
 Usamos ahora un resultado de estadística (Cameron & Trivedi, 2005, pág. 542): $f'(z)=-zf(z)$. Entonces:
