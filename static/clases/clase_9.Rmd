@@ -315,7 +315,7 @@ $$
 $$E(y|x,y>0)=x'\beta+E(\varepsilon|\varepsilon>-x'\beta)$$
 --
 
-- Aunque la media condicional de $y^*$ es lineal, la media condicional de $y^*$, en precensia de truncamiento o censura, no lo es
+- Aunque la media condicional de $y^*$ es lineal, la media condicional de $y^*$, en presencia de truncamiento o censura, no lo es
 
 - El estimador de MCO es inconsistente en presencia de censura o truncamiento
 
@@ -556,115 +556,6 @@ con lo que se obtiene el resultado.
 
 class: inverse, middle, center
 
-# Modelos en dos partes
-
----
-
-# Modelos en dos partes
-
-- En el modelo Tobit se asume que el mismo mecanismo determina el resultado que $y=0$ o que $y>0$, y al mismo tiempo la magnitud de $y$ dado que $y>0$
-
-- Modelamos dos procesos diferentes:
-
-  - Participación: $d=\begin{cases} 1 \quad\text{si participa} \\ 0\quad\text{si no participa} \end{cases}$
-  
-  - Resultado: $y=\begin{cases} y \quad\text{si participa} \\ 0\quad\text{si no participa} \end{cases}$
-  
---
-
-- El modelo en dos partes está dado por:
-
-$$
-f(y |x)=
-\begin{cases}
-P(d=0|x)\quad\text{si }y=0 \\
-P(d=1|x)f(y|d=1,x)\quad\text{si }y>0\\
-\end{cases}
-$$
---
-
-- A este tipo de modelos también se les conoce como modelos de valla (*hurdle models*)
-
-- Se usan como alternativa al Tobit en problemas de censura
-
----
-
-# Ejemplo: modelo en dos partes Poisson
-
-- Se relajan los supuestos de que los ceros y los positivos son generados por el mismo proceso generador de datos
-
-- Los ceros se determinan por la densidad $f_i(\cdot)$, por lo que $P(y=0)=f_1(0)$
-
-- Los conteos positivos están dados por $f_2(y|y>0)=\frac{f_2(y)}{1-f_2(0)}$, que se multiplica por $P(y>0)=1-f_1(0)$ para asegurar que las probabilidades sumen 1
-
---
-
-- En este caso, el modelo en dos partes es:
-
-$$
-g(y)=
-\begin{cases}
-f_1(0) \quad\text{si }y=0 \\
-\frac{(1-f_1(0))f_2(y)}{1-f_2(0)}\quad\text{si }y\geq 1 
-\end{cases}
-$$
-- Una forma natural de especificar $f_2(\cdot)$ es con un proceso Poisson o negativo binomial
-
-- El modelo se estima por máxima verosimilitud
-
----
-
-# Ejemplo: modelo en dos partes Poisson
-
-- Este modelo se puede pensar como
-
-  1. Lanzamos una moneda no balanceada y determinamos si $y=0$ o si $y>0$
-  
-  2. Si $y>0$, entonces el conteo Poisson sea realiza
-  
-
-- No necesitamos generar una densidad mezclada pues la densidad que resulta es un producto del proceso binomial y de conteo, por lo que el log de este producto es una suma
-
-- En la tarea mostrarán que la función de log verosimilitud es la suma de dos log verosimilitudes, una para la parte Bernoulli y otra para la parte de conteo
-
-
----
-
-# Modelos inflados en cero
-
-- Una alternativa más son los modelos inflados en cero, aunque son mucho menos utilizados en economía
-
-- Los modelos más comúnes inflados en cero son el Poisson inflado en cero y el negativo binomial inflazo en cero
-
-- En este tipo de modelos la variable de respuesta se modela como una mezcla con una Bernoulli
-
-$$
-g(y)=
-\begin{cases}
-f_1(0)+(1-f_1(0))f_2(0) \quad\text{si }y=0 \\
-(1-f_1(0))f_2(y) \quad\text{si } y \geq1 \\
-\end{cases}
-$$
----
-
-# Ejemplo: modelo Poisson inflado en cero
-
-- Si $y$ proviene de una distribución Poisson, sabemos que $f_2(0)=exp(-\lambda_i)$
-
-- Por tanto, la densidad del modelo inflado en cero es:
-
-$$
-P(Y=y)=
-\begin{cases}
-\pi + (1-\pi) exp(-\lambda)\quad\text{si } y=0 \\
-(1-\pi)exp(-\lambda)\lambda^y/y!\quad\text{si } y\geq 1 \\
-\end{cases}
-$$
-
----
-
-class: inverse, middle, center
-
 # Modelos de muestras seleccionadas
 
 ---
@@ -833,6 +724,116 @@ donde $\hat{v}_i$ son los residuales estimados
 1. Truncado en cero: $\frac{\partial E(y_2|x, y_1=1)}{\partial x}=\gamma_2-\sigma_{12}\lambda(x'\gamma_1)(x'\gamma_1+\lambda(x'\gamma_1))$
 
 1. Censurado en cero: $\frac{\partial E(y_2|x)}{\partial x}=\gamma_1\phi(x'\gamma_1)x'\gamma_2+\Phi(x'\gamma_1)\gamma_2-\sigma_{12}x'\gamma_1\phi(x'\gamma_1)\gamma_1$
+
+
+---
+
+class: inverse, middle, center
+
+# Modelos en dos partes
+
+---
+
+# Modelos en dos partes
+
+- En el modelo Tobit se asume que el mismo mecanismo determina el resultado que $y=0$ o que $y>0$, y al mismo tiempo la magnitud de $y$ dado que $y>0$
+
+- Modelamos dos procesos diferentes:
+
+  - Participación: $d=\begin{cases} 1 \quad\text{si participa} \\ 0\quad\text{si no participa} \end{cases}$
+  
+  - Resultado: $y=\begin{cases} y \quad\text{si participa} \\ 0\quad\text{si no participa} \end{cases}$
+  
+--
+
+- El modelo en dos partes está dado por:
+
+$$
+f(y |x)=
+\begin{cases}
+P(d=0|x)\quad\text{si }y=0 \\
+P(d=1|x)f(y|d=1,x)\quad\text{si }y>0\\
+\end{cases}
+$$
+--
+
+- A este tipo de modelos también se les conoce como modelos de valla (*hurdle models*)
+
+- Se usan como alternativa al Tobit en problemas de censura
+
+---
+
+# Ejemplo: modelo en dos partes Poisson
+
+- Se relajan los supuestos de que los ceros y los positivos son generados por el mismo proceso generador de datos
+
+- Los ceros se determinan por la densidad $f_i(\cdot)$, por lo que $P(y=0)=f_1(0)$
+
+- Los conteos positivos están dados por $f_2(y|y>0)=\frac{f_2(y)}{1-f_2(0)}$, que se multiplica por $P(y>0)=1-f_1(0)$ para asegurar que las probabilidades sumen 1
+
+--
+
+- En este caso, el modelo en dos partes es:
+
+$$
+g(y)=
+\begin{cases}
+f_1(0) \quad\text{si }y=0 \\
+\frac{(1-f_1(0))f_2(y)}{1-f_2(0)}\quad\text{si }y\geq 1 
+\end{cases}
+$$
+- Una forma natural de especificar $f_2(\cdot)$ es con un proceso Poisson o negativo binomial
+
+- El modelo se estima por máxima verosimilitud
+
+---
+
+# Ejemplo: modelo en dos partes Poisson
+
+- Este modelo se puede pensar como
+
+  1. Lanzamos una moneda no balanceada y determinamos si $y=0$ o si $y>0$
+  
+  2. Si $y>0$, entonces el conteo Poisson sea realiza
+  
+
+- No necesitamos generar una densidad mezclada pues la densidad que resulta es un producto del proceso binomial y de conteo, por lo que el log de este producto es una suma
+
+- En la tarea mostrarán que la función de log verosimilitud es la suma de dos log verosimilitudes, una para la parte Bernoulli y otra para la parte de conteo
+
+
+---
+
+# Modelos inflados en cero
+
+- Una alternativa más son los modelos inflados en cero, aunque son mucho menos utilizados en economía
+
+- Los modelos más comúnes inflados en cero son el Poisson inflado en cero y el negativo binomial inflazo en cero
+
+- En este tipo de modelos la variable de respuesta se modela como una mezcla con una Bernoulli
+
+$$
+g(y)=
+\begin{cases}
+f_1(0)+(1-f_1(0))f_2(0) \quad\text{si }y=0 \\
+(1-f_1(0))f_2(y) \quad\text{si } y \geq1 \\
+\end{cases}
+$$
+---
+
+# Ejemplo: modelo Poisson inflado en cero
+
+- Si $y$ proviene de una distribución Poisson, sabemos que $f_2(0)=exp(-\lambda_i)$
+
+- Por tanto, la densidad del modelo inflado en cero es:
+
+$$
+P(Y=y)=
+\begin{cases}
+\pi + (1-\pi) exp(-\lambda)\quad\text{si } y=0 \\
+(1-\pi)exp(-\lambda)\lambda^y/y!\quad\text{si } y\geq 1 \\
+\end{cases}
+$$
 
 
 ---
