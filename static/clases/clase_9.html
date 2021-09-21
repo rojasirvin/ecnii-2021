@@ -718,6 +718,36 @@ donde `\(\hat{v}_i\)` son los residuales estimados
 
 1. Censurado en cero: `\(\frac{\partial E(y_2|x)}{\partial x}=\gamma_1\phi(x'\gamma_1)x'\gamma_2+\Phi(x'\gamma_1)\gamma_2-\sigma_{12}x'\gamma_1\phi(x'\gamma_1)\gamma_1\)`
 
+---
+
+# Detalles de la estimación
+
+- En teoría, los parámetros del modelo de dos ecuaciones están identificados si los mismos regresores se incluyen en ambas ecuaciones
+
+- Pero cuando imponemos errores normales, al hacer `\(x_1=x_2\)` y, recordando que el IRM es casi lineal para un rango grande de su argumento, la segunda ecuación indica que
+
+`$$E(y_2|y_1^*&gt;0)\approx x_2'\beta_2+a+bx_2'\beta_1$$`
+- Es decir, el modelo está cerca de no estar identificado
+
+- Por tanto, en la práctica, se recomienda que haya una o varias variables que estén en una ecuación y no en la otra
+
+- Algunos autores llaman a esto **restricción de exclusión**, término que no me gusta tanto porque se confunde con la misma restricción en el contexto de variables instrumentales
+
+
+
+---
+
+# Resumen
+
+- Tanto el tobit como el modelo de muestras seleccionadas recaen en fuertes supuestos distribucionales
+
+- En el modelo de muestras seleccionadas relajamos el supuesto de que el mismo proceso da origen a la censura o truncamiento, y a la variable dependiente
+
+- El tobit requiere de una interpretación de `\(y^*\)` similar a la de *horas deseadas*
+
+- El modelo de muestra seleccionada es más intuitivo para un proceso del tipo:
+  - Decisión de participación
+  - Margen intensivo
 
 ---
 
