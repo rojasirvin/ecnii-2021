@@ -760,7 +760,7 @@ $$E(y_2|y_1^*>0)\approx x_2'\beta_2+a+bx_2'\beta_1$$
 
 class: inverse, middle, center
 
-# Modelos en dos partes
+# Dos extensiones
 
 ---
 
