@@ -24,3 +24,5 @@ weight: 70
 [Clase 8](https://ecnii-2021.netlify.app/clases/clase_8.html#1). Modelos de conteo
 
 [Clase 9](https://ecnii-2021.netlify.app/clases/clase_9.html#1). Modelos de selección
+
+[Clase 11](https://ecnii-2021.netlify.app/clases/clase_11.html#1). Endogeneidad y variables instrumentales
