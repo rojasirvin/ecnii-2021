@@ -1,8 +1,8 @@
 ---
-title: "Propiedades del estimador de MC2E"
+title: "Estimador de MC2E"
 author: "Irvin Rojas"
 institute: "CIDE"
-date: "28 de septimebre de 2021"
+date: "30 de septimebre de 2021"
 mathspec: true
 output:
   xaringan::moon_reader:
@@ -49,7 +49,7 @@ xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 
 
 .title[
-# Clase 12. Propiedades del estimador de MC2E
+# Clase 13. Estimador de MC2E
 ]
 .subtitle[
 ## Econometría II
@@ -65,7 +65,7 @@ xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 ---
 # Agenda
   
-1. Estuiaremos casos generales con endogeneidad donde hay más de un instrumento
+1. Estudiaremos casos generales con endogeneidad donde hay más de un instrumento
 
 1. Introduciremos el método generalizado de momentos, necesario para estimar modelos de VI sobreidentificados
 
@@ -318,10 +318,7 @@ $$S=\lim \frac{1}{N}\sum_{i=1}^NE(u_i^2z_iz_i')$$
 - Algunas aplicaciones recientes se pueden encontrar en estos trabajos:
 
   - Hackett, L., & Marquez-Padilla, F. (2019). Working for Change: the Effect of Female Labor Force Participation on Fertility. SSRN Working Paper 3354753.
-  - Campos-Vazquez, R. M., & Nuñez, R. (2019). Obesity and labor market outcomes in Mexico/Obesidad y el mercado de trabajo en México. *Estudios Económicos*, 34(2), 159-196.
   - López-Feldman, A., & Chávez, E. (2017). Remittances and natural resource extraction: Evidence from Mexico. *Ecological Economics*, 132, 69-79.
-  - Mocetti, S. (2007). Intergenerational earnings mobility in Italy. *The BE Journal of Economic Analysis & Policy*, 7(2).  
- - Hirvonen, K., & Hoddinott, J. (2017). Agricultural production and children's diets: Evidence from rural Ethiopia. *Agricultural Economics*, 48(4), 469-480.
 
 ---
 

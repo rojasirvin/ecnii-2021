@@ -25,4 +25,10 @@ weight: 70
 
 [Clase 9](https://ecnii-2021.netlify.app/clases/clase_9.html#1). Modelos de selección
 
+Clase 10. Aplicaciones de modelos de variable dependiente binaria
+
 [Clase 11](https://ecnii-2021.netlify.app/clases/clase_11.html#1). Endogeneidad y variables instrumentales
+
+Clase 12. Aplicaciones de modelos de selección
+
+[Clase 13](https://ecnii-2021.netlify.app/clases/clase_13.html#1). Estimador de MC2E
