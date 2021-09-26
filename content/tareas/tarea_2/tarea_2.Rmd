@@ -27,6 +27,7 @@ Miércoles 6 de octubre a las 13:00.
 ## Archivos
 
 [motral2012.csv](/tareas/tarea_2/motral2012.csv)
+
 [ingresos_iv.csv](/tareas/tarea_2/ingresos_iv.csv)
 
 ## Pregunta 1
