@@ -32,7 +32,7 @@ Miércoles 6 de octubre a las 13:00.
 
 ## Pregunta 1
 
-1. Retome la base de la base *motral2012.csv* usada en la Tarea 1. Estimará un modelo Tobit para explicar los factores que afectan la oferta laboral femenina. En esta la base de datos la variable **hrsocup** registra las horas trabajadas a la semana.
+Retome la base de la base *motral2012.csv* usada en la Tarea 1. Estimará un modelo Tobit para explicar los factores que afectan la oferta laboral femenina. En esta la base de datos la variable **hrsocup** registra las horas trabajadas a la semana.
 
 a. [2 punto] ¿Qué proporción de la muestra femenina reporta horas trabajadas iguales a cero?
 
