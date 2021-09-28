@@ -210,7 +210,7 @@ donde $W_N$ es una matriz simétrica y positiva definida que no depende de $\the
 
 # Estimador de MGM
 
-- **Proposición 6.1 en CT**: bajo una serie de supuestos para poder establecer LGN y TLC se muestra que
+- **Proposición 6.1 en CT**: bajo una serie de supuestos para poder establecer LGN y TLC, $\hat{\theta}_{GMM}$, definido como una raíz de las condiciones de primer orden $\partial Q_N(\theta) / \partial \theta=0$, es tal que:
 
 $$\sqrt{N}\left(\hat{\theta}_{GMM}-\theta_0\right)\stackrel{a}{\sim}\mathcal{N}\left(0,(G_0'W_0G_0)^{-1}(G_0'W_0S_0W_0G_0)(G_0'W_0G_0)^{-1}\right)$$
 donde $W_0$ es una matriz finita, simétrica y positiva definida, y
@@ -226,11 +226,11 @@ $$
 
 - Para implementar MGM debemos especificar las condiciones de momentos y la matriz $W_N$
 
-- En el caso de modelos sobreidentificados y con $S_0$ conocida, el estimador de MGM más eficiente se obtiene al especificar $W_N=S_0^-{1}$
+- En el caso de modelos sobreidentificados y con $S_0$ conocida, el estimador de MGM más eficiente se obtiene al especificar $W_N=S_0^{-1}$
 
 - Con esta elección, la expresión para la varianza de $\hat{\beta}_{MGM}$ se simplifica a:
 $$\sqrt{N}\left(\hat{\theta}_{GMM}-\theta_0\right)\stackrel{a}{\sim}\mathcal{N}\left(0,(G_0'S_0^{-1}G_0)^{-1}\right)$$
-- En la práctiva, $S_0$ es desconocida, así que la sustituimos por un estimador consistente $\hat{S}$
+- En la práctica, $S_0$ es desconocida, así que la sustituimos por un estimador consistente $\hat{S}$
 
 
 ---
@@ -241,9 +241,18 @@ $$\sqrt{N}\left(\hat{\theta}_{GMM}-\theta_0\right)\stackrel{a}{\sim}\mathcal{N}\
 
   1. Obtener el estimador de MGM usando una matriz subóptima, generalmente $W_N=I_r$ y con estos coeficientes obtener un estimador para $S_0$: $$\hat{S}=\frac{1}{N}\sum_i h_i(\hat{\theta})h_j(\hat{\theta})'$$
   
-  1. Obtner un estimador de MGM óptimo o **estimador de MGM de dos etapas óptimo** $\hat{\theta}_{MGM,O}$ minimizando
+  1. Obtener un estimador de MGM óptimo o **estimador de MGM de dos etapas óptimo** $\hat{\theta}_{MGM,O}$ minimizando
   
 $$Q_N(\theta)=\left(\frac{1}{N}\sum_ih(\theta)\right)'\hat{S}^{-1}\left(\frac{1}{N}\sum_ih(\theta)\right)$$
+---
+
+# MGM óptimo
+
+- Para estimar la varianza de $\hat{\theta}_{MGM,O}$ usamos
+
+$$\hat{V}(\hat{\theta}_{MGM,O})=N^{-1}(\hat{G}\tilde{S}^{-1}\hat{G})^{-1}$$
+donde $\hat{G}$ y $\tilde{S}$ se evalúan en $\hat{\theta}_{MGM,O}$
+
 
 ---
 
@@ -287,7 +296,7 @@ $$\hat{\beta}_{GMM}=(X'ZW_NZ'X)^{-1}X'ZW_NZ'y$$
 - Escribimos
 
 $$\hat{\beta}_{GMM}=\beta+\left(\left(\frac{1}{N}X'Z\right)W_N\left(\frac{1}{N}X'Z\right)\right)^{-1}\left(\frac{1}{N}X'Z\right)W_N\left(\frac{1}{N}Z'u\right)$$
-- Para probar consistencia requerimos que $\frac{1}{N}Z'u$, es decir, que las condiciones de momentos se cumplan
+- Para probar consistencia requerimos que $p\lim\frac{1}{N}Z'u=0$, es decir, que las condiciones de momentos se cumplan
 
 
 --
