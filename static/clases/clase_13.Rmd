@@ -28,7 +28,6 @@ class: title-slide
 knitr::opts_chunk$set(echo = FALSE, fig.path = "figures/")
 
 library(tidyverse)
-library(pacman)
 library(janitor)
 library(sandwich)
 library(modelsummary)
@@ -272,8 +271,7 @@ $$E(z_i(y_i-x_i'\beta))=0$$
 $$
 \begin{aligned}
 Q(\beta)&=\left(\frac{1}{N}\sum_i (y_i-x_i'\beta)z_i\right)'W_N\left(\frac{1}{N}\sum_i (y_i-x_i'\beta)z_i\right) \\
-&=(Z'u)'W(Z'u) \\
-&=(u'Z)W(Z'u)
+&=\left(\frac{1}{N}(y-X\beta)'Z\right)W_N\left(\frac{1}{N}Z'(y-X\beta)\right)
 \end{aligned}
 $$
 --
@@ -308,7 +306,7 @@ $$\hat{\beta}_{GMM}=\beta+\left(\left(\frac{1}{N}X'Z\right)W_N\left(\frac{1}{N}X
 
 # Estimador de la varianza de $\hat{\beta}_{MGM}$
 
-- El estimador $\hat{\beta}_MGM$ es asintóticamente normal, centrado en $\beta$ y con una varianza asintótica estimada dada por
+- El estimador $\hat{\beta}_{MGM}$ es asintóticamente normal, centrado en $\beta$ y con una varianza asintótica estimada dada por
 
 $$\hat{V}(\hat{\beta}_{GMM})=N(X'ZW_NZ'X)^{-1}(X'ZW_N\hat{S}W_NZ'X)(X'ZW_NZ'X)^{-1}$$
 donde $\hat{S}$ es un estimador consistente de
@@ -316,13 +314,11 @@ donde $\hat{S}$ es un estimador consistente de
 $$S=\lim \frac{1}{N}\sum_{i=1}^NE(u_i^2z_iz_i')$$
 --
 
-- La forma específica de la varianza estimada depende lo que asumamos respecto a los errores
+- Dependiendo de si estamos en un modelo exactamente identificado o sobreidentificado y de cómo especificamos la matriz $W_N$, los resultados anteriores sobre $\hat{\beta}_{GMM}$ y $\hat{V}(\hat{\beta}_{GMM})$ se especializan
 
 
 ---
 # Próxima sesión
-
-- Propuesta de examen
 
 - Algunas aplicaciones recientes se pueden encontrar en estos trabajos:
 

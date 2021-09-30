@@ -4,7 +4,7 @@
     <title>Estimador de MC2E</title>
     <meta charset="utf-8" />
     <meta name="author" content="Irvin Rojas" />
-    <script src="libs/header-attrs-2.9/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="libs/cide.css" type="text/css" />
@@ -254,8 +254,7 @@ class: inverse, middle, center
 $$
 `\begin{aligned}
 Q(\beta)&amp;=\left(\frac{1}{N}\sum_i (y_i-x_i'\beta)z_i\right)'W_N\left(\frac{1}{N}\sum_i (y_i-x_i'\beta)z_i\right) \\
-&amp;=(Z'u)'W(Z'u) \\
-&amp;=(u'Z)W(Z'u)
+&amp;=\left(\frac{1}{N}(y-X\beta)'Z\right)W_N\left(\frac{1}{N}Z'(y-X\beta)\right)
 \end{aligned}`
 $$
 --
@@ -290,7 +289,7 @@ $$
 
 # Estimador de la varianza de `\(\hat{\beta}_{MGM}\)`
 
-- El estimador `\(\hat{\beta}_MGM\)` es asintóticamente normal, centrado en `\(\beta\)` y con una varianza asintótica estimada dada por
+- El estimador `\(\hat{\beta}_{MGM}\)` es asintóticamente normal, centrado en `\(\beta\)` y con una varianza asintótica estimada dada por
 
 `$$\hat{V}(\hat{\beta}_{GMM})=N(X'ZW_NZ'X)^{-1}(X'ZW_N\hat{S}W_NZ'X)(X'ZW_NZ'X)^{-1}$$`
 donde `\(\hat{S}\)` es un estimador consistente de
@@ -298,13 +297,11 @@ donde `\(\hat{S}\)` es un estimador consistente de
 `$$S=\lim \frac{1}{N}\sum_{i=1}^NE(u_i^2z_iz_i')$$`
 --
 
-- La forma específica de la varianza estimada depende lo que asumamos respecto a los errores
+- Dependiendo de si estamos en un modelo exactamente identificado o sobreidentificado y de cómo especificamos la matriz `\(W_N\)`, los resultados anteriores sobre `\(\hat{\beta}_{GMM}\)` y `\(\hat{V}(\hat{\beta}_{GMM})\)` se especializan
 
 
 ---
 # Próxima sesión
-
-- Propuesta de examen
 
 - Algunas aplicaciones recientes se pueden encontrar en estos trabajos:
 

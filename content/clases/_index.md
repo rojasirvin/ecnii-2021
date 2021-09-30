@@ -32,3 +32,7 @@ Clase 10. Aplicaciones de modelos de variable dependiente binaria
 Clase 12. Aplicaciones de modelos de selección
 
 [Clase 13](https://ecnii-2021.netlify.app/clases/clase_13.html#1). Estimador de MC2E
+
+Clase 14. Aplicaciones de VI
+
+[Clase 15](https://ecnii-2021.netlify.app/clases/clase_15.html#1). Cuestiones prácticas de VI
