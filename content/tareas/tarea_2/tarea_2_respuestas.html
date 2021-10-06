@@ -1,0 +1,646 @@
+---
+title: "Respuestas a la tarea 2"
+summary: " "
+weight: 2
+type: book
+toc: false
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="respuestas" class="section level2">
+<h2>Respuestas</h2>
+</div>
+<div id="pregunta-1" class="section level2">
+<h2>Pregunta 1</h2>
+<ol style="list-style-type: decimal">
+<li>Retome la base de la base <em>motral2012.csv</em> usada en la Tarea 1. Estimará un modelo Tobit para explicar los factores que afectan la oferta laboral femenina. En esta la base de datos la variable <strong>hrsocup</strong> registra las horas trabajadas a la semana.</li>
+</ol>
+<ol style="list-style-type: lower-alpha">
+<li><p>[2 punto] ¿Qué proporción de la muestra femenina reporta horas trabajadas iguales a cero?</p>
+<p><em>Si hacemos una dummy de horas positivas, al sacarle la media obtenemos la proporción. Aquí uso la función <em>stat.desc</em> de la librería <em>pastecs</em> para obtener estadística descriptiva:</em></p>
+<pre class="r"><code>data.salarios &lt;- read_csv(&quot;./motral2012.csv&quot;, locale = locale(encoding = &quot;latin1&quot;))
+
+# 1a % de mujeres con horas igua a cero
+data.salarios &lt;- data.salarios %&gt;%
+    filter(sex == 2) %&gt;%
+    mutate(zerohrs = ifelse(hrsocup == 0, 1, 0))
+
+# La media de la dummy zerohrs da el porcentaje de mujeres con horas cero
+stat.desc(data.salarios$zerohrs)
+##      nbr.val     nbr.null       nbr.na          min          max        range 
+## 2.625000e+03 1.699000e+03 0.000000e+00 0.000000e+00 1.000000e+00 1.000000e+00 
+##          sum       median         mean      SE.mean CI.mean.0.95          var 
+## 9.260000e+02 0.000000e+00 3.527619e-01 9.328052e-03 1.829108e-02 2.284080e-01 
+##      std.dev     coef.var 
+## 4.779204e-01 1.354796e+00</code></pre></li>
+<li><p>[3 puntos] Se desea estimar el efecto de los años de educación (<strong>anios_esc</strong>) sobre la oferta laboral femenina controlando por el estado marital (<strong>casada</strong>), la edad (<strong>eda</strong>) y el número de hijos (<strong>n_hij</strong>) como una variable continua. En la base, <strong>e_con</strong> toma el valor de 5 para las personas casadas. Genere la variable dummy <strong>casada</strong> que tome el valor de 1 para las mujeres casadas y cero en otro caso. Estime un modelo de MCO para <strong>hrsocup</strong> mayor que cero, usando solo la población femenina. Reporte errores robustos. ¿Cuál es la interpretación sobre el coeficiente de los años de escolaridad?</p>
+<p><em>El estimar por MCO, un año más de escolaridad se asocia con 0.17 horas trabajadas más a la semana. Sin embargo, este efecto no es estadísticamente significativo.</em></p>
+<pre class="r"><code># 1b Dummy de casada y MCO
+data.salarios &lt;- data.salarios %&gt;%
+    mutate(casada = ifelse(e_con == 5, 1, 0))
+
+reg1b &lt;- lm(hrsocup ~ anios_esc + casada + eda + n_hij, data = filter(data.salarios,
+    hrsocup &gt; 0))
+coeftest(reg1b, vcov = vcovHC(reg1b, &quot;HC1&quot;))[1:4, ]
+##                Estimate Std. Error   t value     Pr(&gt;|t|)
+## (Intercept) 36.70129720 1.99116828 18.432042 2.742336e-69
+## anios_esc    0.17465627 0.10353350  1.686954 9.179628e-02
+## casada      -3.52571327 0.89724706 -3.929479 8.855253e-05
+## eda          0.06949593 0.04914655  1.414055 1.575295e-01</code></pre></li>
+<li><p>[3 puntos] ¿Qué problema existe con el modelo planteado en el punto anterior en términos de la selección? ¿Considera que se trata de un caso de censura o de truncamiento?</p>
+<p><em>Podemos racionalizar las horas trabajadas en un modelo microeconómico de oferta laboral. Las horas trabajadas observadas son positivas cuando la solución óptima es una cantidad positiva de horas. Sin embargo, si la solución óptima implicara horas negativas, las horas observadas se codificarían como cero. En este caso tenemos datos censurados en cero. Si existe una relación positiva entre educación y horas trabajadas, al estimar un modelo por MCO usando solo los datos con horas positivas estamos sobreestimando la media condicional pues se habrán omitido del análisis aquellas mujeres cuya solución a su problema de optimización eran horas iguales a cero o negativas.</em></p></li>
+<li><p>[8 puntos] Estime un modelo Tobit de datos censurados. ¿Qué resuelve el modelo Tobit en este caso? Interprete nuevamente el coeficiente sobre los años de escolaridad.</p>
+<p><em>La función tobit permite hacer esto muy fácilmente. Noten que left especifica dónde está la censura. La opción gaussian pone explícito uno de los supuestos críticos del modelo tobit visto en clase: errores normales. Además, se asume homocedasticidad.</em></p>
+<pre class="r"><code>reg1d &lt;- tobit(hrsocup ~ anios_esc + casada + eda + n_hij, left = 0, right = Inf,
+    dist = &quot;gaussian&quot;, data = data.salarios)
+summary(reg1d)
+## 
+## Call:
+## tobit(formula = hrsocup ~ anios_esc + casada + eda + n_hij, left = 0, 
+##     right = Inf, dist = &quot;gaussian&quot;, data = data.salarios)
+## 
+## Observations:
+##          Total  Left-censored     Uncensored Right-censored 
+##           2625            926           1699              0 
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)   0.88236    3.19905   0.276  0.78269    
+## anios_esc     0.85530    0.17509   4.885 1.04e-06 ***
+## casada      -10.99515    1.43025  -7.688 1.50e-14 ***
+## eda           0.41621    0.07665   5.430 5.64e-08 ***
+## n_hij        -1.73840    0.55887  -3.111  0.00187 ** 
+## Log(scale)    3.44512    0.01887 182.608  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Scale: 31.35 
+## 
+## Gaussian distribution
+## Number of Newton-Raphson Iterations: 3 
+## Log-likelihood: -9086 on 6 Df
+## Wald-statistic: 127.9 on 4 Df, p-value: &lt; 2.22e-16</code></pre>
+<p><em>El modelo tobit para datos censurados toma en cuenta que hay una masa de ceros en las horas trabajadas para individuos para los que disponemos de sus características en la base de datos. El modelo tobit ajusta la probabilidad de observar esta masa de ceros. El coeficiente estimado será ahora consistente si el modelo está bien especificado, es decir, si el proceso subyacente es lineal en los parámetros y con un error normal homoscedástico (los supuestos de tobit básico). En este caso, un año más de educación se asocia con 0.85 más horas semanales trabajadas, un efecto estadísticamente significativo. Usar MCO subestimaba el efecto de la escolaridad.</em></p></li>
+<li><p>[4 puntos] ¿Cuál es el efecto marginal de un incremento de un año de educación en la oferta laboral? ¿Cómo cambia su respuesta si, en lugar de considerar la variable latente, considera la variable censurada?</p>
+<p><em>El efecto marginal en la variable latente es directamente el coficiente estimado en la parte d., es decir 0.855.</em></p>
+<p><em>El efecto marginal en la media censurada está dado por:</em></p>
+<p><span class="math display">\[\frac{\partial E(y|x)}{\partial x_j}=\beta_j\Phi(x_i&#39;\beta)\]</span></p>
+<p><em>Lo que hice aquí fue calcular este efecto marginal para cada individuo y luego obtener el promedio de los efectos marginales en aquellos individuos con horas positivas.</em></p>
+<pre class="r"><code># Efecto marginal promedio
+data.salarios &lt;- data.salarios %&gt;%
+    mutate(index1 = predict(reg1d, .)) %&gt;%
+    mutate(phi = pnorm(index1/reg1d$scale)) %&gt;%
+    mutate(mfx_anis_esc = reg1d$coefficients[2] * phi, mfx_eda = reg1d$coefficients[4] *
+        phi, mfx_n_hij = reg1d$coefficients[5] * phi)
+
+data.salarios %&gt;%
+    filter(hrsocup &gt; 0) %&gt;%
+    summarise(mfx_anis_esc = mean(mfx_anis_esc))
+## # A tibble: 1 x 1
+##   mfx_anis_esc
+##          &lt;dbl&gt;
+## 1        0.612</code></pre></li>
+</ol>
+</div>
+<div id="pregunta-2" class="section level2">
+<h2>Pregunta 2</h2>
+<p>Usando los mismos datos de la base <em>motral2012.csv</em> implementará un ejercicio en el mismo espíritu del famoso estudio de Mroz (1987)<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> sobre la oferta laboral femenina. El propósito es estimar la relación entre el salario y el número de horas trabajadas, concentrándonos en la muestra de mujeres.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] El primer problema al que nos enfrentamos es que el salario será no observado para las mujeres que no trabajan. Estime un modelo lineal para el log del salario por hora, <strong>ing_x_hrs</strong>, usando las variables <strong>anios_esc</strong>, <strong>eda</strong>, <strong>n_hij</strong>, el cuadrado de <strong>n_hij</strong>, <strong>busqueda</strong> y <strong>casada</strong>, usando la submuestra de mujeres con salario por hora positivo. Dichas variables representan los años de escolaridad, la edad, el número de hijos, el cuadrado del número de hijos, si la persona buscó trabajo recientemente y si la persona es casada, respectivamente. Use los coeficientes estimados para imputar el ingreso por hora, faltante para las mujeres que reportan 0 en las horas trabajadas.</p>
+<p><em>Imputamos el salario faltante:</em></p>
+<pre class="r"><code>data.salarios &lt;- read_csv(&quot;./motral2012.csv&quot;, locale = locale(encoding = &quot;latin1&quot;)) %&gt;%
+    filter(sex == 2) %&gt;%
+    mutate(casada = ifelse(e_con == 5, 1, 0))
+
+# Log de salario ly
+data.salarios &lt;- data.salarios %&gt;%
+    mutate(ly = ifelse(ing_x_hrs &gt; 0, log(ing_x_hrs), NA))
+
+# Modelo lineal
+reg2a &lt;- lm(ly ~ anios_esc + casada + eda + n_hij + n_hij^2 + busqueda, data = data.salarios)
+
+# Imputación
+data.salarios &lt;- data.salarios %&gt;%
+    mutate(lyhat = predict(reg2a, .)) %&gt;%
+    mutate(ly = ifelse(is.na(ly), lyhat, ly))</code></pre></li>
+<li><p>[5 puntos] Use <em>heckit</em> de la librería <em>sampleSelection</em> para estimar por máxima verosimilitud un <em>heckit</em> para las horas trabajadas <strong>hrsocup</strong>. En la ecuación de selección (si la persona trabaja o no) incluya como variable explicativa el salario por hora (imputado para las mujeres que no trabajan), además de <strong>anios_esc</strong>, <strong>eda</strong>, <strong>n_hij</strong> y <strong>casada</strong>. En la ecuación de horas, incluya los mismos regresores, excepto <strong>n_hij</strong>.</p>
+<p><em>La función heckit permite estimar el modelo de Heckman por máxima verosimilitud de manera muy simple. Hay que especificar method=“ml” para que la estimación sea por máxima verosimilitud:</em></p>
+<pre class="r"><code>data.salarios &lt;- data.salarios %&gt;%
+    mutate(trabaja = ifelse(hrsocup &gt; 0, 1, 0)) %&gt;%
+    mutate(trabaja = factor(trabaja, levels = c(0, 1)))
+
+reg2b &lt;- heckit(trabaja ~ anios_esc + casada + eda + ly + n_hij + n_hij^2 + busqueda,
+    hrsocup ~ anios_esc + casada + eda + ly, method = &quot;ml&quot;, data = data.salarios)
+summary(reg2b)
+## --------------------------------------------
+## Tobit 2 model (sample selection model)
+## Maximum Likelihood estimation
+## Newton-Raphson maximisation, 3 iterations
+## Return code 8: successive function values within relative tolerance limit (reltol)
+## Log-Likelihood: -7181.675 
+## 2625 observations (926 censored and 1699 observed)
+## 14 free parameters (df = 2611)
+## Probit selection equation:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.583614   0.448320  -5.763 9.24e-09 ***
+## anios_esc    0.005346   0.020341   0.263    0.793    
+## casada      -0.213125   0.145135  -1.468    0.142    
+## eda         -0.003391   0.008137  -0.417    0.677    
+## ly          -0.004236   0.133344  -0.032    0.975    
+## n_hij        0.023985   0.058900   0.407    0.684    
+## busqueda     2.406669   0.104595  23.009  &lt; 2e-16 ***
+## Outcome equation:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 55.62469    2.17656  25.556  &lt; 2e-16 ***
+## anios_esc    1.04819    0.09995  10.487  &lt; 2e-16 ***
+## casada      -3.58856    0.77967  -4.603 4.37e-06 ***
+## eda          0.11614    0.03902   2.977  0.00294 ** 
+## ly          -9.83418    0.60389 -16.285  &lt; 2e-16 ***
+##    Error terms:
+##       Estimate Std. Error t value Pr(&gt;|t|)    
+## sigma  14.8579     0.2591  57.350   &lt;2e-16 ***
+## rho    -0.1606     0.1964  -0.818    0.414    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## --------------------------------------------</code></pre></li>
+<li><p>[10 puntos] Estime ahora el <em>heckit</em> en dos pasos, <em>a mano</em>. Es decir, siga los siguientes pasos: i) estime un probit para la ecuación de selección y obtenga el índice <span class="math inline">\(x_i&#39;\hat{\beta}\)</span>; ii) calcule el inverso de la razón de Mills <span class="math inline">\(\lambda_i(x_i&#39;\hat{\beta})\)</span>; y iii) estime por MCO la ecuación para las horas trabajadas con la submuestra que tiene horas trabajadas positivas, incluyendo como regresor el inverso de la razón de Mills estimado y el resto de los regresores.</p>
+<p>Compare los coeficientes y los errores estándar obtenidos en esta parte con los de la parte b. ¿Por qué son iguales o por qué difieren?</p>
+<p><em>Estimamos ahora el heckit </em>a mano<em>:</em></p>
+<pre class="r"><code># Probit
+mod.probit &lt;- glm(trabaja ~ anios_esc + casada + eda + ly + n_hij + n_hij^2 + busqueda,
+    family = binomial(link = &quot;probit&quot;), data = data.salarios)
+
+# Predicción del índice y cálculo de IMR
+data.salarios &lt;- data.salarios %&gt;%
+    mutate(index = predict(mod.probit, .)) %&gt;%
+    mutate(imr = dnorm(index)/pnorm(index))
+
+# Segunda etapa
+reg2c &lt;- lm(hrsocup ~ anios_esc + casada + eda + ly + imr, data = filter(data.salarios,
+    trabaja == 1))
+
+summary(reg2c)
+## 
+## Call:
+## lm(formula = hrsocup ~ anios_esc + casada + eda + ly + imr, data = filter(data.salarios, 
+##     trabaja == 1))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -46.172 -10.085   1.915   9.253  57.689 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 55.68676    2.17948  25.550  &lt; 2e-16 ***
+## anios_esc    1.04814    0.10000  10.481  &lt; 2e-16 ***
+## casada      -3.56927    0.78057  -4.573 5.17e-06 ***
+## eda          0.11621    0.03904   2.977  0.00296 ** 
+## ly          -9.82971    0.60406 -16.273  &lt; 2e-16 ***
+## imr         -3.94669    3.62684  -1.088  0.27667    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 14.86 on 1693 degrees of freedom
+## Multiple R-squared:  0.1563, Adjusted R-squared:  0.1539 
+## F-statistic: 62.75 on 5 and 1693 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Para comparar los coeficientes, usé la función <em>stargazer</em> del paquete del mismo nombre:</p>
+<pre class="r"><code># El heckit por MV y en dos etapas coinciden
+
+stargazer(reg2b, reg2c, title = &quot;Comparación de heckit con la función heckit y a mano&quot;,
+    type = &quot;text&quot;, df = FALSE, digits = 4)
+## 
+## Comparación de heckit con la función heckit y a mano
+## ================================================
+##                         Dependent variable:     
+##                     ----------------------------
+##                               hrsocup           
+##                        Heckman          OLS     
+##                       selection                 
+##                          (1)            (2)     
+## ------------------------------------------------
+## anios_esc             1.0482***      1.0481***  
+##                        (0.0999)      (0.1000)   
+##                                                 
+## casada                -3.5886***    -3.5693***  
+##                        (0.7797)      (0.7806)   
+##                                                 
+## eda                   0.1161***      0.1162***  
+##                        (0.0390)      (0.0390)   
+##                                                 
+## ly                    -9.8342***    -9.8297***  
+##                        (0.6039)      (0.6041)   
+##                                                 
+## imr                                   -3.9467   
+##                                      (3.6268)   
+##                                                 
+## Constant              55.6247***    55.6868***  
+##                        (2.1766)      (2.1795)   
+##                                                 
+## ------------------------------------------------
+## Observations            2,625          1,699    
+## R2                      0.1563                  
+## Adjusted R2             0.1539                  
+## Residual Std. Error                   14.8614   
+## F Statistic                         62.7490***  
+## ================================================
+## Note:                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre>
+<p><em>La magnitud de los coeficientes es práctiamente la misma entre el modelo estimado por máxima verosimilitud y con un procedimiento en dos etapas a mano. En este ejemplo las diferencias son sutiles, aunque recordemos que en general la estimación por MV es más eficiente si la verosimilitud está bien planteada.</em></p></li>
+</ol>
+</div>
+<div id="pregunta-3" class="section level2">
+<h2>Pregunta 3</h2>
+<p>En esta pregunta mostrará cómo para un modelo en dos partes Poisson la log verosimilitud del problema es la suma de log verosimilitud para un proceso binario y la log verosimilitud de un proceso Poisson truncado en cero. Considere una variable aleatoria <span class="math inline">\(Y\)</span> con observaciones iid que sigue una distribución Poisson con parámetro <span class="math inline">\(\lambda\)</span> tal que</p>
+<p><span class="math display">\[f(y,\lambda)=P(Y=y)=\frac{\lambda^y exp(-\lambda)}{y!}\]</span></p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[4 puntos] Obtenga la distribución Poisson truncada en cero, definida como <span class="math inline">\(P(Y=y|Y&gt;0)\)</span>.</p>
+<p><em>Sabemos que la distribución truncada en cero es:</em></p>
+<p><span class="math display">\[P(Y=y|Y&gt;0)=\frac{f(y,\lambda)}{1-f(0,\lambda)}\]</span></p>
+<p><em>Sustituyendo la forma de la densidad Poisson:</em></p>
+<p><span class="math display">\[P(Y=y|Y&gt;0)=\frac{\frac{\lambda^y exp(-\lambda)}{y!}}{1-exp(-\lambda)}=\frac{\lambda^y}{y!(exp(\lambda)-1)}\]</span></p></li>
+<li><p>[4 puntos] Considere además un proceso binomial que modela la probabilidad de que la variable <span class="math inline">\(Y\)</span> tome un valor cero o un valor positivo, como sigue: <span class="math display">\[ P(Y=y)=\begin{cases} \pi \quad\quad y=0 \\ 1-\pi\quad\quad y=1,2,3,\ldots \end{cases} \]</span> Especialice la ecuación del modelo de dos partes vista en la <a href="https://ecnii-2021.netlify.app/clases/clase_9.html#57">clase 9</a>, usando la distribución truncada derivada en a. y el proceso binomial definido para obtener una función de masa de probabilidad no condicional para <span class="math inline">\(Y\)</span>, <span class="math inline">\(g(y)\)</span>.</p>
+<p><em>En clase vimos la forma general del modelo en dos partes:</em></p>
+<p><span class="math display">\[
+ g(y)=
+ \begin{cases}
+ f_1(0) \quad\text{si }y=0 \\
+ \frac{(1-f_1(0))f_2(y)}{1-f_2(0)}\quad\text{si }y\geq 1 
+ \end{cases}
+ \]</span></p>
+<p><em>Sea <span class="math inline">\(\pi\)</span> la probabilidad de observar un conteo igual a cero, especializamos la función vista en clase, incorporando la distribución truncada encontrada en la parte a.:</em></p>
+<p><span class="math display">\[
+ g(y)=
+ \begin{cases}
+ \pi \quad\text{si }y=0 \\
+ (1-\pi)\frac{\lambda^y}{y!(exp(\lambda)-1)} \quad\text{si }y\geq 1 
+ \end{cases}
+ \]</span></p></li>
+<li><p>[4 puntos] Obtenga la log verosimilitud para la <span class="math inline">\(i\)</span>ésima observación. Se sugiere que continúe sus cálculos con una ecuación en dos partes.</p>
+<p><em>La log verosimilitud de la <span class="math inline">\(i\)</span>ésima observación es:</em></p>
+<p><span class="math display">\[
+ \mathcal{l}_i(\pi,\lambda,y_i)=
+ \begin{cases}
+ \ln(\pi) \quad\text{si }y=0 \\
+ \ln\left((1-\pi)\frac{\lambda^{y_i}}{y!(exp(\lambda)-1)}\right) \quad\text{si }y\geq 1 
+ \end{cases}
+ \]</span></p></li>
+<li><p>[4 puntos] En este problema, parametrizaremos <span class="math inline">\(\lambda_i\)</span> como <span class="math inline">\(\lambda_i=exp(x_i&#39;\beta_2)\)</span>, como regularmente lo hemos hecho en una regresión Poisson. Por otro lado, podemos trabajar con una parametrización general de la probabilidad <span class="math inline">\(\pi\)</span>, <span class="math inline">\(\pi=F(x_i&#39;\beta_1)\)</span>. Escriba la función de log verosimilitud del problema usando la parametrización para <span class="math inline">\(\pi_i\)</span> y para <span class="math inline">\(\lambda_i\)</span> que acabamos de describir. Presente esta función en una sola parte.</p>
+<p><em>Con la parametrización dada, podemos reescribir la log verosimilitud de una observación como:</em></p>
+<p><span class="math display">\[
+ \mathcal{l}_i(\pi,\lambda,y_i)=
+ \begin{cases}
+ \ln(F(x_i&#39;\beta_1)) \quad\text{si }y=0 \\
+ \ln\left((1-F(x_i&#39;\beta_1))\frac{exp(x_i&#39;\beta_2)^{y_i}}{y!(exp(exp(x_i&#39;\beta_2))-1)} \right) \quad\text{si }y\geq 1 
+ \end{cases}
+ \]</span></p>
+<p><em>La log verosimilitud del problema es la probabilidad de observar los datos. Con la parametrización anterior:</em></p>
+<p><span class="math display">\[\mathcal{L}(\beta_1,\beta_2,y_i)=\ln\left(\prod_{i\in y_i=0}F(x_i&#39;\beta_1)\prod_{i\in y_i&gt;0}(1-F(x_i&#39;\beta_1))\prod_{i\in y_i&gt;0}\frac{exp(x_i&#39;\beta_2)^{y_i}}{y!(exp(exp(x_i&#39;\beta_2))-1)} \right)\]</span></p>
+<p><em>Distribuyendo el logarítmo:</em></p>
+<p><span class="math display">\[\mathcal{L}(\beta_1,\beta_2,y_i)=\sum_{i\in y_i=0}\ln(F(x_i&#39;\beta_1))+\sum_{i\in y_i&gt;0}\ln\left(1-F(x_i&#39;\beta_1)\right)+\sum_{i\in y_i&gt;0}x_i&#39;\beta_2y_i-\sum_{i\in y_i&gt;0}\ln\left(exp(exp(x_i&#39;\beta_2))-1\right)-\sum_{i\in y_i&gt;0}y!\]</span></p></li>
+<li><p>[4 puntos] Agrupe los términos para mostrar que <span class="math inline">\(\mathcal{L}=\mathcal{L}_1(\beta_1)+\mathcal{L}_2(\beta_2)\)</span>. Así, mostrará que la log verosimilitud del problema se puede descomponer en una log verosimilitud para el modelo binario y otra para el conteo truncado en cero. Por tanto, no perdemos información si estimamos los parámetros de la probabilidad binomial por un lado, y los de la distribución Poisson truncada en cero, por el otro.</p>
+<p><em>Claramente:</em></p>
+<p><span class="math display">\[\mathcal{L}(\beta_1,\beta_2,y_i)=\mathcal{L_1}(\beta_1,y_i)+\mathcal{L_2}(\beta_2,y_i)\]</span></p>
+<p><em>es decir, la suma de dos log verosimilitudes, una de un proceso binario y otra para el modelo Poisson truncado en cero.</em></p></li>
+</ol>
+</div>
+<div id="pregunta-4" class="section level2">
+<h2>Pregunta 4</h2>
+<p>Partiendo de la variable aleatoria <span class="math inline">\(Y\)</span> con observaciones iid que sigue una distribución Poisson con parámetro <span class="math inline">\(\lambda\)</span> usada en el problema anterior, en este problema caracterizará la estimación de un modelo Poisson inflado en cero.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[4 puntos] Especialice la expresión vista en la <a href="https://ecnii-2021.netlify.app/clases/clase_9.html#59">clase 9</a> para obtener la función de masa de probabilidad del modelo Poisson inflado en cero <span class="math inline">\(g(y|\lambda, \pi)\)</span>.</p>
+<p><em>En clase, vimos la expresión general para el modelo inflado en cero:</em></p>
+<p><span class="math display">\[
+ g(y)=
+ \begin{cases}
+ f_1(0)+(1-f_1(0))f_2(0) \quad\text{si }y=0 \\
+ (1-f_1(0))f_2(y) \quad\text{si } y \geq1 \\
+ \end{cases}
+ \]</span></p>
+<p><em>En el caso particular de un modelo Poisson, sabemos que <span class="math inline">\(f_2(0)=P(Y=0)=exp(-\lambda)\)</span>. Definiendo la probabilidad de observar un conteo cero como <span class="math inline">\(\pi\)</span>, la función de masa de probabilidad del modelo inflado en cero es:</em></p>
+<p><span class="math display">\[
+ g(y)=
+ \begin{cases}
+ \pi+(1-\pi)exp(-\lambda) \quad\text{si }y=0 \\
+ (1-\pi)\frac{\lambda^y exp(-\lambda)}{y!} \quad\text{si } y \geq1 \\
+ \end{cases}
+ \]</span></p></li>
+<li><p>[4 puntos] Provea una expresión para la función de verosimilitud <span class="math inline">\(L(\lambda,\pi)=\prod_{i=1}^N g(y_i|\lambda, \pi)\)</span>. Una sugerencia para simplificar sus cálculos es definir una variable <span class="math inline">\(X\)</span> igual al numero de veces que <span class="math inline">\(Y_i\)</span> que toma el valor de cero.</p>
+<p><em>La función de verosimilitud del problema es:</em></p>
+<p><span class="math display">\[L(\pi,\lambda,y_i)=\prod_i P(Y_i=y_i)\]</span></p>
+<p><em>Con las formas específicas para el modelo Poisson inflado en cero:</em></p>
+<p><span class="math display">\[L(\pi,\lambda,y_i)=\prod_{i\in y_i=0}\left(\pi+(1-\pi)exp(-\lambda) \right) \prod_{i\in y_i&gt;0}\left((1-\pi)\frac{\lambda^{y_i} exp(-\lambda)}{y!}\right)\]</span></p>
+<p><em>Haciendo <span class="math inline">\(X\)</span> el número de veces que <span class="math inline">\(y_i\)</span> toma el valor de cero, el primer producto es <span class="math inline">\(\left(\pi+(1-\pi)exp(-\lambda) \right)\)</span> elevado a la potencia <span class="math inline">\(X\)</span>.</em></p>
+<p><em>¿Cuántos términos distintos de cero quedan? Quedan <span class="math inline">\(n-X\)</span>. El segundo producto en la verosimilitud es:</em></p>
+<p><span class="math display">\[\left((1-\pi)exp(-\lambda)\right)^{n-X}\frac{\lambda^{\sum_i y_i}}{\prod_{i\in y_i&gt;0} y!}\]</span></p>
+<p><em>La verosimilitud es por tanto:</em></p>
+<p><span class="math display">\[L(\pi,\lambda,y_i)=\left(\pi+(1-\pi)exp(-\lambda) \right)^X \left((1-\pi)exp(-\lambda)\right)^{n-X}\frac{\lambda^{\sum_i y_i}}{\prod_{i\in y_i&gt;0} y!}\]</span></p></li>
+<li><p>[6 puntos] Provea una expresión para la log verosimilitud del problema, <span class="math inline">\(\mathcal{L}(\lambda,\pi)\)</span>.</p>
+<p><em>Dada la verosimilitud planteada en la parte anterior, la log verosimilitud es:</em></p>
+<p><span class="math display">\[\mathcal{L}(\pi,\lambda,y_i)=X\ln \left(\pi+(1-\pi)exp(-\lambda) \right)+(n-X)\ln(1-\pi)-(n-X)\lambda+n\bar{Y}\ln (\lambda)- \ln\left(\prod_{i\in y_i&gt;0} y! \right)\]</span></p></li>
+<li><p>[6 puntos] Obtenga las condiciones de primer orden que caracterizan la solución del problema de máxima verosimilitud, derivando la log verosimilitud con respecto a <span class="math inline">\(\lambda\)</span> y a <span class="math inline">\(\pi\)</span>.</p>
+<p><em>Tenemos dos parámetros, así que tenemos dos condiciones de primer orden. Derivando la log verosimilitud con respecto a <span class="math inline">\(\pi\)</span> obtenemos:</em></p>
+<p><span class="math display">\[\frac{\partial \mathcal{L}}{\partial \pi}=\frac{X}{\pi+(1-\pi)exp(-\lambda)}(1-exp(-\lambda))-\frac{n-X}{1-\pi}=0\]</span></p>
+<p><em>La primer condición (A) es:</em></p>
+<p><span class="math display">\[\frac{X(1-exp(-\lambda))(1-\pi)}{\pi+(1-\pi)exp(-\lambda)}=n-X\quad\quad\ldots(A)\]</span></p>
+<p><em>Ahora derivando la log verosimilitud con respecto a <span class="math inline">\(\lambda\)</span>:</em></p>
+<p><span class="math display">\[\frac{\partial \mathcal{L}}{\partial \lambda}=-\frac{X}{\pi+(1-\pi)exp(-\lambda)}(1-\pi)exp(-\lambda)-(n-X)+\frac{n\bar{Y}}{\lambda}=0\]</span></p>
+<p><em>La segunda condición (B) es:</em></p>
+<p><span class="math display">\[\frac{X(1-\pi)exp(-\lambda)}{\pi+(1-\pi)exp(-\lambda)}+(n-X)=\frac{n\bar{Y}}{\lambda}\quad\quad\ldots(B)\]</span></p>
+<p><em><span class="math inline">\((\hat{\pi}_{MV},\hat{\lambda}_{MV})\)</span> son los valores de los parámetros que resulven el sistema dado por (A) y (B).</em></p></li>
+</ol>
+</div>
+<div id="pregunta-5" class="section level2">
+<h2>Pregunta 5</h2>
+<p>Uno de los debates más activos en economía es el relativo a la relación entre años de educación e ingreso. La base de datos <em>ingresos_iv.dta</em> contiene una muestra de hombres de entre 24 y 36 años de edad.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[2 puntos] Estime una regresión por MCO para explicar el logaritmo del salario (<strong>lwage</strong>) en función de la educación <strong>educ</strong> y los siguientes controles: <strong>exper</strong>, <strong>expersq</strong>, <strong>black</strong>, <strong>south</strong>, <strong>smsa</strong>, <strong>reg661</strong>, <strong>reg662</strong>, <strong>reg663</strong>, <strong>reg664</strong>, <strong>reg665</strong>, <strong>reg666</strong>, <strong>reg667</strong>, <strong>reg668</strong> y <strong>smsa66</strong>. ¿Qué problema encuentra en la estimación de esta relación? ¿El coeficiente sobre <strong>educ</strong> tiene una interpretación causal del efecto de la educación en el salario?</p>
+<p><em>Estimamos por MCO la relación entre salarios y educación, controlando por un conjunto de regresores:</em></p>
+<pre class="r"><code>data.ingresos &lt;- read_csv(&quot;./ingresos_iv.csv&quot;, locale = locale(encoding = &quot;latin1&quot;))
+
+reg5a &lt;- lm(lwage ~ educ + exper + expersq + black + south + smsa + reg661 + reg662 +
+    reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+summary(reg5a)
+## 
+## Call:
+## lm(formula = lwage ~ educ + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66, data = data.ingresos)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.62326 -0.22141  0.02001  0.23932  1.33340 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  4.7393765  0.0715282  66.259  &lt; 2e-16 ***
+## educ         0.0746933  0.0034983  21.351  &lt; 2e-16 ***
+## exper        0.0848320  0.0066242  12.806  &lt; 2e-16 ***
+## expersq     -0.0022870  0.0003166  -7.223 6.41e-13 ***
+## black       -0.1990123  0.0182483 -10.906  &lt; 2e-16 ***
+## south       -0.1479550  0.0259799  -5.695 1.35e-08 ***
+## smsa         0.1363845  0.0201005   6.785 1.39e-11 ***
+## reg661      -0.1185697  0.0388301  -3.054 0.002281 ** 
+## reg662      -0.0222026  0.0282575  -0.786 0.432092    
+## reg663       0.0259703  0.0273644   0.949 0.342670    
+## reg664      -0.0634942  0.0356803  -1.780 0.075254 .  
+## reg665       0.0094551  0.0361174   0.262 0.793503    
+## reg666       0.0219476  0.0400984   0.547 0.584182    
+## reg667      -0.0005887  0.0393793  -0.015 0.988073    
+## reg668      -0.1750058  0.0463394  -3.777 0.000162 ***
+## smsa66       0.0262417  0.0194477   1.349 0.177327    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3723 on 2994 degrees of freedom
+## Multiple R-squared:  0.2998, Adjusted R-squared:  0.2963 
+## F-statistic: 85.48 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><em>Hay una relación de 7.4% mayor ingreso por cada año de educación adicional. Sin embargo, esta no es una relación causal pues es muy probable que la educación no sea exógena en la ecuación de salarios. Esto puede deberse, por ejemplo, a una variable omitida de habilidad que afecta tanto al número de años de educación alcanzados como al desempeño en el mercado de trabajo.</em></p></li>
+<li><p>[2 puntos] Se propone usar una variable dicotómica que indica si el individuo vivía cerca de una universidad cuando era niño, como instrumento de los años de educación. ¿Qué condiciones debe cumplir la variable propuesta para funcionar como instrumento válido?</p>
+<p><em>El instrumento debe cumplir dos condiciones:</em></p>
+<p><em>Exogeneidad: el instrumento no debe pertenecer a la ecuación de salarios. Es decir, el haber crecido cerca de una universidad no debe afectar el salario contemporáneo de forma directa.</em></p>
+<p><em>Relevancia: el instrumento debe estar correlacionado con la variable endógena. En este caso, haber crecido cerca de una universidad debe estar correlacionado con el número de años de educación completados.</em></p></li>
+<li><p>[2 puntos] ¿Cómo juzga la propuesta de usar la variable antes descrita como instrumento?</p>
+<p><em>Este argumento fue usado por <a href="https://www.nber.org/papers/w4483">Card (1995)</a> para mostrar que los rendimientos a la educación están subestimados por un estimador de MCO. Card muestra que al usar variables instrumentales, el efecto estimado es de 25 a 60% más grande.</em></p>
+<p><em>No hay una respuesta correcta o incorrecta. Quiero leer sus argumentos.</em></p></li>
+<li><p>[4 puntos] Estime la relación entre el logaritmo del salario y la educación usando la variable dicotómica de acceso a una universidad, <strong>nearc4</strong>, como instrumento. Emplee las mismas variables de control que en el modelo de MCO.</p>
+<pre class="r"><code>reg5d &lt;- ivreg(lwage ~ educ + exper + expersq + black + south + smsa + reg661 + reg662 +
+    reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66 | nearc4 + exper +
+    expersq + black + south + smsa + reg661 + reg662 + reg663 + reg664 + reg665 +
+    reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+summary(reg5d)
+## 
+## Call:
+## ivreg(formula = lwage ~ educ + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66 | nearc4 + exper + expersq + black + 
+##     south + smsa + reg661 + reg662 + reg663 + reg664 + reg665 + 
+##     reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.83164 -0.24075  0.02428  0.25208  1.42760 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  3.7739651  0.9349470   4.037 5.56e-05 ***
+## educ         0.1315038  0.0549637   2.393  0.01679 *  
+## exper        0.1082711  0.0236586   4.576 4.92e-06 ***
+## expersq     -0.0023349  0.0003335  -7.001 3.12e-12 ***
+## black       -0.1467757  0.0538999  -2.723  0.00650 ** 
+## south       -0.1446715  0.0272846  -5.302 1.23e-07 ***
+## smsa         0.1118083  0.0316620   3.531  0.00042 ***
+## reg661      -0.1078142  0.0418137  -2.578  0.00997 ** 
+## reg662      -0.0070464  0.0329073  -0.214  0.83046    
+## reg663       0.0404446  0.0317806   1.273  0.20325    
+## reg664      -0.0579171  0.0376059  -1.540  0.12364    
+## reg665       0.0384577  0.0469387   0.819  0.41267    
+## reg666       0.0550887  0.0526597   1.046  0.29559    
+## reg667       0.0267580  0.0488287   0.548  0.58373    
+## reg668      -0.1908912  0.0507113  -3.764  0.00017 ***
+## smsa66       0.0185311  0.0216086   0.858  0.39119    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3883 on 2994 degrees of freedom
+## Multiple R-Squared: 0.2382,  Adjusted R-squared: 0.2343 
+## Wald test: 51.01 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre></li>
+<li><p>[2 puntos] Interprete la primera etapa en términos del coeficiente sobre el instrumento y la magnitud y significancia del estadístico <span class="math inline">\(F\)</span>.</p>
+<p><em>En la primera etapa, haber vivido cerca de una universidad incrementa en 0.32 los años de escolaridad acumulados. Este efecto estadísticamente significativo al 1%. El estadístico F es de una magnitud muy por encima de 10, la regla de dedo comúnmente empleada para juzgar la presencia de instrumentos débiles.</em></p>
+<pre class="r"><code>reg5e &lt;- lm(educ ~ nearc4 + exper + expersq + black + south + smsa + reg661 + reg662 +
+    reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+summary(reg5e)
+## 
+## Call:
+## lm(formula = educ ~ nearc4 + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66, data = data.ingresos)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -7.545 -1.370 -0.091  1.278  6.239 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 16.8485239  0.2111222  79.805  &lt; 2e-16 ***
+## nearc4       0.3198989  0.0878638   3.641 0.000276 ***
+## exper       -0.4125334  0.0336996 -12.241  &lt; 2e-16 ***
+## expersq      0.0008686  0.0016504   0.526 0.598728    
+## black       -0.9355287  0.0937348  -9.981  &lt; 2e-16 ***
+## south       -0.0516126  0.1354284  -0.381 0.703152    
+## smsa         0.4021825  0.1048112   3.837 0.000127 ***
+## reg661      -0.2102710  0.2024568  -1.039 0.299076    
+## reg662      -0.2889073  0.1473395  -1.961 0.049992 *  
+## reg663      -0.2382099  0.1426357  -1.670 0.095012 .  
+## reg664      -0.0930890  0.1859827  -0.501 0.616742    
+## reg665      -0.4828875  0.1881872  -2.566 0.010336 *  
+## reg666      -0.5130857  0.2096352  -2.448 0.014442 *  
+## reg667      -0.4270887  0.2056208  -2.077 0.037880 *  
+## reg668       0.3136204  0.2416739   1.298 0.194490    
+## smsa66       0.0254805  0.1057692   0.241 0.809644    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.941 on 2994 degrees of freedom
+## Multiple R-squared:  0.4771, Adjusted R-squared:  0.4745 
+## F-statistic: 182.1 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre></li>
+<li><p>[2 puntos] Interprete el coeficiente sobre la variable de educación en la segunda etapa. Compare la magnitud del efecto estimado con el resultado de MCO.</p>
+<p><em>El coeficiente estimado sobre los años de educación indica que un año adicional de escolaridad incrementa en 13.15% el salario. Este efecto es casi el doble del estimado por MCO y estadísticamente significativo al 5%.</em></p>
+<pre class="r"><code>stargazer(reg5a, reg5d, title = &quot;Comparación de estimadores de MCO y VI&quot;, type = &quot;text&quot;,
+    df = FALSE, digits = 4)
+## 
+## Comparación de estimadores de MCO y VI
+## ================================================
+##                         Dependent variable:     
+##                     ----------------------------
+##                                lwage            
+##                          OLS       instrumental 
+##                                      variable   
+##                          (1)            (2)     
+## ------------------------------------------------
+## educ                  0.0747***      0.1315**   
+##                        (0.0035)      (0.0550)   
+##                                                 
+## exper                 0.0848***      0.1083***  
+##                        (0.0066)      (0.0237)   
+##                                                 
+## expersq               -0.0023***    -0.0023***  
+##                        (0.0003)      (0.0003)   
+##                                                 
+## black                 -0.1990***    -0.1468***  
+##                        (0.0182)      (0.0539)   
+##                                                 
+## south                 -0.1480***    -0.1447***  
+##                        (0.0260)      (0.0273)   
+##                                                 
+## smsa                  0.1364***      0.1118***  
+##                        (0.0201)      (0.0317)   
+##                                                 
+## reg661                -0.1186***    -0.1078***  
+##                        (0.0388)      (0.0418)   
+##                                                 
+## reg662                 -0.0222        -0.0070   
+##                        (0.0283)      (0.0329)   
+##                                                 
+## reg663                  0.0260        0.0404    
+##                        (0.0274)      (0.0318)   
+##                                                 
+## reg664                 -0.0635*       -0.0579   
+##                        (0.0357)      (0.0376)   
+##                                                 
+## reg665                  0.0095        0.0385    
+##                        (0.0361)      (0.0469)   
+##                                                 
+## reg666                  0.0219        0.0551    
+##                        (0.0401)      (0.0527)   
+##                                                 
+## reg667                 -0.0006        0.0268    
+##                        (0.0394)      (0.0488)   
+##                                                 
+## reg668                -0.1750***    -0.1909***  
+##                        (0.0463)      (0.0507)   
+##                                                 
+## smsa66                  0.0262        0.0185    
+##                        (0.0194)      (0.0216)   
+##                                                 
+## Constant              4.7394***      3.7740***  
+##                        (0.0715)      (0.9349)   
+##                                                 
+## ------------------------------------------------
+## Observations            3,010          3,010    
+## R2                      0.2998        0.2382    
+## Adjusted R2             0.2963        0.2343    
+## Residual Std. Error     0.3723        0.3883    
+## F Statistic           85.4763***                
+## ================================================
+## Note:                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre></li>
+<li><p>[4 puntos] Realice ahora el siguiente procedimiento. Primero, estime la primera etapa usando una regresión por MCO. Obtenga los valores ajustados de educación y llámelos <strong>educ_hat</strong>. Luego, estime la segunda etapa empleando <strong>educ_hat</strong> como variable independiente, además del resto de variables de control. ¿Cómo cambian sus resultados en comparación con la parte d.?</p>
+<p><em>La magnitud de los coeficientes estimados es la misma. Esto es lo que esperábamos pues sabemos que el estimador de MC2E puede entenderse como un procedimiento donde primero se estiman los valores ajustados de la variable endógena usando el instrumento y las variables de control y luego se usan estos valores ajustados en la ecuación estructural. En cambio, los errores estándar son algo distintos.</em></p>
+<pre class="r"><code>data.ingresos &lt;- data.ingresos %&gt;%
+    mutate(educ_hat = predict(reg5e, .))
+
+reg5g &lt;- lm(lwage ~ educ_hat + exper + expersq + black + south + smsa + reg661 +
+    reg662 + reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+
+# Comparamos
+stargazer(reg5d, reg5g, title = &quot;Comparación de VI con la función ivreg y el estimador a mano&quot;,
+    type = &quot;text&quot;, df = FALSE, digits = 4)
+## 
+## Comparación de VI con la función ivreg y el estimador a mano
+## ================================================
+##                         Dependent variable:     
+##                     ----------------------------
+##                                lwage            
+##                      instrumental       OLS     
+##                        variable                 
+##                           (1)           (2)     
+## ------------------------------------------------
+## educ                   0.1315**                 
+##                        (0.0550)                 
+##                                                 
+## educ_hat                              0.1315**  
+##                                       (0.0565)  
+##                                                 
+## exper                  0.1083***     0.1083***  
+##                        (0.0237)       (0.0243)  
+##                                                 
+## expersq               -0.0023***     -0.0023*** 
+##                        (0.0003)       (0.0003)  
+##                                                 
+## black                 -0.1468***     -0.1468*** 
+##                        (0.0539)       (0.0554)  
+##                                                 
+## south                 -0.1447***     -0.1447*** 
+##                        (0.0273)       (0.0281)  
+##                                                 
+## smsa                   0.1118***     0.1118***  
+##                        (0.0317)       (0.0326)  
+##                                                 
+## reg661                -0.1078***     -0.1078**  
+##                        (0.0418)       (0.0430)  
+##                                                 
+## reg662                  -0.0070       -0.0070   
+##                        (0.0329)       (0.0338)  
+##                                                 
+## reg663                  0.0404         0.0404   
+##                        (0.0318)       (0.0327)  
+##                                                 
+## reg664                  -0.0579       -0.0579   
+##                        (0.0376)       (0.0387)  
+##                                                 
+## reg665                  0.0385         0.0385   
+##                        (0.0469)       (0.0483)  
+##                                                 
+## reg666                  0.0551         0.0551   
+##                        (0.0527)       (0.0541)  
+##                                                 
+## reg667                  0.0268         0.0268   
+##                        (0.0488)       (0.0502)  
+##                                                 
+## reg668                -0.1909***     -0.1909*** 
+##                        (0.0507)       (0.0521)  
+##                                                 
+## smsa66                  0.0185         0.0185   
+##                        (0.0216)       (0.0222)  
+##                                                 
+## Constant               3.7740***     3.7740***  
+##                        (0.9349)       (0.9613)  
+##                                                 
+## ------------------------------------------------
+## Observations             3,010         3,010    
+## R2                      0.2382         0.1947   
+## Adjusted R2             0.2343         0.1907   
+## Residual Std. Error     0.3883         0.3993   
+## F Statistic                          48.2537*** 
+## ================================================
+## Note:                *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01</code></pre></li>
+<li><p>[2 puntos] ¿A qué se deben las discrepancias que encuentra? ¿Cuál de las dos estrategias prefiere para estimar el modelo de variables instrumentales?</p>
+<p><em>Los coeficientes estimados son exactamente iguales, pero los errores estándar no. El problema es que nuestro procedimiento de MC2E a mano no toma en cuenta que en la ecuación estructural estamos usando valores ajustados de la variable endógena. Las funciones en la mayoría de los paquetes utilizados en econometría calculan los errores estándar de manera correcta. Preferimos usar las funciones previamente ya programadas cuando sea posible, aunque este ejercicio nos ayuda a reforzar la intuición del estimador de MC2E.</em></p></li>
+</ol>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Mroz, T. A. (1987). <a href="https://www.jstor.org/stable/1911029?casa_token=Uwxeul7XeBkAAAAA%3AyOzMP-SP9bdQNxw1FwyVjnEJt3w2ShyTtiinMVL6RZnpxKeehfas96e2ETxA6us20xyQG-NUF71svQugl78mx6vG2oJ2k7U39TtJn6P6dq-iTH2aDWsH&amp;seq=1#metadata_info_tab_contents">The sensitivity of an empirical model of married women’s hours of work to economic and statistical assumptions</a>. <em>Econometrica</em>: Journal of the econometric society, 765-799.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

@@ -25,12 +25,15 @@ include-before:
 class: title-slide
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, fig.path = "figures/")
+knitr::opts_chunk$set(echo = FALSE, warning = F, message = F, fig.path = "figures/")
 
 library(tidyverse)
 library(janitor)
 library(sandwich)
 library(modelsummary)
+library(AER)
+library(stargazer)
+library(gmm)
 
 xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 
@@ -187,6 +190,105 @@ $$\hat{V}(\hat{\beta}_{VI})=\sigma ^2\left(X'P_z X\right)^{-1}$$
 - El **estimador de variables instrumentales generalizado** se obtiene cuando asumimos homocedasticidad en el modelo sobreidentificado y lleva el *apellido* generalizado porque es la generalización del estimador IV para el caso sobreidentificado
 
 - El **estimador de variables instrumentales** surge en el modelo exactamente identificado
+
+---
+
+class: inverse, middle, center
+
+# GMM con matrices
+
+---
+
+# GMM con matrices
+
+.pull-left[
+
+- Vale la pena mostrar cómo lucen nuestros estimadores con matrices (y esto los convencerá en el caso de estimadores de casos más particulares)
+
+- Retomemos los datos de Card
+
+- Noten que podemos ahorrar espacio al especificar la segunda parte de la fórumla como
+
+
+.tiny[
+```{r echo=T}
+data.ingresos <- read_csv("./ingresos_iv.csv",
+                          locale = locale(encoding = "latin1"))
+
+iv_ei <- ivreg(lwage ~ educ + exper + expersq + black + south + smsa + reg661 + reg662 + 
+                 reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66 |
+                 . - educ + nearc4, data = data.ingresos)
+```
+]
+]
+
+.tiny[
+.pull-right[
+```{r echo=T}
+stargazer(iv_ei, type="text", keep=c("educ"))
+```
+]
+]
+
+---
+
+# Estimadores con matrices
+
+.tiny[
+.pull-left[
+```{r echo=T}
+data.ingresos <- data.ingresos %>% 
+  mutate(constant=1)
+
+X <- data.matrix(select(data.ingresos, constant, educ, exper, expersq, black,
+                        south, smsa, reg661, reg662, reg663, reg664,
+                        reg665, reg666, reg667, reg668, smsa66),
+                 rownames.force = T)
+
+Y <- data.matrix(select(data.ingresos,lwage),
+                 rownames.force = T)
+
+Z <- data.matrix(select(data.ingresos, constant, nearc4, exper, expersq, black,
+                      south, smsa, reg661, reg662, reg663, reg664,
+                      reg665, reg666, reg667, reg668, smsa66),
+                 rownames.force = T)
+
+
+N <- nrow(X)
+k <- ncol(X) # incluyendo la constante
+
+#Estimamos beta
+b <- solve(t(Z) %*% X) %*% t(Z) %*% Y
+
+#Obtenemos
+b[2,1]
+```
+]
+]
+
+
+
+.tiny[
+.pull-right[
+
+```{r echo=T}
+#La matriz de varianzas, asumiendo homocedasticidad
+u_hat <- Y-X%*%b
+
+sigma2 <- as.numeric((1/N)*t(u_hat)%*%u_hat)
+
+#Matriz de proyección
+P <- Z%*%(solve(t(Z)%*%Z))%*%t(Z)
+
+#Matriz de varianzas (con correción por muestras finitas N/N-k)
+V=sigma2*solve(t(X)%*%P%*%X)* N/(N-k)
+
+#Comparamos el coeficiente y ee de educación con lo obtenido con ivreg
+b[2,1]
+sqrt(diag(V))
+```
+]
+]
 
 ---
 
