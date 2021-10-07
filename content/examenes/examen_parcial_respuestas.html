@@ -1,0 +1,249 @@
+---
+title: "Respuestas al examen parcial"
+summary: " "
+weight: 2
+type: book
+toc: false
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="respuestas" class="section level2">
+<h2>Respuestas</h2>
+</div>
+<div id="pregunta-1" class="section level2">
+<h2>Pregunta 1</h2>
+<p>Considere una variable aleatoria <span class="math inline">\(x\)</span> que se distribuye de acuerdo a la función de densidad gamma, con parámetros <span class="math inline">\(\alpha\)</span> (forma) y <span class="math inline">\(\lambda\)</span> (tasa): <span class="math display">\[ f(x | \alpha, \lambda) = \frac{1}{\Gamma(\alpha)}\lambda^{\alpha}x^{\alpha-1}e^{-\lambda x}\]</span> Se asume <span class="math inline">\(\alpha&gt;0\)</span>, <span class="math inline">\(\lambda&gt;0\)</span> y <span class="math inline">\(x_i&gt;0\)</span>. La función <span class="math inline">\(\Gamma(a)\)</span> se define como <span class="math inline">\(\Gamma(a)=(a-1)!\)</span>, aunque en este problema puede trabajar simplemente dejando la función indicada.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Escriba la log verosimilitud de la observación <span class="math inline">\(i\)</span>.</p>
+<p><em>Simplemente tomamos logaritmos a la densidad: <span class="math display">\[\begin{align}l(x_i | \alpha, \lambda)&amp;=\ln(l(x | \alpha, \lambda))=\ln(\Gamma(\alpha)^{-1})+\alpha\ln(\lambda)+(\alpha-1)\ln(x)-\lambda x \\ &amp;=-\ln(\Gamma(\alpha))+\alpha\ln(\lambda)+(\alpha-1)\ln(x)-\lambda x \end{align}\]</span></em></p></li>
+<li><p>[5 puntos] Escriba la log verosimilitud del problema para la muestra de tamaño <span class="math inline">\(N\)</span>.</p>
+<p><em>Sabemos que <span class="math inline">\(\mathcal{L}(x | \alpha, \lambda)=\sum_i \mathcal{l}(x | \alpha, \lambda)\)</span>. Entonces, debido al supuesto de distribución idéntica:</em> <span class="math display">\[\begin{align}\mathcal{L}(x | \alpha, \lambda)&amp;=\sum_i \left(-\ln(\Gamma(\alpha))+\alpha\ln(\lambda)+(\alpha-1)\ln(x_i)-\lambda x\right) \\ &amp;= n(\alpha\ln(\lambda)-\ln(\Gamma(\alpha)))+(\alpha-1)\sum_i\ln(x_i) - \lambda \sum x_i\end{align}\]</span></p></li>
+<li><p>[5 puntos] Obtenga las condiciones de primer orden para la maximización del problema de log verosimilitud. En el resto del problema, no necesita calcular explícitamente la derivada <span class="math inline">\(\frac{d \ln (\Gamma(\alpha))}{d \alpha}\)</span>, basta con dejarla indicada donde corresponda.</p>
+<p><em>Derivamos con respecto a <span class="math inline">\(\alpha\)</span> y <span class="math inline">\(\lambda\)</span>:</em></p>
+<p><span class="math display">\[\frac{\partial\mathcal{L}}{\partial \alpha} = n\ln(\lambda) -n \frac{d\ln (\Gamma(\alpha))}{d \alpha} + \sum_i \ln(x_i)=0\]</span></p>
+<p><span class="math display">\[\frac{\partial\mathcal{L}}{\partial \lambda} = \frac{n\alpha}{\lambda}-\sum_i x_i = 0\]</span></p></li>
+<li><p>[5 puntos] Usando la condición de primer orden <span class="math inline">\(\frac{\partial\mathcal{L}}{\partial \lambda}=0\)</span> derive una expresión para <span class="math inline">\(\lambda\)</span> en términos de <span class="math inline">\(\alpha\)</span> y las <span class="math inline">\(x_i\)</span>.</p>
+<p><em>Usando la segunda condición, <span class="math inline">\(\sum_i x_i = n\alpha / \lambda\)</span>. Por tanto, <span class="math inline">\(\lambda=\alpha/ \bar{x}\)</span>, donde <span class="math inline">\(\bar{x}\)</span> es la media muestral.</em></p></li>
+<li><p>[5 puntos] Sustituya la expresión anterior para <span class="math inline">\(\lambda\)</span> en términos de <span class="math inline">\(\alpha\)</span> y las <span class="math inline">\(x_i\)</span> en la condición de primer orden <span class="math inline">\(\frac{\partial\mathcal{L}}{\partial \alpha}=0\)</span> y obtenga una expresión que represente el problema de optimización que debe ser solucionado de manera numérica.</p>
+<p><em>Sustituimos <span class="math inline">\(\lambda=\alpha/\)</span> en la primera condición:</em> <span class="math display">\[\begin{align} &amp;n\ln\left(\frac{\alpha}{\bar{x}}\right) -n \frac{d \ln (\Gamma(\alpha))}{d \alpha} + \sum_i \ln(x_i) \\ &amp;=n\left(\ln(\alpha)-\ln(\bar{x}) - \frac{d \ln (\Gamma(\alpha))}{d \alpha} - \bar{\ln(x)}\right) =0\end{align}\]</span> <em>Podemos usar software para encontrar el valor de <span class="math inline">\(\alpha\)</span> que hace que esta condición se cumple y sustituir dicho valor en la expresión para <span class="math inline">\(\lambda\)</span> y obtener así <span class="math inline">\([\hat{\alpha}_{MV},\hat{\lambda}_{MV}]\)</span></em></p></li>
+<li><p>[5 puntos] Obtenga la matriz de información de Fisher.</p>
+<p><em>Basta con obtener la segunda derivada de cada condición y la derivada cruzada:</em>
+<span class="math display">\[\frac{\partial^2\mathcal{L}}{\partial \alpha^2}=-n \frac{d^2 \ln (\Gamma(\alpha))}{d \alpha^2}\]</span></p>
+<p><span class="math display">\[\frac{\partial^2\mathcal{L}}{\partial \lambda^2} = -\frac{n\alpha}{\lambda^2} \]</span></p>
+<p><span class="math display">\[\frac{\partial^2\mathcal{L}}{\partial \alpha \lambda}=\frac{n}{\lambda}\]</span></p>
+<p><em>Y entonces armamos la matriz de información:</em></p>
+<p><span class="math display">\[I(\alpha,\lambda)=n\left(\begin{matrix} \frac{d^2 \ln (\Gamma(\alpha))}{d \alpha^2} &amp; -\frac{1 }{\lambda} \\ -\frac{1 }{\lambda} &amp; \frac{\alpha}{\lambda^2} \end{matrix}\right)\]</span></p></li>
+</ol>
+</div>
+<div id="pregunta-2" class="section level1">
+<h1>Pregunta 2</h1>
+<p>Construya un breve argumento para los siguientes dos puntos, ambos independientes entre sí. Puede auxiliarse o no de ecuaciones, aunque lo más importante son sus argumentos conceptuales. Explique si esta afirmación es cierta o falsa y por qué.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[10 puntos] En un modelo de regresión lineal como sigue: <span class="math display">\[y_i=a + X_i b + e_i\]</span> con <span class="math inline">\(y_i\)</span> continua y <span class="math inline">\(K\)</span> regresores exógenos, es necesario que los errores sean normales e iid para que el estimador de MCO de <span class="math inline">\(b\)</span> sea consistente.</p>
+<p><em>Ninguna de las condiciones es necesaria cuando usamos teoría asintótica. El estimador de MCO puede expresarse como <span class="math inline">\(\hat{b}=b+(\frac{1}{N}X&#39;X)^{-1}(\frac{1}{N}X&#39;e)\)</span>. Por tanto, si podemos aplicar una LGN a <span class="math inline">\((\frac{1}{N}X&#39;X)\)</span> y un TLC a <span class="math inline">\((\frac{1}{N}X&#39;e)\)</span>, el estimador de MCO tendrá una distribución asintótica normal, centrado en <span class="math inline">\(b\)</span> y con una varianza que dependerá de la varianza de los errores, independientemente de cuál sea su distribución.</em></p>
+<p><em>Respecto a la parte ‘idéntica’ en el supuesto de iid, sabemos que podemos construir una matriz robusta a heterocedasticidad para considerar el caso en que la varianza de los errores sea distinta entre las <span class="math inline">\(i\)</span> , conservando la distribución asintótica normal.</em></p>
+<p><em>Hasta aquí lo que hemos visto en el curso y con lo que otorgo crédito completo. Sin embargo, tampoco es necesaria la parte ‘independiente’ en iid. La matriz de varianzas robusta puede incorporar la correlación entre observaciones en sección cruzada y en el tiempo. Esto lo veremos con más detalle cuando hablemos de errores agrupados.</em></p></li>
+<li><p>[10 puntos] Considere el problema de explicar el gasto de los hogares en automóviles usando una serie de características <span class="math inline">\(X_i\)</span>. Muchos hogares tendrán gasto en autmóviles igual a cero. Explique las similitudes y diferencias entre el estimador tobit para muestras censuradas y el estimador de dos etapas de Heckman aplicado a dicho problema.</p>
+<p><em>Tenemos un problema de censura y sabemos que MCO ignora este hecho. Un estimador de tobit o de Heckman sí lo reconocen. El estimador tobit se obtiene al espeficar la verosimilitud del problema, considerando una masa de observaciones agrupadas en gasto igual a cero. El estimador de Heckman en dos etapas toma en cuenta la censura al considerar el problema como uno de variable omitida, donde la variable omitida es la probabilidad de observar un gasto positivo (dada por el inverso de la razón de Mills). Ambos estimadores se basan en modelos que asumen errores normales (y heterocedásticos, al menos los vistos en clase).</em></p>
+<p><em>La mayor diferencia es que el estimador de tobit se base en un modelo en que la censura y el gasto observado tiene un mismo proceso generador de datos. En cambio, el modelo de Heckman especifíca explícitamente dos procesos: uno de participación y uno de gasto realizado.</em></p></li>
+</ol>
+</div>
+<div id="pregunta-3" class="section level1">
+<h1>Pregunta 3</h1>
+<p>Considere los datos en el archivo <em>ingresos_iv.csv</em>, usados en la tarea 2. De acuerdo con Card (1995), una variable que indique si los individuos vivían cerca de una universidad cuando eran niños, <strong>nearc4</strong>, puede ser empleada como instrumento de la educación en una regresión de retornos a la educación.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Suponga que, por alguna razón, solo tiene acceso a una variable <strong>nearc2</strong>, que indica si el individuo vivía cerca de una universidad que tiene solo carreras técnicas y/o educación para el trabajo. En Estados Unidos esto se conoce como <em>two-year colllege</em> o universidad de dos años. Estime el mismo modelo de variables instrumentales que en la tarea 2 para explicar el logaritmo del salario (<strong>lwage</strong>) en función de la educación <strong>educ</strong> y los siguientes controles: <strong>exper</strong>, <strong>expersq</strong>, <strong>black</strong>, <strong>south</strong>, <strong>smsa</strong>, <strong>reg661</strong>, <strong>reg662</strong>, <strong>reg663</strong>, <strong>reg664</strong>, <strong>reg665</strong>, <strong>reg666</strong>, <strong>reg667</strong>, <strong>reg668</strong> y <strong>smsa66</strong>, tratando a la educación como endógena, y usando <strong>nearc2</strong> como instrumento.</p>
+<p><em>Estimamos por variables instrumentales</em>:</p>
+<pre class="r"><code>data.ingresos &lt;- read_csv(&quot;./ingresos_iv.csv&quot;, locale = locale(encoding = &quot;latin1&quot;))
+
+mvi &lt;- ivreg(lwage ~ educ + exper + expersq + black + south + smsa + reg661 + reg662 +
+    reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66 | . - educ + nearc2,
+    data = data.ingresos)
+
+summary(mvi)
+## 
+## Call:
+## ivreg(formula = lwage ~ educ + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66 | . - educ + nearc2, data = data.ingresos)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.50710 -0.36384  0.01728  0.37942  2.23377 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.0266119  3.1508774   0.326 0.744585    
+## educ         0.2931745  0.1853824   1.581 0.113879    
+## exper        0.1749737  0.0771122   2.269 0.023334 *  
+## expersq     -0.0024712  0.0005052  -4.891 1.05e-06 ***
+## black        0.0018782  0.1726222   0.011 0.991320    
+## south       -0.1353274  0.0408526  -3.313 0.000935 ***
+## smsa         0.0418697  0.0857703   0.488 0.625472    
+## reg661      -0.0772063  0.0685768  -1.126 0.260324    
+## reg662       0.0360847  0.0654423   0.551 0.581403    
+## reg663       0.0816353  0.0628755   1.298 0.194263    
+## reg664      -0.0420461  0.0571181  -0.736 0.461713    
+## reg665       0.1209929  0.1093310   1.107 0.268528    
+## reg666       0.1494011  0.1240492   1.204 0.228542    
+## reg667       0.1045809  0.1073666   0.974 0.330109    
+## reg668      -0.2360977  0.0873474  -2.703 0.006911 ** 
+## smsa66      -0.0034116  0.0387747  -0.088 0.929894    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5649 on 2994 degrees of freedom
+## Multiple R-Squared: -0.6123, Adjusted R-squared: -0.6204 
+## Wald test: 24.09 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre></li>
+<li><p>[5 puntos] ¿Qué condiciones debe cumplir <strong>nearc2</strong> para ser un instrumento? ¿Cuáles considera que son posibles violaciones a estas condiciones?</p>
+<p><em>Vivir cerca de una universidad de dos años cuando se era niño debe afectar el número de años que los individuos pasan en la escuela (primera etapa) y no pertenecer a la ecuación de salarios (exclusión).</em></p>
+<p><em>No hay una sola respuesta correcta sobre posibles violaciones. Quiero leer sus argumentos.</em></p></li>
+<li><p>[5 puntos] Interprete el coeficiente asociado a la educación en la ecuación estructural.</p>
+<p><em>Un año más de educación incrementa el salario ¡en 29%!. Sin embargo, este efecto no es estimado precisamente. No podemos rechazar la <span class="math inline">\(H0\)</span> de que el efecto sea de hecho cero.</em></p></li>
+<li><p>[5 puntos] Estime la primera etapa e interprete el coeficiente asociado a <strong>nearc2</strong>.</p>
+<p><em>La primera etapa es:</em></p>
+<pre class="r"><code>mpe &lt;- lm(educ ~ nearc2 + exper + expersq + black + south + smsa + reg661 + reg662 +
+    reg663 + reg664 + reg665 + reg666 + reg667 + reg668 + smsa66, data = data.ingresos)
+
+summary(mpe)
+## 
+## Call:
+## lm(formula = educ ~ nearc2 + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66, data = data.ingresos)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -7.5643 -1.3646 -0.0497  1.2619  6.0570 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 16.9192042  0.2130467  79.415  &lt; 2e-16 ***
+## nearc2       0.1216158  0.0775838   1.568  0.11709    
+## exper       -0.4123438  0.0337606 -12.214  &lt; 2e-16 ***
+## expersq      0.0008226  0.0016534   0.498  0.61886    
+## black       -0.9289878  0.0939953  -9.883  &lt; 2e-16 ***
+## south       -0.0482183  0.1357991  -0.355  0.72256    
+## smsa         0.4318610  0.1046669   4.126 3.79e-05 ***
+## reg661      -0.1482565  0.2044250  -0.725  0.46836    
+## reg662      -0.2470842  0.1480136  -1.669  0.09516 .  
+## reg663      -0.2073577  0.1459889  -1.420  0.15561    
+## reg664      -0.0434285  0.1895568  -0.229  0.81880    
+## reg665      -0.4653381  0.1905645  -2.442  0.01467 *  
+## reg666      -0.5727720  0.2092296  -2.738  0.00623 ** 
+## reg667      -0.4324814  0.2078023  -2.081  0.03750 *  
+## reg668       0.3471640  0.2457354   1.413  0.15783    
+## smsa66       0.1108409  0.1027583   1.079  0.28083    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.944 on 2994 degrees of freedom
+## Multiple R-squared:  0.4752, Adjusted R-squared:  0.4726 
+## F-statistic: 180.8 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><em>Los individuos que viven cerca de una universidad de dos años tienen 0.12 años más de educación. Sin embargo, este coeficiente no es estadísticamente significativo con <span class="math inline">\(p=0.11709\)</span>.</em></p></li>
+<li><p>[5 puntos] ¿Qué puede concluir respecto a la validez de la primera etapa?</p>
+<p><em>De la regresión por VI podemos obtener un diagnóstico:</em></p>
+<pre class="r"><code>summary(mvi, diagnostics = TRUE)
+## 
+## Call:
+## ivreg(formula = lwage ~ educ + exper + expersq + black + south + 
+##     smsa + reg661 + reg662 + reg663 + reg664 + reg665 + reg666 + 
+##     reg667 + reg668 + smsa66 | . - educ + nearc2, data = data.ingresos)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -2.50710 -0.36384  0.01728  0.37942  2.23377 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  1.0266119  3.1508774   0.326 0.744585    
+## educ         0.2931745  0.1853824   1.581 0.113879    
+## exper        0.1749737  0.0771122   2.269 0.023334 *  
+## expersq     -0.0024712  0.0005052  -4.891 1.05e-06 ***
+## black        0.0018782  0.1726222   0.011 0.991320    
+## south       -0.1353274  0.0408526  -3.313 0.000935 ***
+## smsa         0.0418697  0.0857703   0.488 0.625472    
+## reg661      -0.0772063  0.0685768  -1.126 0.260324    
+## reg662       0.0360847  0.0654423   0.551 0.581403    
+## reg663       0.0816353  0.0628755   1.298 0.194263    
+## reg664      -0.0420461  0.0571181  -0.736 0.461713    
+## reg665       0.1209929  0.1093310   1.107 0.268528    
+## reg666       0.1494011  0.1240492   1.204 0.228542    
+## reg667       0.1045809  0.1073666   0.974 0.330109    
+## reg668      -0.2360977  0.0873474  -2.703 0.006911 ** 
+## smsa66      -0.0034116  0.0387747  -0.088 0.929894    
+## 
+## Diagnostic tests:
+##                   df1  df2 statistic p-value  
+## Weak instruments    1 2994     2.457  0.1171  
+## Wu-Hausman          1 2993     3.203  0.0736 .
+## Sargan              0   NA        NA      NA  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5649 on 2994 degrees of freedom
+## Multiple R-Squared: -0.6123, Adjusted R-squared: -0.6204 
+## Wald test: 24.09 on 15 and 2994 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p><em>El diagnóstico inclue una prueba de instrumentos débiles. No es posible rechazar la <span class="math inline">\(H0\)</span> de que el instrumento es débil con <span class="math inline">\(p=0.11709\)</span>, la misma probabilidad con la que no rechazamos la <span class="math inline">\(H0\)</span> de que el coeficiente asociado a <strong>nearc2</strong> es cero en la primera etapa. Se concluye que no evidencia que respalde que <strong>nearc2</strong> y <strong>educ</strong> están correlacionadas.</em></p></li>
+<li><p>[5 puntos] ¿Qué concluye respecto a la estrategia alternativa de usar <strong>nearc2</strong> como instrumento de la educación para identificar el efecto causal de la educación sobre los ingresos?</p>
+<p><em>Aún cuando conceptualmente la variable <strong>nearc2</strong> pudiera tener las mismas características que <strong>nearc4</strong> para funcionar como instrumento, empíricamente <strong>nearc2</strong> no funciona. La primera etapa muestra que no existe correlación entre <strong>nearc2</strong> y la variable de educación. Por tanto, no tenemos primera etapa y, como consecuencia, el coeficiente sobre educación en la ecuación estructural no está identificado.</em></p></li>
+</ol>
+</div>
+<div id="pregunta-4" class="section level1">
+<h1>Pregunta 4</h1>
+<p>Considere los mismos datos que en la pregunta 3, pero ahora olvidemos por un rato el problema de identificar el rendimiento de la educación. Considere un modelo de probabilidad no lineal por medio del cual queremos conocer la probabilidad de que un individuo esté en el grupo con un log del salario mayor al 80% de todos los individuos en la muestra (esto es, que pertence al 20% de los individuos con mayor log del salario). Note que esta variable no está en el archivo, debe construirla. Supongamos además que solo se observan las características <strong>black</strong> y <strong>south</strong>, así como un test de habilidad <strong>kww</strong>. Usaremos un modelo logit para estimar esta relación.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Estime el modelo logit de la probabilidad de estar en el grupo del 20% de individuos con mayor log del salario, en función de <strong>black</strong>, <strong>south</strong>, <strong>kww</strong> y una constante.</p>
+<pre class="r"><code>
+a &lt;- quantile(data.ingresos$lwage, 0.8)
+
+data.ingresos &lt;- data.ingresos %&gt;%
+    mutate(top_ingreso = ifelse(lwage &gt; a, 1, 0))
+
+logit &lt;- glm(top_ingreso ~ kww + black + south, data = data.ingresos, family = binomial(link = &quot;logit&quot;))
+
+summary(logit)
+## 
+## Call:
+## glm(formula = top_ingreso ~ kww + black + south, family = binomial(link = &quot;logit&quot;), 
+##     data = data.ingresos)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.4962  -0.7159  -0.4845  -0.2219   2.6984  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -4.488233   0.285392 -15.727  &lt; 2e-16 ***
+## kww          0.093077   0.007288  12.771  &lt; 2e-16 ***
+## black       -0.693214   0.181426  -3.821 0.000133 ***
+## south       -0.480400   0.112075  -4.286 1.82e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2921.6  on 2962  degrees of freedom
+## Residual deviance: 2579.8  on 2959  degrees of freedom
+##   (47 observations deleted due to missingness)
+## AIC: 2587.8
+## 
+## Number of Fisher Scoring iterations: 5</code></pre></li>
+<li><p>[5 puntos] ¿Cómo se interpreta el coeficiente asociado a <strong>kww</strong>?</p>
+<p><em>Un incremento de una unidad en el puntaje del test medido en <strong>kww</strong> incrementa en 0.093 el log de la razón de momios.</em></p></li>
+<li><p>[5 puntos] ¿Cómo cambia el riesgo relativo cuando el test de habilidad <strong>kww</strong> se incrementa en una unidad?</p>
+<p><em>Simplemente calculamos <span class="math inline">\(exp(\hat{\beta}_{kww})\)</span></em>:</p>
+<pre class="r"><code>exp(coef(logit))
+## (Intercept)         kww       black       south 
+##  0.01124049  1.09754576  0.49996666  0.61853581</code></pre></li>
+<li><p>[5 puntos] Explique cómo estimaría el error estándar del cambio en el riesgo relativo cuando <strong>kww</strong> se incrementa en una unidad. No es necesario que realice dicha estimación.</p>
+<p><em>Una foma de hacerlo es usando el método delta. Sabemos la distribución asintótica del vector <span class="math inline">\(\hat{\beta}\)</span> y su matriz de varianzas estimada, <span class="math inline">\(\hat{V}(\hat{\beta})\)</span>. La magnitud del cambio que queremos evaluar está dada por <span class="math inline">\(g(\hat{\beta})=exp(\hat{\beta})\)</span>. Esta nueva variable aleatoria tendrá como varianza <span class="math inline">\(h(\beta)&#39;\hat{V}(\hat{\beta})h(\beta)\)</span>, con <span class="math inline">\(h(\beta)=g&#39;(\beta)\)</span>. La raíz cuadrada de la entrada correspondiente a <strong>kww</strong> en la matriz de varianzas será el error estándar de <span class="math inline">\(exp(\hat{\beta}_{kww})\)</span>.</em></p>
+<p><em>En R, podemos hacer esto fácilmente con la función deltaMethod, aunque esto ya no era necesario en el examen:</em></p>
+<pre class="r"><code>deltaMethod(logit, &quot;exp(kww)&quot;)
+##           Estimate        SE     2.5 % 97.5 %
+## exp(kww) 1.0975458 0.0079992 1.0818676 1.1132</code></pre>
+<p><em>Una forma alternativa de estimar el error estándar es con bootstrap, que veremos más adelante en el curso.</em></p></li>
+</ol>
+</div>

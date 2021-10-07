@@ -11,6 +11,8 @@ library(tidyverse)
 library(janitor)
 library(knitr)
 library(kableExtra)
+library(car)
+library(AER)
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
@@ -24,7 +26,7 @@ a. [5 puntos] Escriba la log verosimilitud de la observación $i$.
 
     *Simplemente tomamos logaritmos a la densidad: $$\begin{align}l(x_i | \alpha, \lambda)&=\ln(l(x | \alpha, \lambda))=\ln(\Gamma(\alpha)^{-1})+\alpha\ln(\lambda)+(\alpha-1)\ln(x)-\lambda x \\ &=-\ln(\Gamma(\alpha))+\alpha\ln(\lambda)+(\alpha-1)\ln(x)-\lambda x \end{align}$$*
 
-a. [] Escriba la log verosimilitud del problema para la muestra de tamaño $N$.
+a. [5 puntos] Escriba la log verosimilitud del problema para la muestra de tamaño $N$.
 
     *Sabemos que $\mathcal{L}(x | \alpha, \lambda)=\sum_i \mathcal{l}(x | \alpha, \lambda)$. Entonces, debido al supuesto de distribución idéntica:* $$\begin{align}\mathcal{L}(x | \alpha, \lambda)&=\sum_i \left(-\ln(\Gamma(\alpha))+\alpha\ln(\lambda)+(\alpha-1)\ln(x_i)-\lambda x\right) \\ &= n(\alpha\ln(\lambda)-\ln(\Gamma(\alpha)))+(\alpha-1)\sum_i\ln(x_i) - \lambda \sum x_i\end{align}$$
     
@@ -143,7 +145,7 @@ a. [5 puntos] Estime el modelo logit de la probabilidad de estar en el grupo del
 
     ```{r tidy=TRUE, include=T,echo=T,collapse=TRUE,warning=FALSE, message=FALSE}
 
-a <- quantile(data.ingresos$lwage, .9)
+a <- quantile(data.ingresos$lwage, .8)
     
 data.ingresos <- data.ingresos %>% 
   mutate(top_ingreso = ifelse(lwage > a, 1, 0))
@@ -157,7 +159,7 @@ summary(logit)
 
 a. [5 puntos] ¿Cómo se interpreta el coeficiente asociado a **kww**?
 
-    *Un incremento de una unidad en el puntaje del test medido en **kww** incrementa en 0.1052 el log de la razón de momios.*
+    *Un incremento de una unidad en el puntaje del test medido en **kww** incrementa en 0.093 el log de la razón de momios.*
 
 a. [5 puntos] ¿Cómo cambia el riesgo relativo cuando el test de habilidad **kww** se incrementa en una unidad?
 
