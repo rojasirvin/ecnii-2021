@@ -28,6 +28,6 @@ main:
   - name: Laboratorios
     url: 'https://labecnii.netlify.app/'
     weight: 80
-  - name_ Exámenes
+  - name: Exámenes
     url: '/examenes'
     weight: 90
