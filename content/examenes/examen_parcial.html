@@ -1,0 +1,65 @@
+---
+title: "Examen parcial"
+summary: " "
+weight: 1
+type: book
+toc: false
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div id="instrucciones" class="section level2">
+<h2>Instrucciones</h2>
+<p>El examen debe realizarse de manera individual y debe entregarse a más tardar las 13:35 am. en Teams. Solo en las preguntas 3 y 4 es necesario usar R o el software de su elección. Puede compactar su notación para ahorrar tiempo. Por ejemplo, puede escribir <span class="math inline">\(y_i\)</span> simplemente como <span class="math inline">\(y\)</span> y en vez de <span class="math inline">\(\beta_1\)</span> puede escribir simplemente <span class="math inline">\(b1\)</span>. Por favor, <strong>no comprima los archivos</strong> en carpetas comprimidas. Al igual que las tareas, el examen debe contener:</p>
+<p>Un primer documento de respuestas donde se incluyan las respuestas a las preguntas teóricas y conceptuales. Este documento puede ser redactado en Word o cualquier otro software, o si lo prefiere, a mano, pero deberá estar impreso en .pdf. En este documento también se deben incluir las respuestas a preguntas sobre conclusiones que se desprenden de las secciones prácticas. Por ejemplo, si una pregunta pide obtener la media de la variable x en cierta base de datos, entonces el documento de respuestas debe incluir la pregunta y respuesta correspondiente: “la media de la variable x es 32.6”.</p>
+<p>Un segundo archivo deberá contener el código replicable usado para generar los resultados de la sección práctica. Los archivos de código se verificarán para comprobar su replicabilidad.</p>
+<p>Recuerde que en Teams debe asegurarse de que los archivos se han subido correctamente.</p>
+<p><strong>Al realizar este examen usted se compromete a no recibir ayuda de ninguna otra persona, por ningún medio. Ante la situación especial en que vivimos, entiendo que debemos ser flexibles en la forma en que esperamos que los alumnos aprendan y cómo tratamos de monitorear dicho aprendizaje. Al mismo tiempo, apelo a su madurez y honestidad intelectual. Recuerde que se aplicarán estrictamente los lineamientos generales del CIDE en términos de plagio y fraude.</strong></p>
+</div>
+<div id="archivos" class="section level2">
+<h2>Archivos</h2>
+<p><a href="/examenes/ingresos_iv.csv">ingresos_iv.csv</a></p>
+</div>
+<div id="pregunta-1" class="section level2">
+<h2>Pregunta 1</h2>
+<p>Considere una variable aleatoria <span class="math inline">\(x\)</span> que se distribuye de acuerdo a la función de densidad gamma, con parámetros <span class="math inline">\(\alpha\)</span> (forma) y <span class="math inline">\(\lambda\)</span> (tasa): <span class="math display">\[ f(x | \alpha, \lambda) = \frac{1}{\Gamma(\alpha)}\lambda^{\alpha}x^{\alpha-1}e^{-\lambda x}\]</span> Se asume <span class="math inline">\(\alpha&gt;0\)</span>, <span class="math inline">\(\lambda&gt;0\)</span> y <span class="math inline">\(x_i&gt;0\)</span>. La función <span class="math inline">\(\Gamma(a)\)</span> se define como <span class="math inline">\(\Gamma(a)=(a-1)!\)</span>, aunque en este problema puede trabajar simplemente dejando la función indicada.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Escriba la log verosimilitud de la observación <span class="math inline">\(i\)</span>.</p></li>
+<li><p>[5 puntos] Escriba la log verosimilitud del problema para la muestra de tamaño <span class="math inline">\(N\)</span>.</p></li>
+<li><p>[5 puntos] Obtenga las condiciones de primer orden para la maximización del problema de log verosimilitud. En el resto del problema, no necesita calcular explícitamente la derivada <span class="math inline">\(\frac{d \ln (\Gamma(\alpha))}{d \alpha}\)</span>, basta con dejarla indicada donde corresponda.</p></li>
+<li><p>[5 puntos] Usando la condición de primer orden <span class="math inline">\(\frac{\partial\mathcal{L}}{\partial \lambda}=0\)</span> derive una expresión para <span class="math inline">\(\lambda\)</span> en términos de <span class="math inline">\(\alpha\)</span> y las <span class="math inline">\(x_i\)</span>.</p></li>
+<li><p>[5 puntos] Sustituya la expresión anterior para <span class="math inline">\(\lambda\)</span> en términos de <span class="math inline">\(\alpha\)</span> y las <span class="math inline">\(x_i\)</span> en la condición de primer orden <span class="math inline">\(\frac{\partial\mathcal{L}}{\partial \alpha}=0\)</span> y obtenga una expresión que represente el problema de optimización que debe ser solucionado de manera numérica.</p></li>
+<li><p>[5 puntos] Obtenga la matriz de información de Fisher.</p></li>
+</ol>
+</div>
+<div id="pregunta-2" class="section level1">
+<h1>Pregunta 2</h1>
+<p>Construya un breve argumento para los siguientes dos puntos, ambos independientes entre sí. Puede auxiliarse o no de ecuaciones, aunque lo más importante son sus argumentos conceptuales.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[10 puntos] En un modelo de regresión lineal como sigue: <span class="math display">\[y_i=a + X_i b + e_i\]</span> con <span class="math inline">\(y_i\)</span> continua y <span class="math inline">\(K\)</span> regresores exógenos, es necesario que los errores sean normales e iid para que el estimador de MCO de <span class="math inline">\(b\)</span> sea consistente. Explique si esta afirmación es cierta o falsa y por qué.</p></li>
+<li><p>[10 puntos] Considere el problema de explicar el gasto de los hogares en automóviles usando una serie de características <span class="math inline">\(X_i\)</span>. Muchos hogares tendrán gasto en autmóviles igual a cero. Explique las similitudes y diferencias entre el estimador tobit para muestras censuradas y el estimador de dos etapas de Heckman aplicado a dicho problema.</p></li>
+</ol>
+</div>
+<div id="pregunta-3" class="section level1">
+<h1>Pregunta 3</h1>
+<p>Considere los datos en el archivo <em>ingresos_iv.csv</em>, usados en la tarea 2. De acuerdo con Card (1995), una variable que indique si los individuos vivían cerca de una universidad cuando eran niños, <strong>nearc4</strong>, puede ser empleada como instrumento de la educación en una regresión de retornos a la educación.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Suponga que, por alguna razón, solo tiene acceso a una variable <strong>nearc2</strong>, que indica si el individuo vivía cerca de una universidad que tiene solo carreras técnicas y/o educación para el trabajo. En Estados Unidos esto se conoce como <em>two-year colllege</em> o universidad de dos años. Estime el mismo modelo de variables instrumentales que en la tarea 2 para explicar el logaritmo del salario (<strong>lwage</strong>) en función de la educación <strong>educ</strong> y los siguientes controles: <strong>exper</strong>, <strong>expersq</strong>, <strong>black</strong>, <strong>south</strong>, <strong>smsa</strong>, <strong>reg661</strong>, <strong>reg662</strong>, <strong>reg663</strong>, <strong>reg664</strong>, <strong>reg665</strong>, <strong>reg666</strong>, <strong>reg667</strong>, <strong>reg668</strong> y <strong>smsa66</strong>, tratando a la educación como endógena, y usando <strong>nearc2</strong> como instrumento.</p></li>
+<li><p>[5 puntos] ¿Qué condiciones debe cumplir <strong>nearc2</strong> para ser un instrumento? ¿Cuáles considera que son posibles violaciones a estas condiciones?</p></li>
+<li><p>[5 puntos] Interprete el coeficiente asociado a la educación en la ecuación estructural.</p></li>
+<li><p>[5 puntos] Estime la primera etapa e interprete el coeficiente asociado a <strong>nearc2</strong>.</p></li>
+<li><p>[5 puntos] ¿Qué puede concluir respecto a la validez de la primera etapa?</p></li>
+<li><p>[5 puntos] ¿Qué concluye respecto a la estrategia alternativa de usar <strong>nearc2</strong> como instrumento de la educación para identificar el efecto causal de la educación sobre los ingresos?</p></li>
+</ol>
+</div>
+<div id="pregunta-4" class="section level1">
+<h1>Pregunta 4</h1>
+<p>Considere los mismos datos que en la pregunta 3, pero ahora olvidemos por un rato el problema de identificar el rendimiento de la educación. Considere un modelo de probabilidad no lineal por medio del cual queremos conocer la probabilidad de que un individuo esté en el grupo con un log del salario mayor al 80% de todos los individuos en la muestra (esto es, que pertence al 20% de los individuos con mayor log del salario). Note que esta variable no está en el archivo, debe construirla. Supongamos además que solo se observan las características <strong>black</strong> y <strong>south</strong>, así como un test de habilidad <strong>kww</strong>. Usaremos un modelo logit para estimar esta relación.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>[5 puntos] Estime el modelo logit de la probabilidad de estar en el grupo del 20% de individuos con mayor log del salario, en función de <strong>black</strong>, <strong>south</strong>, <strong>kww</strong> y una constante.</p></li>
+<li><p>[5 puntos] ¿Cómo se interpreta el coeficiente asociado a <strong>kww</strong>?</p></li>
+<li><p>[5 puntos] ¿Cómo cambia el riesgo relativo cuando el test de habilidad <strong>kww</strong> se incrementa en una unidad?</p></li>
+<li><p>[5 puntos] Explique cómo estimaría el error estándar del cambio en el riesgo relativo cuando <strong>kww</strong> se incrementa en una unidad. No es necesario que realice dicha estimación.</p></li>
+</ol>
+</div>
