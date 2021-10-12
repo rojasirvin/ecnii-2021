@@ -35,4 +35,8 @@ Clase 12. Aplicaciones de modelos de selección
 
 Clase 14. Aplicaciones de VI
 
-[Clase 15](https://ecnii-2021.netlify.app/clases/clase_15.html#1). Cuestiones prácticas de VI
+[Clase 15](https://ecnii-2021.netlify.app/examenes/examen_parcial/). Examen parcial
+
+[Clase 16](https://ecnii-2021.netlify.app/clases/clase_16.html#1). Cuestiones prácticas de VI
+
+[Clase 17](https://ecnii-2021.netlify.app/clases/clase_17.html#1). Datos en panel

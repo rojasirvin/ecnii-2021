@@ -31,7 +31,7 @@ class: title-slide
 
 
 .title[
-# Clase 15. Cuestiones prácticas de VI
+# Clase 16. Cuestiones prácticas de VI
 ]
 .subtitle[
 ## Econometría II
@@ -149,8 +149,9 @@ $$
 
 - Con heterocedasticidad, tenemos una matriz de varianzas de la forma
 
-`$$\hat{V}(\hat{\beta}_{VI})=N(Z'X)^{−1}\hat{S}(X'Z)^{−1}$$`
-donde `\(\hat{S}=\frac{1}{N}\sum_i\hat{u}_i^2z_iz_i'\)`
+`$$\begin{align}\hat{V}(\hat{\beta}_{VI})&amp;=N(X'Z(Z'Z)^{-1}Z'X)^{-1}(X'Z(Z'Z)^{-1}\hat{S}(Z'Z)^{-1}Z'X)(X'Z(Z'Z)^{-1}Z'X)^{-1}\end{align}$$`
+con `\(\hat{S}=Z'DZ/N\)`, y donde `\(D=diag[\hat{u}_i^2]\)`
+ 
 
 - Y con homocedasticidad, la matriz de varianzas de nuevo es:
 
@@ -303,10 +304,128 @@ sqrt(diag(V))
 ```
 
 ```
-##     constant         educ        exper      expersq        black        south         smsa       reg661       reg662 
-## 0.9349470184 0.0549636727 0.0236585711 0.0003334971 0.0538998589 0.0272846230 0.0316619884 0.0418136788 0.0329072700 
-##       reg663       reg664       reg665       reg666       reg667       reg668       smsa66 
-## 0.0317805627 0.0376058962 0.0469387006 0.0526597344 0.0488287018 0.0507113333 0.0216085890
+##     constant         educ        exper      expersq        black        south 
+## 0.9349470184 0.0549636727 0.0236585711 0.0003334971 0.0538998589 0.0272846230 
+##         smsa       reg661       reg662       reg663       reg664       reg665 
+## 0.0316619884 0.0418136788 0.0329072700 0.0317805627 0.0376058962 0.0469387006 
+##       reg666       reg667       reg668       smsa66 
+## 0.0526597344 0.0488287018 0.0507113333 0.0216085890
+```
+]
+]
+
+
+---
+
+# Caso heterocedástico
+
+.tiny[
+
+```r
+V_ei_r &lt;- vcovHC(iv_ei, type = "HC1")
+se_ei_r &lt;- sqrt(diag(V_ei_r))
+
+#En este caso los errores son más pequeños. Con VI pueden suceder cosas raras
+stargazer(iv_ei, iv_ei,
+          type="text",
+          se = list(NULL, se_ei_r),
+          keep = c("educ"),
+          digits = 4,
+          column.labels = c("VI, hom., ivreg",
+                            "VI, het., ivreg"))
+```
+
+```
+## 
+## ===============================================================
+##                                       Dependent variable:      
+##                                 -------------------------------
+##                                              lwage             
+##                                 VI, hom., ivreg VI, het., ivreg
+##                                       (1)             (2)      
+## ---------------------------------------------------------------
+## educ                               0.1315**        0.1315**    
+##                                    (0.0550)        (0.0541)    
+##                                                                
+## ---------------------------------------------------------------
+## Observations                         3,010           3,010     
+## R2                                  0.2382          0.2382     
+## Adjusted R2                         0.2343          0.2343     
+## Residual Std. Error (df = 2994)     0.3883          0.3883     
+## ===============================================================
+## Note:                               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01
+```
+]
+
+
+---
+
+# Caso heterocedástico con matrices
+
+.pull-left[
+
+- Queremos estimar (ver CT p. 186)
+
+`$$\begin{align}\hat{V}(\hat{\beta})&amp;=N(X'Z(Z'Z)^{-1}Z'X)^{-1}\times \\ &amp;(X'Z(Z'Z)^{-1}\hat{S}(Z'Z)^{-1}Z'X)\times \\ &amp;(X'Z(Z'Z)^{-1}Z'X)^{-1}\end{align}$$`
+con `\(\hat{S}=Z'DZ/N\)`, y donde `\(D=diag[\hat{u}_i^2]\)`
+ 
+.tiny[
+
+```r
+#Para el caso heterocedástico
+D &lt;- diag(as.vector((Y-X%*%b)^2))
+S_hat &lt;- (1/(N-k)) * t(Z) %*% D %*% Z 
+
+#Y la matriz de varianzas
+Vr=N*solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%S_hat%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)%*%solve(t(X)%*%Z%*%solve(t(Z)%*%Z)%*%t(Z)%*%X)
+
+sqrt(diag(Vr))
+```
+
+```
+##     constant         educ        exper      expersq        black        south 
+## 0.9198533499 0.0541436237 0.0234088556 0.0003487609 0.0525019407 0.0291429067 
+##         smsa       reg661       reg662       reg663       reg664       reg665 
+## 0.0311448344 0.0410761277 0.0337893749 0.0326075554 0.0393151889 0.0495995186 
+##       reg666       reg667       reg668       smsa66 
+## 0.0522699617 0.0502403101 0.0508249870 0.0205650764
+```
+]
+]
+
+
+
+.tiny[
+.pull-right[
+
+
+```r
+stargazer(iv_ei,
+          type="text",
+          se = list(se_ei_r),
+          keep = c("educ"),
+          digits = 5,
+          column.labels = c("VI, het., ivreg"))
+```
+
+```
+## 
+## ===============================================
+##                         Dependent variable:    
+##                     ---------------------------
+##                                lwage           
+##                           VI, het., ivreg      
+## -----------------------------------------------
+## educ                         0.13150**         
+##                              (0.05414)         
+##                                                
+## -----------------------------------------------
+## Observations                   3,010           
+## R2                            0.23817          
+## Adjusted R2                   0.23435          
+## Residual Std. Error     0.38833 (df = 2994)    
+## ===============================================
+## Note:               *p&lt;0.1; **p&lt;0.05; ***p&lt;0.01
 ```
 ]
 ]
@@ -337,7 +456,7 @@ $$
 
 - Se rechaza la `\(H_0\)` si `\(H&gt;\chi^2_{\alpha}(q)\)`
 
-- La implementacón es un poco complicada dado que
+- La implementación es un poco complicada dado que
 
 `$$\hat{V}(\tilde{\theta}-\hat{\theta})=\hat{V}(\tilde{\theta})-\hat{V}(\hat{\theta})-2cov(\tilde{\theta},\hat{\theta})$$`
 
@@ -379,7 +498,7 @@ class: inverse, middle, center
 `$$J=\left(\frac{1}{N}\sum_i \hat{h}_i\right)'\hat{S}^{-1}\left(\frac{1}{N}\sum_i \hat{h}_i\right)\stackrel{a}{\sim}\chi^2(r-q)$$`
 - El estadístico `\(J\)` es la función objetivo de MGM evaluada en `\(\hat{\theta}_{MGM}\)`
 
-- Si el estadístico es gran, rechazamos la hipótesis de que las condiciones de momentos poblacionales se cumplen y se concluye que el estimador de MGM es inconsistente
+- Si el estadístico es grande en magnitud, rechazamos la hipótesis de que las condiciones de momentos poblacionales se cumplen y se concluye que el estimador de MGM es inconsistente
 
 ---
 
@@ -390,7 +509,9 @@ class: inverse, middle, center
 `$$J=\hat{u}'Z\hat{S}^{-1}Z'\hat{u}$$`
 donde `\(\hat{u}=y-X'\hat{\beta}_{MGM}\)`
 
-- Si se rechaza `\(H_0\)`, hay evidencia de que los instrumentos `\(z\)` son exógenos (aunque también podría ser que haya una mala especificación del modelo)
+- Si se rechaza `\(H_0\)`, hay evidencia de que los instrumentos `\(z\)` son endógenos (aunque también podría ser que haya una mala especificación del modelo)
+
+- Rechazar la `\(H0\)` indica que debemos replantear el modelo, aunque no nos dice cómo
 
 
 ---
