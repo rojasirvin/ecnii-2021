@@ -510,7 +510,11 @@ $$v_i^*=\begin{cases} 1 \quad\text{con probabilidad 0.5} \\ -1 \quad\text{con pr
 
 # Próxima sesión
 
-- Hablaremos sobre los problemas que surgen cuando probamos múltiples hipótesis y cómo solucionamos estos problemas
+- Estudiaremos algunas extensiones de los métodos de panel
+
+  - Diferencia en diferencias
+  
+  - Panel con endogeneidad (CT, Capítulo 22, secciones 22.1 - 22.5)
 
 ---
 
