@@ -40,3 +40,5 @@ Clase 14. Aplicaciones de VI
 [Clase 16](https://ecnii-2021.netlify.app/clases/clase_16.html#1). Cuestiones prácticas de VI
 
 [Clase 17](https://ecnii-2021.netlify.app/clases/clase_17.html#1). Datos en panel
+
+[Clase 18](https://ecnii-2021.netlify.app/clases/clase_18.html#1). Errores estándar e inferencia
