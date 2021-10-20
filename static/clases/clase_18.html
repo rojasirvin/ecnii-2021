@@ -418,8 +418,7 @@ mean(data.ingresos$lwage)
 
 ```r
 # Una muestra bootstrap
-data.b &lt;- data.ingresos[sample(nrow(data.ingresos), obs, replace = TRUE),
-    ]
+data.b &lt;- data.ingresos[sample(nrow(data.ingresos), obs, replace = TRUE), ]
 
 mean(data.b$lwage)
 ```
@@ -430,8 +429,7 @@ mean(data.b$lwage)
 
 ```r
 # Otra muestra bootstrap
-data.b &lt;- data.ingresos[sample(nrow(data.ingresos), obs, replace = TRUE),
-    ]
+data.b &lt;- data.ingresos[sample(nrow(data.ingresos), obs, replace = TRUE), ]
 
 mean(data.b$lwage)
 ```
