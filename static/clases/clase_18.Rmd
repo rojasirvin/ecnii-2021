@@ -280,7 +280,7 @@ donde $\bar{n}$ es el tamaño promedio del grupo y $\rho_x$ es la correlación i
 
 - Solución paramétrica: calcular directamente el factor de Moulton e inflar los errores de MCO
 
-- Bootstrap por bloques: en vez de hacer muestras bootrstrap remuestreando individuos, se remuestrean grupos
+- Bootstrap por bloques: ver más adelante el concept de bootstrap
 
 - Estimar los errores agrupados (*clustered standard errors*)
 
@@ -444,7 +444,7 @@ mean(data.b$lwage)
 
 - Funciones de estimadores (aunque aquí el método Delta también podría ser usado)
 
-- Datos agrupados con pocos grupos
+- Datos agrupados con pocos grupos (remuestrear grupos en vez de individuos)
 
 - El consejo práctico es usar resultados teóricos cuando se puede (por ejemplo, las matrices robustas descritas antes)
 
@@ -502,9 +502,21 @@ $$v_i^*=\begin{cases} 1 \quad\text{con probabilidad 0.5} \\ -1 \quad\text{con pr
 
 ---
 
-# Otras aplicaciones
+# Jacknife
 
-- Bootstrap jacknife (útil para problemas con errores agrupados y pocos grupos)
+- Formalmente no es un método bootstrap
+
+- Una muestra jacknife es una muestra de tamaño $N-1$ construida a partir de la muestra original donde una observación es eliminada a la vez
+
+- En cada muestra jacknife estimamos el estadístico de interés $\hat{\theta}_{(j)}$ (tendremos $N$ estadísticos)
+
+- El error estándar jacknife será
+
+$$\hat{se}(\hat{\theta})=\left(\frac{N-1}{N}\sum_{j=1}^N\left(\hat{\theta}_{(j)}-\hat{\theta}\right)^2\right)^{1/2}$$
+
+- Funciona bien para *estadísticas suaves* y funciones lineales
+
+- Se puede hacer jacknife por bloques [(Cameron y Miller, 2015)](http://jhr.uwpress.org/content/50/2/317.short?casa_token=LU3qZABduyQAAAAA:ULxVXC96LBZLgeri-TafnH4u4KH-N_FxSQ0Cx2gAED5k1yXSvCs1IgLo4sR-4zyM-Pq8yko57aL8)
 
 ---
 
@@ -512,8 +524,6 @@ $$v_i^*=\begin{cases} 1 \quad\text{con probabilidad 0.5} \\ -1 \quad\text{con pr
 
 - Estudiaremos algunas extensiones de los métodos de panel
 
-  - Diferencia en diferencias
-  
   - Panel con endogeneidad (CT, Capítulo 22, secciones 22.1 - 22.5)
 
 ---
