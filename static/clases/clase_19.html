@@ -131,7 +131,7 @@ donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac
 
 - **Estimador de MGM en dos pasos**: `\(W_N=\hat{S}^{-1}\)`
 
-- Habíamos hablado sobre este procedimiento en la [Sesión 13](https://rojasirvin.github.io/ECNII2020/sesiones/s13/sesion13.html#18), cuando introdujimos MGM
+- Habíamos hablado sobre este procedimiento en la [Clase 13](https://ecnii-2021.netlify.app/clases/clase_13.html#11), cuando hablamos MGM
 
   - En un primer paso se obtiene `\(\beta\)` y se obtiene los residuales `\(\hat{u}_i\)` para calcular `\(\hat{S}=\frac{1}{N}Z_i'\hat{u}_i\hat{u}_i'Z_i\)`
   
@@ -207,7 +207,7 @@ class: inverse, middle, center
 
 `$$y_{it}=\alpha_i+x_{it}'\beta++\varepsilon_{it}$$`
 
-- El error en este caso será `\(\alpha_i+\varepsilon{it}\)` y el estimador de MCO será incosistente porque `\(E(x_{it}(\alpha_i+\varepsilon{it}))\neq 0\)`
+- El error en este caso será `\(\alpha_i+\varepsilon_{it}\)` y el estimador de MCO será incosistente porque `\(E(x_{it}(\alpha_i+\varepsilon{it}))\neq 0\)`
 
 ---
 
@@ -234,7 +234,7 @@ class: inverse, middle, center
 
 - Pero podemos tener más instrumentos usando regresores exógenos en periodos distintos al periodo contemporáno, usando los supuestos de exogeneidad débil o fuerte
 
-- Notemos que en el modelo transformado las correlaciones relevantes son entr `\(Z_{is}\)` y el error transformado `\(\tilde{\varepsilon}_{it}\)`
+- Notemos que en el modelo transformado las correlaciones relevantes son entre `\(Z_{is}\)` y el error transformado `\(\tilde{\varepsilon}_{it}\)`
 
 ---
 
@@ -351,7 +351,7 @@ class: inverse, middle, center
 
 # Fuentes de correlación
 
-- Caso especial de efectos aleatorios: `\(\varepsilon_{it}\sim[0,\sigma^2_{\varepsilon}]\)` y `\(\\alpha_i\sim[0,\sigma^2_{\alpha}]\)`
+- Caso especial de efectos aleatorios: `\(\varepsilon_{it}\sim[0,\sigma^2_{\varepsilon}]\)` y `\(\alpha_i\sim[0,\sigma^2_{\alpha}]\)`
 
 `$$corr(y_{it},y_{it-1})=\gamma+\frac{1-\gamma}{1+\frac{\sigma^2_{\varepsilon}(1-\gamma)}{\sigma^2_{\alpha}(1+\gamma)}}$$`
 --
