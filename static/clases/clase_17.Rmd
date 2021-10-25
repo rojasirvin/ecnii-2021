@@ -94,11 +94,12 @@ donde $\varepsilon_{it}$ es iid sobre $i$ y $t$
 
 - **Exogeneidad fuerte o estricta**: asumimos que el error tiene media cero condicional cuando condicionamos en los valores contemporáneos, pasados y futuros
 
-$$E(\varepsilon_{it}|\alpha_i,x_{i1},\ldots,x{iT})=0,\quad\quad t=1,\ldots,T$$
+$$E(\varepsilon_{it}|\alpha_i,x_{i1},\ldots,x_{iT})=0,\quad\quad t=1,\ldots,T$$
 
---
 
-- La forma en que tratemos a $\alpha$ resultará en los dos tipos de modelos principales que estudiaremos en el curso
+- La exogeneidad fuerte descarta modelos donde $y_{it}$ depende de sus rezagos o donde alguna de las $x_{it}$ es endógena
+
+- La forma en que tratemos a $\alpha$ resultará en los dos tipos de modelos principales de esta clase
 
 
 ---
@@ -109,6 +110,10 @@ $$E(\varepsilon_{it}|\alpha_i,x_{i1},\ldots,x{iT})=0,\quad\quad t=1,\ldots,T$$
 
 - $\alpha_i$ es la heterogeneidad no observada
 
+- Con paneles cortos no podemos estimar de forma consistente las $\alpha_i$
+
+- Recurriremos a métodos para deshacernos de las $\alpha_i$
+
 
 ---
 
@@ -116,13 +121,20 @@ $$E(\varepsilon_{it}|\alpha_i,x_{i1},\ldots,x{iT})=0,\quad\quad t=1,\ldots,T$$
 
 - Por otro lado, si asumimos que la heterogeneidad no observada es una variable aleatoria independiente de $x_{it}$, podemos hacer algunos supuestos sobre su distribución y especificar un modelo de **efectos aleatorios**
 
---
 
 - Suponemos que tanto la heterogeneidad no observada como el error son iid
 
   - $\alpha_i \sim (\alpha,\sigma^2_{\alpha})$
   
   - $\varepsilon_{it} \sim (0,\sigma^2_{\varepsilon})$
+
+- Podemos ver al modelo como una transformación del original con un error compuesto $u_{it}=\alpha_i+\varepsilon_{it}$:
+
+$$y_{it}=x_{it}'\beta+u_{it}$$
+- Podemos mostrar que la correlación de los errores compuestos de dos observaciones en distintos momentos del tiempo es $cor(u_{it},u_{is})=\frac{\sigma_{\alpha}^2}{\sigma_{\alpha}^2+\sigma_{\varepsilon}^2}$
+
+- También se conoce como **modelo equicorrelacionado**
+
 
 ---
 
@@ -157,8 +169,6 @@ $$y_{it}-\bar{y}_{i}=(x_{it}-\bar{x}_i)'\beta+(\varepsilon_{it}-\bar{\varepsilon
 - El estimador within es el estimador de MCO a esta ecuación modificada
 
 - $\hat{\beta}$ es consistente si los $\alpha_i$ son efectos fijos y $\varepsilon_{it}$ es iid
-
---
 
 - Una desventaja del modelo de efectos fijos es que no se pueden identificar el parámetros sobre regresores que son fijos en el tiempo, auque sean observables (sexo, IQ, lugar de nacimiento, raza, entre muchos otros)
 
@@ -221,7 +231,6 @@ $$\hat{\beta}_W=\left(\sum_i\sum_t(x_{it}-\bar{x}_i)(x_{it}-\bar{x}_i)'\right)^{
 
 $$\hat{V}(\hat{\beta}_{W,h})= \sigma^2_{\varepsilon}\left(\sum_i\sum_t (x_{it}-\bar{x}_i)(x_{it}-\bar{x}_i)'\right)^{-1}$$
 donde se puede estimar $\hat{\sigma}^2_{\varepsilon}=\frac{1}{N(T-1)-K}\sum_i\sum_t\hat{\varepsilon}_{it}$
---
 
 - Sin embargo, en panel esto es un supuesto fuerte pues esperamos que, auque las observaciones sean independientes entre individuos, haya correlación serial
 
@@ -243,9 +252,8 @@ class: inverse, middle, center
 
 - Aasumamos que la varianza de los errores es $\Omega\neq\sigma^2I$
 
-- Asumamos que conocemos $\Sigma$, una matriz no singular
+- Asumamos que conocemos $\Omega$, una matriz no singular
 
---
 
 - Si premultiplicamos el modelo lineal por $\Omega^{-1/2}$
 
@@ -264,7 +272,6 @@ $$V(\Omega^{-1/2}u)=E((\Omega^{-1/2}u)(\Omega^{-1/2}u)'|X)=I$$
 - El estimador **mínimos cuadrados generalizados** (MCG) es
 
 $$\hat{\beta}_{MCG}=(X'\Omega^{-1}X)^{-1}X'\Omega^{-1}y$$
---
 
 - En la práctica, no conocemos $\Omega$
 
@@ -291,14 +298,15 @@ donde $w_{it}=[1\;w_{it}]$ y $\delta=[\mu\;\beta']'$
 
 - Asumimos que $\alpha_i$ y $\varepsilon_i$ son iid
 
---
 
 - Podríamos estimar este modelo usando el estimador de MCGF
 
-- Como $\alpha_i$ y $\varepsilon_{it}$ son independientes, la matriz de varianzas es
+- Como $\alpha_i$ y $\varepsilon_{it}$ son independientes, la matriz de varianzas del error compuesto es
 
 $$\Omega=\sigma_{\varepsilon}^2 I_T+\varepsilon_{\alpha}^2ee'$$
 donde $e=(1,1,\ldots,1)'$ es un vector de unos de dimensión $T\times 1$
+
+- Premultiplicamos entonces el modelo con efectos aleatorios para obtener uno que tenga como matriz de varianzas $\sigma^2_{\varepsilon}I_T$, es decir, que sea homocedástico
 
 ---
 
@@ -311,12 +319,11 @@ donde $\nu_{it}=(1-\lambda)\alpha_i+(\varepsilon_{it}-\lambda\bar{\varepsilon}_i
 
 - Esto se logra premultiplicando el modelo $y_{it}=w_{it}'\delta+\alpha_i+\varepsilon_{it}$ por $\Omega^{-1/2}$ y con algo de álgebra
 
---
 
-- Para construir $\lambda$ requerimos estimadores consistentes ára $\sigma^2_{\varepsilon}$ y $\hat{\alpha}^2$
+- Construimos un estimador consistente de $\lambda$ usando estimadores consistentes de $\sigma^2_{\varepsilon}$ y $\hat{\alpha}^2$
 
 
-$$\lambda=1-\frac{\hat{\sigma}_{\varepsilon}}{\sqrt{T\hat{\sigma}_{\alpha}^2+\hat{\sigma}_{\varepsilon}^2}}$$
+$$\hat{\lambda}=1-\frac{\hat{\sigma}_{\varepsilon}}{\sqrt{T\hat{\sigma}_{\alpha}^2+\hat{\sigma}_{\varepsilon}^2}}$$
 - El software estadístico hace estas estimaciones basadas en las ecuaciones 21.48 y 21.49 en CT
 
 ---
@@ -340,20 +347,18 @@ class: inverse, middle, center
 
 # Modelo agrupado o *pooled*
 
-- Si ignoramos la estructura de panel y simplemente estimamos
+- Si asumimos coeficientes constantes, como en sección cruzada
 
 $$y_{it}=\alpha+x_{it}'\beta+u_{it}$$
 tenemos lo que se conoce como modelo pooled o de **coeficientes constantes**
 
-
 - Este modelo no explota la estructura del panel
 
-- El modelo es correcto si los regresores no están correlacionados con el errror (es decir, el modelo **no** es de efectos fijos)
+- El modelo es correcto si los regresores no están correlacionados con el errror
 
 - Podemos estimar consistemente $\beta$ por MCO
 
 - Los errores estándar deben tomar en cuenta la correlación serial
-
 
 - Si estamos dispuestos a asumir un modelo pooled, debemos al menos estimar un modelo de MCO con errores robustos agrupados **a nivel individual**
 
