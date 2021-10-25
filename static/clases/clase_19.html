@@ -50,7 +50,20 @@ class: title-slide
 
 - Abrir la posibilidad a problemas de endogeneidad en panel
 
+- En panel podemos obtener instrumentos *un poco más fácilemente* que en sección cruzada
+
 - Introducir modelos con dependencia temporal (dinámicos)
+
+---
+
+# Hoja de ruta
+
+- Primero, veremos como los métodos de GMM nos sirven para estimar modelos de panel
+
+- Segundo, veremos cómo usar información de otros periodos como instrumentos, aún cuando no tenemos heterogeneidad no observada
+
+- Tercero, regresaremos la heterogeneidad no observada al modelo y aplicaremos lo aprendido en los dos pasos anteriores
+
 
 ---
 
@@ -79,11 +92,17 @@ donde `\(\mathbf{y}_i\)` y `\(\mathbf{u}_i\)` son vectores de `\(T\times 1\)` pa
 
 - Supongamos que existe una matriz de `\(T\times r\)` de instrumentos llamada `\(Z_i\)`, con `\(r\geq K\)` siendo el número de instrumentos
 
-- Supongamos la condición de momentos
+- Tenemos `\(r\)` condiciones de momentos
 `$$E(\mathbf{Z}_i'\mathbf{u}_i)=\mathbf{0}$$`
-- Entonces, podemos plantear un problema de momentos:
+- Entonces, podemos plantear un problema de momentos con la forma cuadrática asociada
 
 `$$Q_N(\beta)=\left(\sum_i\mathbf{Z}_i'\mathbf{u}_i\right)'\mathbf{W}_N\left(\sum_i\mathbf{Z}_i'\mathbf{u}_i\right)$$`
+- La matriz de instrumentos puede incluir valores de los regresores de otros periodos
+
+- Si asumimos `\(E(x_{it}u_{it})=0\)`, lo que llamaremos **exogeneidad contemporánea**, colapsamos a lo visto en la clase 17
+
+- Con exogeneidad contemporánea los regresores son instrumentos de sí mismos: `\(Z_i=X_i\)`
+
 
 ---
 
@@ -92,24 +111,23 @@ donde `\(\mathbf{y}_i\)` y `\(\mathbf{u}_i\)` son vectores de `\(T\times 1\)` pa
 - Y la solución al problema nos da el estimador de panel por MGM
 
 `$$\hat{\beta}_{MGM,Panel}=\left(\left(\sum_i\mathbf{X}_i'\mathbf{Z}_i\right)\mathbf{W}_N\left(\sum_i\mathbf{Z}_i'\mathbf{X}_i\right)\right)^{-1} \left(\sum_i\mathbf{X}_i'\mathbf{Z}_i\right)\mathbf{W}_N\left(\sum_i\mathbf{Z}_i'\mathbf{y}_i\right)$$`
---
 
-- La condición de consistencia es que la condición de momentos se cumpla
+- La condición de consistencia es que las condiciones de momentos se cumplan
 
---
 
 - La varianza del estimador será
 
 `$$\hat{V}(\hat{\beta}_{MGM,Panel})=(X'ZW_NZ'X)^{-1}X'ZW_N(N\hat{S})W_N'Z'X(X'ZW_NZ'X)^{-1}$$`
 
-donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac{1}{N}\sum_iZ_i'u_iu_i'Z_i\)`
+donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac{1}{N}\sum_iZ_i'u_iu_i'Z_i\)` al estilo de White
+
+- Esta matriz provee errores estándar robustos a heterocedasticidad y toman en cuenta la posible correlación serial
+
 ---
 
 # Estimación
 
 - Podemos implementar dos tipos de estimadores, dependiendo de la forma que se le da a `\(W_N\)`
-
---
 
 - **Estimador de mínimos cuadrados en dos etapas** o **estimador de MGM en un paso**: `\(W_N=(Z'Z)^{-1}\)`
   
@@ -135,9 +153,11 @@ donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac
 
   - En un primer paso se obtiene `\(\beta\)` y se obtiene los residuales `\(\hat{u}_i\)` para calcular `\(\hat{S}=\frac{1}{N}Z_i'\hat{u}_i\hat{u}_i'Z_i\)`
   
-  - Obtener `\(\hat{\beta}_{MGMDP}=\left(X'Z\hat{S}^{-1}Z'X\right)^{-1}X'Z\hat{S}^{-1}Z'y\)` y `\(\hat{V}(\hat{\beta}_{MGMDP})=\left(X'Z(N\hat{S})^{-1}Z'X\right)^{-1}\)`
+  - En un segundo paso obtener `\(\hat{\beta}_{MGM,DP}=\left(X'Z\hat{S}^{-1}Z'X\right)^{-1}X'Z\hat{S}^{-1}Z'y\)` y `\(\hat{V}(\hat{\beta}_{MGM,DP})=\left(X'Z(N\hat{S})^{-1}Z'X\right)^{-1}\)`
   
-- Este estimador es el más eficiente
+- En la primera etapa podemos estimar `\(\hat{\beta}_{MC2E}\)`
+  
+- Este estimador es el más eficiente basado en las condiciones de momentos
 
 
 ---
@@ -159,6 +179,8 @@ donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac
 - Recordemos que la condición para identificación es `\(E(Z_i'u_i)=0\)`
 
 - Tendremos más instrumentos entre más supuestos estemos dispuestos a hacer sobre las correlaciones entre `\(u_{it}\)` y `\(z_{is}\)`
+
+- Noten que hablamos de `\(t\)` y `\(s\)`
 
 - A estos supuestos se les llama **supuestos de exogeneidad**
 
@@ -189,7 +211,7 @@ donde, como siempre `\(\hat{S}\)` es un estimador consistente de `\(S=p\lim\frac
 
 # Exogeneidad fuerte
 
-- Podemos usar los valores pasados y futuros como instrumentos al asumir que no están correlacionados con el error contemporáneo
+- Podemos usar los valores pasados y futuros de los regresores para construir la matriz de instrumentos al asumir que no están correlacionados con el error contemporáneo
 
 `$$E(z_{is}u_{is})=0,\quad\quad s,t=1.\ldots,T$$`
 
@@ -205,9 +227,9 @@ class: inverse, middle, center
 
 - Consideremos ahora el modelo con efectos fijos correlacionados y donde algunos regresores son endógenos
 
-`$$y_{it}=\alpha_i+x_{it}'\beta++\varepsilon_{it}$$`
+`$$y_{it}=\alpha_i+x_{it}'\beta+\varepsilon_{it}$$`
 
-- El error en este caso será `\(\alpha_i+\varepsilon_{it}\)` y el estimador de MCO será incosistente porque `\(E(x_{it}(\alpha_i+\varepsilon{it}))\neq 0\)`
+- El error en este caso será `\(\alpha_i+\varepsilon_{it}\)` y el estimador de MCO será incosistente porque `\(E(x_{it}(\alpha_i+\varepsilon_{it}))\neq 0\)`
 
 ---
 
@@ -246,11 +268,11 @@ class: inverse, middle, center
 
 - Supongamos exogeneidad débil, es decir que `\(E(z_{is}\varepsilon_{it})=0\)` para `\(s\leq t\)`
 
-- Por ejemplo, supongamos que `\(E(z_{is}\varepsilon_{it})\neq 0\)` para algunos periodos `\(s&gt;t\)`
+- Esto es, suponemos que `\(E(z_{is}\varepsilon_{it})\neq 0\)` para algunos periodos `\(s&gt;t\)`
 
 - Entonces `\(\bar{\varepsilon}_i\)` incluye valores del error que pueden estar correlaciondos con `\(z_{is}\)`
 
---
+- No se cumple por tanto que `\(E(z_{is}(\varepsilon_{it}-\bar{\varepsilon}_i))=0\)`
 
 - **No** podemos usar usar VI si asumimos exogeneidad débil en el modelo within
 
@@ -268,9 +290,8 @@ class: inverse, middle, center
 
 - Es decir, podemos usar `\(z_{it-1}, z_{it-2},\ldots\)` como instrumentos
 
---
 
-- `\(\beta\)` queda estimado de forma consistente bajo exogeneidad débil
+- `\(\beta\)` puede ser estimado de forma consistente bajo exogeneidad débil
 
 ---
 
@@ -281,9 +302,8 @@ class: inverse, middle, center
 - De manera análoga a como hicimos con el modelo de efectos aleatorios en una sección cruzada, podemos escribir el modelo transformado como
 
 `$$y_{it}-\hat{\lambda}\bar{y}_i=(x_{it}-\hat{\lambda}\bar{x}_i)'\beta+((1-\hat{\lambda})\alpha_i+(\varepsilon_{it}-\bar{\varepsilon}_i))$$`
-- Podemos estimar el modelo usando `\((z_{it}-\hat{\lambda}\bar{z}_i)\)` como instrumentos
 
---
+- Podemos estimar el modelo usando `\((z_{it}-\hat{\lambda}\bar{z}_i)\)` como instrumentos
 
 - Este método solo puede ser usado bajo el supuesto de instrumentos con exogeneidad fuerte
 
@@ -299,13 +319,29 @@ class: inverse, middle, center
 
   - Podemos estimar el modelo transformado asumiendo exogeneidad estricta
   
---
-
+  
 - Si asumimos un modelo de efectos fijos
 
   - Podemos asumir exogeneidad débil y estimar el modelo en diferencias
   
   - Podemos asumir exogeneidad estricta y estimar el modelo within
+
+---
+
+# Consejos prácticos
+
+- Es relativamente fácil extender la forma en que estimamos modelos en panel para incluir instrumentos
+
+- Frecuentemente no se discuten explícitamente los supuestos que se hacen para realizar dichas estimaciones
+
+- Discutan que si usan un modelo within con variables instrumentales están asumiendo exogeneidad estricta
+
+- Consideren funciones para incorporar exogeneidad débil en un modelo de primeras diferencias
+
+- Si su modelo no tiene endogeneidad, consideren explotar funciones y rezagos de los regresores como instrumentos
+
+- Sean críticos de los supuestos de identificación
+
 
 ---
 
@@ -320,7 +356,8 @@ class: inverse, middle, center
 - Modelo con efectos individuales y con el rezago de la variable dependiente como regresor
 
 `$$y_{it}=\gamma y_{it-1}+x_{it}'\beta+\alpha_i+\varepsilon_{it},\quad\quad i=1,\ldots,N,\quad t=1,\ldots,T$$`
-- Se asume independencia sobre `\(i\)`, `\(\gamma&lt;1\)` y errores serialmente no correlacionados
+
+- Se asume independencia sobre `\(i\)`, `\(\gamma&lt;1\)`, efectos fijos y errores serialmente no correlacionados
 
 - Tenemos la complicación de que `\(y_{it-1}\)` está correlacionado con el efecto fijo `\(\alpha_i\)` por lo que estimar por MCO produce estimadores inconsistentes de `\(\gamma\)` y `\(\beta\)`
 
@@ -337,11 +374,7 @@ class: inverse, middle, center
 
 --
 
-- Pero con `\(\alpha_i\)` desconocida, al condicionar en el valor rezagado tenemos:
-
-`$$E(y_{it}|y_{it-1})=\gamma y_{it-1}+E(\alpha_i|y_{it-1})$$`
-
-- Más aún, la correlación es:
+- Con `\(\alpha_i\)` desconocida la correlación entre `\(y_{it}\)` y `\(y_{it-1}\)` es
 
 `$$corr(y_{it},y_{it-1})=corr(\gamma y_{it-1}+\alpha_i+\varepsilon_{it},y_{it-1})$$`
 - Asumiendo que `\(corr(\varepsilon_{it},y_{it-1})=0\)`, la expresión anterior se convierte en
@@ -351,21 +384,33 @@ class: inverse, middle, center
 
 # Fuentes de correlación
 
-- Caso especial de efectos aleatorios: `\(\varepsilon_{it}\sim[0,\sigma^2_{\varepsilon}]\)` y `\(\alpha_i\sim[0,\sigma^2_{\alpha}]\)`
+- Para poder expresar el segundo término explícitamente asumamos: `\(\varepsilon_{it}\sim[0,\sigma^2_{\varepsilon}]\)` y `\(\alpha_i\sim[0,\sigma^2_{\alpha}]\)`
+
+- Y entonces tenemos dos fuentes de correlación
 
 `$$corr(y_{it},y_{it-1})=\gamma+\frac{1-\gamma}{1+\frac{\sigma^2_{\varepsilon}(1-\gamma)}{\sigma^2_{\alpha}(1+\gamma)}}$$`
 --
 
 - **Dependencia de estado verdadera**: la correlación debida al mecanismo de persistencia de `\(y_{it-1}\)` sobre `\(y_{it}\)`
 
-  - Si `\(\alpha_i=0\)`, simplemente `\(corr(y_{it},y_{it-1})=\gamma\)`
+  - Si `\(\alpha_i \approx 0\)`, simplemente `\(corr(y_{it},y_{it-1})\approx\gamma\)`
   
   - Más generalmente, si 
   `\(\sigma^2_{\alpha}\)` es muy pequeña con relación a `\(\sigma^2_{\varepsilon}\)`, entonces el denominador en la fracción es grande y la correlación se acerca a `\(\gamma\)`
 
---
-
 - **Heterogeneidad no observada**: aún cuando `\(\gamma=0\)`, la correlación que se reduce a `\(corr(y_{it},y_{it-1})=\frac{\sigma^2_{\alpha}}{\sigma^2_{\alpha}+\sigma^2_{\varepsilon}}\)`
+
+---
+
+# Fuentes de correlación
+
+- Supongamos que tenemos salarios como variable dependiente y una serie de características que varían en el tiempo como regresores
+
+- Una explicación de dependencia de estado verdadera diría que, incluso aunque controlemos por `\(x_{it}\)`, los salarios dependen de sus valores rezagados
+
+- Una explicación de heterogeneidad no observada sería que, aunque `\(\gamma\approx 0\)`, se omiten factores importantes no observados que hacen que `\(\alpha_i\)` sea muy alta en cada periodo
+
+
 
 
 ---
@@ -375,35 +420,27 @@ class: inverse, middle, center
 - MCO produce estimadores inconsistentes pues `\(y_{it-1}\)` incluido como regresor es
 
 `$$y_{it-1}=\gamma y_{it-2}+\alpha_i+\varepsilon_{it-1}$$`
-es decir, está correlacionado con `\(\alpha_i\)`
 
-
---
+- Pero al hacer MCO, el error es `\(\alpha_i+\varepsilon_{it}\)`, claramente correlacionado con el regresor `\(y_{it-1}\)`
 
 - El estimador within también es inconsistente porque el modelo con desviaciones respecto a la media tiene a `\((y_{it-1}-\bar{y}_{i,-1})\)` como regresor
 
 - Sin embargo, `\(y_{it-1}\)` está correlacionado con `\(\varepsilon_{it-1}\)` y por tanto con `\(\bar{\varepsilon}_i\)`
 
---
-
-- El estimador de efectos aleatorios también es incosistente, como se mostró en el ejemplo con `\(\beta=0\)`
 
 ---
 
 # Estimador de Arellano-Bond
 
-- Consideremos el modelo en primeras diferencias y tres periodos de datos
-
+- Consideremos el modelo en primeras diferencias
 
 `$$y_{it}-y_{it-1}=\gamma(y_{it-1}-y_{it-2})+(x_{it-}-x_{it-1})'\beta+(\varepsilon_{it}-\varepsilon_{it-1}).\quad\quad t=2,\ldots,T$$`
+- MCO sería inconsistente porque el regresor `\((y_{it-1}-y_{it-2})\)` está correlacionado con el error
+
 
 - Noten que `\(y_{it-1}\)` puede usarse como instrumento de `\((y_{it-1}-y_{it-2})\)` pues no está correlacionado con el error transformado
 
---
-
 - El **estimador de Arellano-Bond** propone usar todos los rezagos hasta `\(t\)`
-
-- Las observaciones de los periodos 1 y 2 se pierden
 
 - Para el periodo 3, solo `\(y_{i1}\)` puede usarse como instrumento
 
@@ -420,7 +457,9 @@ es decir, está correlacionado con `\(\alpha_i\)`
 - La matriz de instrumentos tendrá la forma
 
 `$$Z_i=\begin{pmatrix}z_{i3}' &amp;  0 &amp; \cdots &amp; 0 \\0 &amp;  z_{i4}' &amp;&amp; \vdots \\\vdots &amp; &amp; \ddots &amp; 0 \\0 &amp; \cdots &amp; 0 &amp;z_{iT}'\\\end{pmatrix}$$`
-donde `\(z'_{it}=[y_{it-1},y_{it-3},\ldots,y_{i1},x'_{it-1}]\)`
+donde `\(z'_{it}=[y_{it-2},y_{it-3},\ldots,y_{i1}]\)`
+
+- Se puede combinar con las ideas vistas al inicio de la clase y usar también rezagos de las `\(x_{it}\)` como instrumentos
 
 - Y la estimación se realiza con los métodos de MGM vistos anteriormente
 
