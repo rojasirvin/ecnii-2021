@@ -1,0 +1,480 @@
+---
+title: "Modelos no lineales en panel"
+author: "Irvin Rojas"
+institute: "CIDE"
+date: "26 de octubre de 2021"
+mathspec: true
+output:
+  xaringan::moon_reader:
+    seal: false
+    chakra: "https://remarkjs.com/downloads/remark-latest.min.js"
+    lib_dir: libs
+    nature:
+      highlightLines: true
+      countIncrementalSlides: false
+      titleSlideClass: ["middle", "center"]
+      ratio: "16:9"
+      beforeInit: ["https://platform.twitter.com/widgets.js", "libs/cols_macro.js"]
+      navigation:
+      scroll: false
+    css: [default, "libs/cide.css", metropolis-fonts, "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap-grid.min.css", "https://use.fontawesome.com/releases/v5.7.2/css/all.css", "https://cdn.rawgit.com/jpswalsh/academicons/master/css/academicons.min.css"]
+include-before:
+- '\newcommand\myeq{\stackrel{\mathclap{\normalfont\mbox{s}}}{~}}'
+
+---
+class: title-slide
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, fig.path = "figures/")
+
+library(tidyverse)
+library(janitor)
+library(sandwich)
+library(modelsummary)
+#library(nnet)
+#library(mlogit)
+
+xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
+
+```
+
+```{css, echo = FALSE}
+.huge .remark-code { /*Change made here*/
+  font-size: 200% !important;
+}
+.tiny .remark-code { /*Change made here*/
+  font-size: 60% !important;
+}
+
+```
+
+
+.title[
+# Clase 20. Modelos no lineales en panel
+]
+.subtitle[
+## Econometría II
+]
+.author[
+### Irvin Rojas <br> [rojasirvin.com](https://www.rojasirvin.com/) <br> [<i class="fab fa-github"></i>](https://github.com/rojasirvin) [<i class="fab fa-twitter"></i>](https://twitter.com/RojasIrvin) [<i class="ai ai-google-scholar"></i>](https://scholar.google.com/citations?user=FUwdSTMAAAAJ&hl=en)
+]
+
+.affiliation[
+### Centro de Investigación y Docencia Económicas <br> División de Economía
+]
+
+---
+
+# Agenda
+
+- Abrir la posibilidad a modelos no lineales con datos en panel
+
+- Explorar las formas generales de solución
+
+- Analizar casos específicos con solucones específicas
+
+---
+
+class: inverse, middle, center
+
+# ¿Qué modelamos?
+
+---
+
+# ¿Qué modelamos?
+
+- Vale la pena hacer explícito algo que hasta ahora hemos hecho pero no le hemos puesto nombre
+
+--
+
+- Algunas veces hemos modelado de forma completamente parámetrica a los procesos especificando una densidad condicional
+
+  - Por ejemplo en probit y logit
+
+- Otras veces hemos asumido simplemente la forma funcional de la media condicional
+
+  - Por ejemplo en Poisson
+
+---
+
+# Modelos paramétricos
+
+- Especificamos un model de efectos fijos individuales como
+
+$$f(y_{it}|\alpha_i,x_{it})=f(y_{it},\alpha_i+x'_{it}\beta,\gamma)$$
+
+donde $\gamma$ son los otros parámetros que caracterizan a la distribución, como puede ser la varianza
+
+- Este también es un modelo de *un solo índice*
+
+- Por ahora asumimos independencia entre las $i$ y sobre $t$
+
+---
+
+# Modelos para la media condicional
+
+- Podemos también especificar un modelo para la media condicional con un componente individual no observado
+
+$$E(y_{it}|\alpha_i,x_{it})=g(\alpha_i,x_{it},\beta),\quad\quad i=1,\ldots,N,\quad t=1,\ldots,T$$
+--
+
+- Dependiendo de cómo especificamos $g$ podemos tener
+
+- **Modelo de efectos individuales aditivos**: $g(\alpha_i,x_{it},\beta)=\alpha_i+g(x_{it},\beta)$
+
+- **Modelo de efectos individuales multiplicativo**: $g(\alpha_i,x_{it},\beta)=\alpha_ig(x_{it},\beta)$
+
+- **Modelo de un solo índice**: $g(\alpha_i,x_{it},\beta)=g(\alpha_i+x_{it}'\beta)$
+
+
+---
+
+class: middle, inverse, center
+
+# Modelo de efectos fijos
+
+---
+
+# Modelo de efectos fijos
+
+- Como hemos analizado antes, en un modelo de efectos fijos asumimos que hay efectos individuales $\alpha_i$ potencialmente correlacionados con los regresores $x_{it}$
+
+- Consideremos el caso de un panel corto con $N\to\infty$
+
+  - En este caso, los parámetros $\alpha_i$ son muchos y su estimación depende de $T$ observaciones
+  
+  - Estos parámetros no pueden ser estimados consistentemente
+  
+--
+  
+- A los parámetros como $\alpha_i$ Neyman & Scott (1948) les llaman **parámetros incidentales**, mientras que a $\beta$ y $\gamma$ les llaman **parámetros comunes**
+
+- El **problema de los parámetros incidentales** es que *contaminan* la estimación de los parámetros comunes
+
+  - Esto ocurre aún cuando para estimar los parámetros comunes se usan $NT\to\infty$ observaciones
+
+---
+
+# Modelo de efectos fijos
+
+- En otras palabras, el problema de los parámetros incidentales es que con paneles cortos no podemos estimar consistentemente los parámetros de la siguiente verosimilitud
+
+$$f(y_i|X_i,\alpha_i,\beta.\gamma)=\prod_t f(y_{it}|x_{it},,\alpha_i,\beta,\gamma)$$
+
+
+- Cuando hay parámetros incidentales, buscamos métodos para eliminarlos y estimar consistentemente los parámetros comunes
+
+---
+
+# Verosimilitud condicional
+
+- Una forma de deshacernos de los parámetros incidentales es haciendo uso del siguiente resultado
+
+- Supongamos que $s_i$ es una **estadística suficiente** para $\alpha_i$, entonces 
+
+$$f(y_i|X_i,\alpha_i,\beta.\gamma,s_i)=f(y_i|X_i,\beta,\gamma,s_i)$$
+
+--
+
+- Es decir, al condicionar sobre $s_i$, $\alpha_i$ ya no aparece en la verosimilitud
+
+- Podemos entonces estimar
+
+$$\mathcal{L}^{cond}_N(\beta,\gamma)=\sum_i \ln f(y_i|X_i,\beta,\gamma,s_i)$$
+
+---
+
+# Verosimilitud condicional
+
+
+- Una estadística $t$ es **suficiente** para el parámetro $\theta$ si la distribución de la muestra condicional en $t$ no depende de $\theta$
+
+- En este caso, estamos buscando una estadística suficiente para el parámetro $\alpha_i$ tal que, al condicionar en esta estadística suficiente, la distribución de los datos ya no dependa de $\alpha_i$
+
+- Este enfoque por tanto depende de que exista la estadística suficiente, lo cual no está garantizado para todos los modelos
+
+- Sí existen estadísticas suficientes para la familia lineal exponencial
+
+---
+
+class: middle, inverse, center
+
+# Modelos de efectos aleatorios
+
+---
+
+# Modelos de efectos aleatorios
+
+- Cuando podemos usar modelos de efectos aleatorios, especificamos una distribución para $\alpha_i$
+
+- Se elimina $\alpha_i$ al integrar sobre su distribución
+
+--
+
+- Supongamos que la densidad para la observación $i$ es $f(y_i|X_i,\alpha_i,\beta,\gamma)$
+
+- Supongamos que el efecto aleatorio tiene densidad $\alpha_i\sim g(\alpha_i|\nu)$ que no depende de los regresores
+
+- La **densidad conjunta no condicional** de la observación $i$ será
+
+$$f(y_i|X_i,\beta,\gamma,\nu)=\int\left(\prod^T_{t=1}f(y_it|x_{it},\alpha_i,\beta,\gamma)\right)g(\alpha_i|\nu)d\alpha_i$$
+- $f(y_i|X_i,\beta,\gamma,\nu)$ se obtiene por métodos numéricos o de simulación
+
+- Práctica común: se especifica a $f$ como la función que mejor ajustaría los datos sin efectos individuales y a $g$ como una densidad normal
+
+---
+
+class: inverse, middle, center
+
+# Modelos de variable dependiente binaria
+
+---
+
+# Modelos de variable dependiente binaria
+
+- La extensión a los modelos de sección cruzada que vimos anteriormente es:
+
+$$P(y_{it}=1|x_{it},\beta,\alpha_i)=F(\alpha_i+x'_{it}\beta)$$
+
+- En este caso, la densidad para la observación $i$ es
+
+$$f(y_{i}|X_i,\beta,\alpha_i)=\prod_t F(\alpha_i+x'_{it}\beta)^{y_{it}}(1-F(\alpha_i+x'_{it}\beta))^{1-y_{it}}$$
+
+--
+
+- Veremos que dependiendo de lo que asumamos sobre los errores, podemos usar ciertos modelos específicos
+
+---
+
+# Efectos aleatorios con variable dependiente binaria
+
+- Si no hay efectos fijos, podemos plantear un modelo de variable dependiente binaria con efectos aleatorios normales, $\alpha_i\sim \mathcal{N}(0,\sigma^2_{\alpha})$
+
+- Y planteamos la log verosimilitud
+
+$$\mathcal{L}_N=\sum_i \ln f(y_i|X_i,\beta,\sigma^2_{\alpha})$$
+- La densidad $f(y_i|X_i,\beta,\sigma^2_{\alpha})$ se obtiene integrando $f(y_{it}|X_i,\beta,\alpha_i)$ con respecto a la distribución de $\alpha_i$ 
+
+$$f(y_i|X_i,\beta,\sigma^2_{\alpha})=\int f(y_i|X_i,\beta,\alpha_i) \frac{1}{2\pi\sigma^2_{\alpha}}exp\left(\frac{-\alpha_i}{2\sigma^2_{\alpha}}\right)^2 d\alpha_i$$
+--
+
+- Para estimar los parámetros, elegimos una forma para $F$ (probit o logit)
+
+- $f(y_i|X_i,\beta,\sigma^2_{\alpha})$ se estima numéricamente
+
+---
+
+# Efectos fijos con variable dependiente binaria
+
+- En presencia de efectos fijos, no podemos usar el método de especificar una densidad
+
+- Podemos usar los resultados de la **densidad condicional** para estimar el **logit con efectos fijos** usando los resultados derivados por Chamberlain (1980)
+
+- **No** existe tal cosa como un probit con efectos fijos
+
+---
+
+# Efectos fijos con variable dependiente binaria
+
+- Chamberlain (1980) mostró que una estadística suficiente para $\alpha$ es $c=\sum_t y_t$, es decir, el número de veces que la variable dependiente toma el valor de 1
+
+- Pero hay muchas formas en que la variable dependiente puede tomar el valor $c$
+
+- Definamos el conjunto $B_c=\{d_i | \sum_t d_{it}=\sum_t y_{it}=c \}$ como el conjunto de posibles secuencias de 0s y 1s con las que se puede obtener $c$
+
+  - Por ejempllo, si $T=2$ y $c=1$, el conjunto $B_c$ incluye las secuencias $\{0,1\}$ y $\{1,0\}$
+
+- El resultado clave de Chamberlain (1980) es que al condicionar en $c$, se elimina $\alpha_i$ y se obtiene la densidad
+
+$$f(y_i|\sum_t y_{it}=c,x_i,\beta)=\frac{exp((cx'_{it})\beta)}{\sum_{d\in B_c}exp((\sum_t d_{it}x'_{it})\beta)}$$
+
+
+---
+
+# Resumen para modelos binarios
+
+- Si asumimos efectos aleatorios
+
+  - Podemos asumir una distribución para los efectos individuales y estimar por máxima verosimilitud
+  
+--
+
+- Si asumimos efectos fijos
+
+  - Recurrimos a la verosimilitud condicional
+  
+  - No siempre es posible implementar la verosimilitud condicional
+  
+  - Se puede usar el logit con efectos fijos, pero no el probit
+
+
+---
+
+class: inverse, middle, center
+
+# Modelos censurados
+
+---
+
+# Modelo censurado
+
+- La versión panel para el modelo censurado es
+
+$$y^*_{it}=\alpha_i+x'_{it}\beta+\varepsilon_{it}$$
+con $\varepsilon_{it}\sim\mathcal{N}(0,\sigma^2_{\varepsilon})$
+
+- La densidad para la observación $i$, $y_i=(y_{i1},\ldots,y_{iT})$ es
+
+$$f(y_i|X_i,\alpha_i,\beta,\sigma^2_{\varepsilon})=\prod_T\left(\frac{1}{\sigma_{\varepsilon}}\phi_{it}\right)^{d_{it}}\left(1-\Phi_{it}\right)^{1-d_{it}}$$
+---
+
+# Tobit con efectos aleatorios
+
+- Proponemos una distribución para la heterogeneidad, $\alpha_i\sim\mathcal{N}(0,\sigma^2_{\alpha})$ 
+
+- Maximizamos la log verosimilitud
+
+$$f(y_i|X_i,\beta,\sigma^2_{\varepsilon},\sigma^2_{\alpha})=\int f(y_i|X_i,\alpha_i,\beta,\sigma^2_{\varepsilon}) \frac{1}{\sqrt{2\pi\sigma^2_{\alpha}}}exp\left(\frac{-\alpha_i}{2\sigma^2_{\varepsilon}}\right)^2 d\alpha_i$$
+---
+
+# Tobit con efectos fijos
+
+- Con páneles cortos, maximizar $f(y_i|X_i,\alpha_i,\beta,\sigma^2_{\varepsilon})$ directamente produce estimadores incosnsitentes debido al problema de parámetros incidentales
+
+- Sin embargo, Heckman & MaCurdy usan un Tobit con efectos fijos y argumentan que con $T=8$ la incosnsitencia no es muy severa
+
+---
+
+# Resumen para modelos censurados
+
+- Si asumimos efectos aleatorios, podemos estimar el modelo usando la verosimilitud e integrando sobre la distribución de $\alpha_i$
+
+--
+
+- Si asumimos efectos fijos, en general no podemos estimar consistentemente los parámetros
+
+  - Con páneles *no tan cortos* la inconsistencia puede ser menos severa
+  
+  - Usar con precaución
+  
+---
+
+class: inverse, middle, center
+
+# Modelos de selección
+
+---
+
+# Modelos de selección
+
+- Un modelo de selección en panel presenta efectos individuales en la ecuación de resultados y en la de selección
+
+$$
+\begin{aligned}
+y^*_{it}=\alpha_i+x'_{it}\beta+\varepsilon_{it} \\
+d^*_{it}=\delta_i+z'_{it}\gamma+\nu_{it}
+\end{aligned}
+$$
+- Si asumimos efectos aleatorios, se propone una densidad normal para $\alpha_i$ y otra para $\delta_i$ y se maximiza una log verosimilitud con integral bivariada para permitir la correlación entr $\alpha_i$ y $\delta_i$, y entre $\varepsilon_{it}$ y $\nu_{it}$
+
+- Si se asume un modelo de efectos fijos, en general no se puede estimar la verosimilitud por el problema de los parámetros incidentales
+
+- Verbeek y Nijman (1992) proveen condiciones sobre la selección para que podamos usar efectos fijos
+
+- Estas condiciones son que la selección ocurra con respecto a características fijas en el tiempo, $d_{it}^*=\delta_i$
+
+
+---
+
+class: inverse, middle, center
+
+# Modelos de conteo
+
+---
+
+# Modelos de conteo con efectos aleatorios
+
+- Si asumimos efectos aleatorios, hay una diversidad de modelos que surgen al darle diferentes formas a la distribución de $\alpha_i$
+
+- Por ejemplo, asumir que $\alpha_i$ es $\mathcal{G}(1,1/\eta)$
+
+- Formamos una densidad conjunta (ver ecuación 23.51 en CT)
+
+- Se obtienen CPO
+
+- Podemos estimar $\beta$
+
+---
+
+# Modelos de conteo con efectos fijos
+
+- La log verosimilitud del problema es 
+
+$$\begin{aligned}\mathcal{L}_N(\beta,\alpha)&= \left\{\prod_i \prod_t exp\{-\alpha_i\lambda_{it}\}(\alpha_i \lambda_{it})^{y_{it}}/y_{it}!\right\} \\ &=\sum\left(-\alpha_i\sum_t\lambda_{it}+\ln \alpha_i\sum_t y_{it}+\sum_t \ln \lambda_{it} - \sum_t \ln y_{it}!\right)\end{aligned}$$
+con $\lambda_{it}=exp(x'_{it}\beta)$
+
+- Si maximizamos la log verosimilitud derivando con respecto a $\alpha_i$ obtenemos
+
+$$\hat{\alpha}_i=\sum_t y_{it}/\sum_t \lambda_{it}$$
+---
+
+# Modelos de conteo con efectos fijos
+
+- Al sustituir este resultado de nuevo en la función de log verosimilitud se obtiene una log **versimilitud concentrada**:
+
+$$\mathcal{L}_{N,conc}(\beta)\propto\sum_i\sum_t\left(y_{it}\ln\lambda_{it}-y_{it}\ln\left(\sum \lambda_{is}\right)\right)$$
+- Es decir, con un panel Poisson no existe el problema de los parámetros incidentales
+
+---
+
+# Resumen para modelos de conteo
+
+- Si asumimos efectos aleatorios, es posible asumir una distribución para $\alpha_i$ y estimar $\beta$ con la verosimilitud no condicional
+
+- Si asumimos efectos fijos, a diferencia de otros modelos, no tenemos el problema de parámetros incidentales
+
+---
+
+# Resumen de panel no lineal
+
+- Es un tema complejísimo: deberíamos dedicarle un curso
+
+- Pero la facilidad con que las cosas se pueden estimar en cualquier software hace que la gente estime sin saber qué esta estimando
+
+- Este repaso debe hacernos reflexionar sobre el problema que tenemos a la mano
+
+  - ¿Cuál es el parámetro que quiero conocer?
+  
+  - ¿Por qué no quiero usar un modelo lineal?
+  
+  - ¿Qué supuestos estoy dispuesto a adoptar para estimar el modelo que necesito?
+  
+  - ¿En verdad necesito ese modelo?
+  
+- Cuando presenten su estrategia empírica, deben aclarar todos estos supuestos de identificación
+
+---
+
+# Próxima sesión
+
+- Presentaciones de aplicaciones de panel
+
+  - **Panel**: Kagin, J., Taylor, J. E., & Yúnez-Naude, A. (2016). Inverse productivity or inverse efficiency? Evidence from Mexico. *The Journal of Development Studies*, 52(3), 396-411.
+
+  - **Panel**: Bwalya, S. M. (2006). Foreign direct investment and technology spillovers: Evidence from panel data analysis of manufacturing firms in Zambia. *Journal of development economics*, 81(2), 514-526.
+  
+  - **Panel + VI**: Antman, F. M. (2011). The intergenerational effects of paternal migration on schooling and work: What can we learn from children's time allocations?. *Journal of Development Economics*, 96(2), 200-208.
+
+
+
+---
+
+class: center, middle
+
+Presentación creada usando el paquete [**xaringan**](https://github.com/yihui/xaringan) en R.
+
+El *chakra* viene de [remark.js](https://remarkjs.com), [**knitr**](http://yihui.org/knitr), y [R Markdown](https://rmarkdown.rstudio.com).
+
+Material de clase en versión preliminar.
+
+**No reproducir, no distribuir, no citar.**
