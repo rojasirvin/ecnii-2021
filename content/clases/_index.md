@@ -48,3 +48,5 @@ Clase 14. Aplicaciones de VI
 [Clase 20](https://ecnii-2021.netlify.app/clases/clase_20.html#1). Modelos no lineales en panel
 
 Clase 21. Aplicaciones con datos en panel
+
+[Clase 22](https://ecnii-2021.netlify.app/clases/clase_22.html#1). Modelos de duración
