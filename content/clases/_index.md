@@ -50,3 +50,5 @@ Clase 14. Aplicaciones de VI
 Clase 21. Aplicaciones con datos en panel
 
 [Clase 22](https://ecnii-2021.netlify.app/clases/clase_22.html#1). Modelos de duración
+
+[Clase 23](https://ecnii-2021.netlify.app/clases/clase_23.html#1). Métodos no paramétricos
