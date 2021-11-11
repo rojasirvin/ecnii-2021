@@ -52,3 +52,7 @@ Clase 21. Aplicaciones con datos en panel
 [Clase 22](https://ecnii-2021.netlify.app/clases/clase_22.html#1). Modelos de duración
 
 [Clase 23](https://ecnii-2021.netlify.app/clases/clase_23.html#1). Métodos no paramétricos
+
+[Clase 24](https://ecnii-2021.netlify.app/clases/clase_24.html#1). Regresión cuantil
+
+[Clase 25](https://ecnii-2021.netlify.app/clases/clase_25.html#1). Econometría espacial
