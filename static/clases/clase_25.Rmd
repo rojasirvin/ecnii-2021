@@ -262,10 +262,7 @@ $$
 
 - La estimación se realiza por MV
 
-- Ver detalles en [LeSage & Pace (2009)](https://www.routledge.com/Introduction-to-Spatial-Econometrics/LeSage-Pace/p/book/9781420064247)
-
---
-
+- Ver detalles en [LeSage & Pace (2009)](https://www.routledge.com/Introduction-to-Spatial-Econometrics/LeSage-Pace/p/book/9781420064247) sobre la forma de la log verosimilitud de cada modelo
 
 - Para el modelo SAR, se puede emplear **máxima verosimilitud concentrada**
 
@@ -273,14 +270,14 @@ $$
 
 $$y-\rho^*Wy=X\beta+\varepsilon$$
 
---
-
 - Entonces podríamos estimar $\beta$ como
 
 $$\hat{\beta}=(X'X)^{-1}X'(I-\rho^*W)y$$
 - También podríamos estimar fácilmente $\hat{\sigma}^2$
 
-- La *verosimilitud concentrada* se construye una verosimilitud que contiene $\hat{\beta}$ y $\hat{\sigma}^2$ y que se optimiza solo con respecto a $\rho$
+- La *verosimilitud concentrada* consiste en construir una verosimilitud que contiene formas cerradas de $\hat{\beta}(\rho)$ y $\hat{\sigma}^2(\rho)$ obtenidas de las condiciones de primer orden
+
+- Se optimiza la verosimilitud concentrada solo con respecto a $\rho$
 
 ---
 
@@ -294,14 +291,11 @@ $$I=\frac{N}{\Omega}\frac{\sum_i\sum_j w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_i(
 
 donde $\Omega$ es la suma de todos los $w_{ij}$
 
---
 
 - La $H_0$ es que $x$ se distribuye de manera aleatoria en el espacio
 
 
 - Si el valor $p$ asociado es menor que cierto $\alpha$, rechazamos $H_0$ y se concluye que debemos tomar en cuenta los efectos espaciales
-
---
 
 - Noten que el estadístico $I$ depende de forma crucial de la especificación de $W$
 
@@ -339,7 +333,7 @@ y_n
 \end{pmatrix}=\sum_{r=1}^k \begin{pmatrix} S_r(W)_{11} & S_r(W)_{12} & \ldots & S_r(W)_{1n} \\
 S_r(W)_{21} & S_r(W)_{22} &  & \\ \vdots & \vdots & \ddots & \\
 S_r(W)_{n1} & S_r(W)_{n2} & \ldots & S_r(W)_{nn} \end{pmatrix}
-\begin{pmatrix}(x_{1r} \\
+\begin{pmatrix}x_{1r} \\
 x_{2r} \\
 \vdots \\
 x_{nr}
@@ -372,17 +366,17 @@ $$\frac{\partial y_i}{\partial x_{ir}}=S_r(W)_{ii}$$
 
 - Podemos construir medidas que resuman estos efectos
 
---
 
-1. **Impacto directo promedio**: promedio de los efectos que tiene un cambio en el regresor $x_r$ en la unidad $i$, $x_{ir}$ sobre $y_i$, calculado para todos los individuos $i$
+1. **Efecto directo promedio**: efecto del cambio en la variable $r$ del individuo $i$-ésimo sobre $y_i$, promediado sobre los $n$ individuos
 
-1. **Impacto total promedio sobre una observación**: promedio de efectos que produce cambiar $x_r$ en la misma magnitud para todos los $n$ individuos sobre $y_i$
+1. **Efecto promedio total**: definido como **efecto directo promedio** + **efecto promedio indirecto**, puede entenderse cualquiera de estas formas:
 
-1. **Impacto total promedio de una observación**: promedio de los impactos en todas las $y_i$ de un cambio en $x_r$ en la observación $x_j$
+  a. Si todas los individuos cambiaran el regresor $r$, ¿cuál sería el efecto sobre $y$ en el individuo promedio?
+  
+  a. Si el individuo $j$ cambia el regresor $r$, ¿cuál sería el impacto acumulado promedio en los $n$ individuos
+  
+1. **Efecto promedio indicrecto**: definido como **efecto promedio total** - **efecto directo promedio** puede entenderse como el efecto de que todas los individuos cambiaran el regresor $r$ sobre $y_i$ de un individuo en particular
 
---
-
-- Los impactos totales 2. y 3. son numéricamente iguales, pero nos ayudan a interpretar los efectos desde dos puntos de vista
 
 ---
 
