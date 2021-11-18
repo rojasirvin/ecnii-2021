@@ -75,7 +75,7 @@ class: title-slide
 
 `$$y_i=\lambda \sum_{j=1}^n w_{ij} y_j+x_i'\beta+\varepsilon_i$$`
 
-- El peso `\(w_{ij}\)` indica qué tan importante es el el valor de la variable dependiente en otras unidades para la misma variable en `\(i\)`
+- El peso `\(w_{ij}\)` indica qué tan importante es el valor de la variable dependiente en otras unidades para la misma variable en `\(i\)`
 
 --
 
@@ -117,13 +117,12 @@ class: title-slide
 
 $$
 `\begin{aligned}
-E(Y|X)&amp;=(I-\lambda W)X\beta \\
+E(Y|X)&amp;=(I-\lambda W)^{-1}X\beta \\
 &amp;=s_{ii}x_i\beta+\sum_{j=1}^Ns_{ij}x_j\beta
 \end{aligned}`
 $$
 - `\(s_{ij}\)` es el elemento `\((i,j)\)` de `\((I-\lambda W)^{-1}\)`
 
---
 
 - Hay dos fuentes de variación de `\(y_i\)`
 
@@ -162,7 +161,7 @@ y donde lo más común es hacer `\(d_{ij}=1\)`
 `$$\tilde{w}_{ij}=w_{ij}(1/f)$$`
 donde `\(f=min\{\text{suma más grande por filas},\text{suma más grande por columnas}\}\)`
 
-- Espectral:
+- Normalización espectral:
 
 `$$\tilde{w}_{ij}=w_{ij}(1/|V|)$$`
 donde `\(|V|\)` es el módulo del mayor eigenvalor de `\(W\)`
@@ -185,11 +184,10 @@ donde `\(Mu\)` es el rezago espacial de `\(u\)`
 
 - `\(\rho\)` es la correlación espacial de los errores
 
---
 
 - Resolviendo para `\(u\)`
 
-`$$u=(I-\rho M)\varepsilon$$`
+`$$u=(I-\rho M)^{-1}\varepsilon$$`
 - Sustituyendo en la ecuación de `\(y\)` obtenemos un **modelo espacial autorregresivo combinado** (SAC):
 
 `$$y=(I-\lambda W)^{-1}X\beta+(I-\lambda W)^{-1}(I-\rho M)^{-1}\varepsilon$$`
@@ -345,11 +343,11 @@ x_{nr}
 
 1. **Efecto directo promedio**: efecto del cambio en la variable `\(r\)` del individuo `\(i\)`-ésimo sobre `\(y_i\)`, promediado sobre los `\(n\)` individuos
 
-1. **Efecto promedio total**: definido como **efecto directo promedio** + **efecto promedio indirecto**, puede entenderse cualquiera de estas formas:
+1. **Efecto promedio total**: definido como **efecto directo promedio** + **efecto promedio indirecto**, puede entenderse como cualquiera de estas formas:
 
   a. Si todas los individuos cambiaran el regresor `\(r\)`, ¿cuál sería el efecto sobre `\(y\)` en el individuo promedio?
   
-  a. Si el individuo `\(j\)` cambia el regresor `\(r\)`, ¿cuál sería el impacto acumulado promedio en los `\(n\)` individuos
+  a. Si el individuo `\(j\)` cambia el regresor `\(r\)`, ¿cuál sería el impacto acumulado promedio en los `\(n\)` individuos?
   
 1. **Efecto promedio indicrecto**: definido como **efecto promedio total** - **efecto directo promedio** puede entenderse como el efecto de que todas los individuos cambiaran el regresor `\(r\)` sobre `\(y_i\)` de un individuo en particular
 
