@@ -9,7 +9,7 @@ weight: 50
 
 Por favor, seleccione una de las lecturas marcadas con una "+" de la lista de lecturas y envíe un correo al profesor para que se le asigne una fecha de presentación.
 
-| **Autores** | **Tema** | **Presentador** | **Fecha de exposición** |
+| **Autores** | **Tema** | **Presentador o presentadora** | **Fecha de exposición** |
 | --- | --- | --- | --- |
 | Avila-Foucat et al. (2015) | Binaria   | Sofía Huidobro | Martes 21 de septiembre de 2021 |
 | Zou & Luo (2019) | Tobit | Francisco Rodríguez  | Martes 28 de septiembre de 2021 |
