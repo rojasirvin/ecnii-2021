@@ -6,8 +6,6 @@ type: book
 toc: false
 ---
 
-## Instrucciones
-
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(janitor)
