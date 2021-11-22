@@ -26,8 +26,6 @@ Viernes 3 de diciembre a las 20:00.
 
 ## Archivos
 
-## Archivos
-
 [MunichRent.rda](/tareas/tarea_4/MunichRent.rda)
 
 [crimen_nc.csv](/tareas/tarea_4/crimen_nc.csv)
