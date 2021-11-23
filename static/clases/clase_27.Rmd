@@ -122,8 +122,6 @@ $$\Delta y_{it}=y_{it-1}g_{it}=y_{it-1}(G_t+(G_{it}-G_t)+(g_{it}-G_{it}))$$
 
 donde $G_t$ es el promedio nacional de crecimiento a través de los sectores y $G_{it}$ es la tasa de crecimiento nacional promedio para un sector
 
---
-
 - Esta expresión parte el crecimiento de la variable de interés en tres componentes (la terminología en negritas es de McMillen, 2010)
   
   1. El nacional $G_t$ o **participación nacional**
@@ -360,7 +358,7 @@ class: inverse, middle, center
 - Un segundo resultado muestra que el estimador de VI shift-share puede ser escrito como una combinación lineal de los estimadores de VI usando cada share $Z_k$ como instrumento a la vez
 
 $$\hat{\beta}_{SS}=\sum_k\hat{\alpha}_k\hat{\beta}_k$$
-- Cada estimación de un $\hat{\beta}_k$ está sujeta a las mismas condiciones de identificación ($Z_k$ debe ser exógeno y relevante)
+- Cada estimación de un $\hat{\beta}_k$ está sujeta a las mismas condiciones de identificación: $Z_k$ debe ser exógeno y relevante
   
 - Los pesos $\alpha_k$ suman uno y reflejan qué tanto peso tiene el instrumento $k$ en la variación de identificación en el instrumento shift-share
 
