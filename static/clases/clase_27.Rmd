@@ -1,5 +1,5 @@
 ---
-title: "Variables instrumentales shift-share"
+title: "Instrumentos de Bartik"
 author: "Irvin Rojas"
 institute: "CIDE"
 date: "23 de noviembre de 2021"
@@ -55,7 +55,7 @@ xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 
 
 .title[
-# Clase 27. Variables instrumentales shift-share
+# Clase 27. Instrumentos de Bartik
 ]
 .subtitle[
 ## Econometría II
@@ -89,13 +89,13 @@ donde $y_j$ es la tasa de crecimiento de los salarios en la localidad $j$ y $X_j
 
 # Instrumento shift-share
 
-- En su análisis seminal, Bartik definió el instrumento $Z_j$ como
+- Llamamos instrumentos de Bartik o shift-share a un instrumento que tiene la siguiente estructura
 
 $$Z_j=\sum_{i=1}^{I}s_{ij}G_i$$
 
 donde $i$ indexa los sectores de la industria
 
-- $Z_j$ representa, para cada unidad $j$ (ciudad, localidad), el crecimiento del empleo que hubiera ocurrido si cada industria $i$ en $j$ hubiera crecido hubiera crecido al mismo ritmo que su contraparte a nivel nacional
+- $Z_j$ representa, para cada unidad $j$ (ciudad, localidad), el crecimiento del empleo que hubiera ocurrido si cada industria $i$ en $j$ hubiera crecido al mismo ritmo que su contraparte a nivel nacional
 
 - **Share**: $s_{ij}$ es la participación del trabajo empleado en la industria $i$ en el total del trabajo de la región $j$, con  $\sum_{i=1}^I s_{ij}=1$
 
@@ -108,7 +108,9 @@ donde $i$ indexa los sectores de la industria
 
 - El instrumento $Z_j$ representa el nivel de empleo que hubiera ocurrido si cada industria en la región $j$ hubiera crecido a la tasa nacional
 
+- No toda variable construida con esta estructura es un buen instrumento
 
+- El uso de $Z_j$ como instrumento dependerá de cómo podamos argumentar su relevancia y exogeneidad
 
 ---
 
@@ -142,29 +144,21 @@ donde $G_t$ es el promedio nacional de crecimiento a través de los sectores y $
 
 - En su formulación original, Bartik parte del empleo en la industria $i$, la ciudad $j$ en el periodo $t$, $e_{ijt}$
 
-- Definimos el empleo en la industra $i$ a nivel nacional como $E_{it}=\sum_{j=j}^J= e_{ijt}$
+- Definimos el empleo en la industra $i$ a nivel nacional como $E_{it}=\sum_{j=1}^J e_{ijt}$
 
-- El instrumento es
+- La proyección del crecimiento del empleo en la ciudad $j$ es entonces
 
 $$
 \begin{align}
-Z_{jt}&=E_{ij}(G_t+(G_{it}-G_t))   \\ 
-&=\sum_{j=j}^J e_{ijt-1}G_{it}\\
-&=\sum_{j=j}^J e_{ijt-1}\left(\frac{E_{it}-E_{it-1}}{E_{it-1}}\right)
+B_{jt}&=\sum_{i=1}^{I}e_{ijt-1}(G_t+(G_{it}-G_t))   \\ 
+&=\sum_{i=1}^{I}e_{ijt-1}G_{it}\\
+&=\sum_{i=1}^{I}e_{ijt-1}\left(\frac{E_{it}-E_{it-1}}{E_{it-1}}\right)
 \end{align}
 $$
 
----
+- El instrumento original es el cambio absoluto en el empleo en la ciudad $j$ que hubiera ocurrido si todos los $J$ sectores locales hubieran crecido a sus tasas nacionales
 
-# Forma original del instrumento
 
-- El instrumento es el cambio absoluto en el empleo en $j$ que hubiera ocurrido si todos los sectores de la industria en $j$ hubieran crecido a sus tasas nacionales
-
---
-
-- En la aplicación original, Bartik emplea una versión logarítmica
-
-$$\tilde{Z}_{jt}=\ln(e_{jt}+Z_{jt})-\ln e_{jt}$$
 ---
 
 # Forma actual
@@ -173,14 +167,14 @@ $$\tilde{Z}_{jt}=\ln(e_{jt}+Z_{jt})-\ln e_{jt}$$
 
 $$
 \begin{align}
-Z_{jt}=\sum_{j=j}^J \frac{e_{ijt-1}}{e_{jt-1}}\left(\frac{E_{ijt}-E_{ijt-1}}{E_{ijt-1}}\right)
+Z_{jt}=\sum_{i=1}^I \frac{e_{ijt-1}}{e_{jt-1}}\left(\frac{E_{ijt}-E_{ijt-1}}{E_{ijt-1}}\right)
 \end{align}
 $$
-- Aquí $E_{ijt}=\left(\sum_{j=1}^Je_{ijt}\right)-e_{ijt}$
+donde  $E_{ijt}=\left(\sum_{j=1}^Je_{ijt}\right)-e_{ijt}$
 
-- El *share* considera la participación en el total nacional de las industrias de $i$
+- El *share* considera la *participación* en el empleo local de la indusria $i$
 
-- Noten que los *shifts* varían entre $j$ (al estilo *leave-out*) para evitar el hecho de que la ciertas industrias se concentran en algunas cuantas $j$
+- Los *shifts* varían entre $j$ (al estilo *leave-out*) para evitar el hecho de que la ciertas industrias se concentran en algunas cuantas $j$
 
 ---
 
@@ -192,26 +186,29 @@ $$
   
   - Heterogeneidad en los shares locales para que el instrumento fuera relevante
 
-- En estudios más recientes, se reconoce que la identificación puede venir por dos caminos
+- En estudios más recientes ([Goldsmith-Pinkham, Sorkin y Swift (2020)](https://www.aeaweb.org/articles?id=10.1257/aer.20181047); [Borusyak, Hull y Jaravel (2020)](https://www.nber.org/papers/w24997)), se reconoce que la identificación puede venir por dos caminos
 
   - Shifts exógenos con el vector de shares como pesos
   
   - Shares como instrumentos y choques como pesos
 
+
 ---
 
 # Sobre los shifts y los shares
 
-- Alternativas para especificar los choques de demanda
+
+- Algunos autores proponen introducir como choques variables que reflejen mejor cambios en la demanda
+
+- En algunas aplicaciones se propone usar shares basados en empleo, pero shifts basados en
 
   - Salarios
-  
+    
   - Precios al productor
 
-
---
-
 - Alternativas para especificar la exposición a los choques
+
+  - Empleo total
 
   - Empleo que produce exportables
   
@@ -220,18 +217,21 @@ $$
 
 class: inverse, middle, center
 
-# Multiplicadores locales
+# Algunas aplicaciones
 
 
 ---
 
 # Multiplicadores locales
 
-- Moretti (2010) estudia cuánto empleo no comerciable genera el crecimiento del empleo comerciable en una región $i$
+- [Moretti (2010)](https://www.aeaweb.org/articles?id=10.1257/aer.100.2.373) estudia cuánto empleo no comerciable, $NT$, genera el crecimiento del empleo comerciable, $T$, en una región $i$
 
 - Deseamos estimar
 
-$$\Delta E_{it}^{NT}=\alpha + \gamma \Delta E_{it}^T+X_{it}'\beta+\varepsilon_{it}$$
+$$\Delta E_{it}^{NT}=\alpha + \gamma \Delta E_{it}^T+\gamma d_t+\varepsilon_{it}$$
+
+
+- $\Delta E_{it}^{k}$ es el cambio en el log del empleo en la ciudad $i$ y $k=\{T, NT\}$
 
 - MCO produce estimadores inconsistentes por un problema de doble causalidad
 
@@ -243,22 +243,31 @@ $$\Delta E_{it}^{NT}=\alpha + \gamma \Delta E_{it}^T+X_{it}'\beta+\varepsilon_{i
 
 - Moretti propone emplear el siguiente instrumento
 
-$$z_{it}=\sum_j w_{ijt} \Delta E_{jt}^T$$
+$$z_{it}=\sum_j w_{ij} \Delta E_{jt}^T$$
 
 - $\Delta E_{jt}^T$ es el cambio en el empleo en el sector comerciable $j$
 
-- $w_{ijt}$ es la participación del empleo en el sector manufacturero $j$
+- $w_{ij}$ es la participación del empleo en el sector manufacturero $j$ en la ciudad $i$, fijada en el periodo inicial
 
 ---
 
 # Resultados
 
+.pull-left[
 - Se encuentra que cada empleo comerciable genera 1.6 empleos no comerciables
 
 - El efecto es de 2.5 cuando se concentra el análisis en los trabajadores con habilidad alta en el sector manufacturero
 
 - El multiplicador es heterogéneo entre industrias, siendo las de alta tecnología las que generan más empleos no comerciables
 
+- [Una replicación para México](http://ri.ibero.mx/handle/ibero/4803) en el periodo 2000-2010 encuentra un efecto de entre 1.8 y 2.6
+]
+
+.pull-right[
+```{r, out.width="120%",fig.cap='Fuente: Moretti (2010)',fig.align='center'}
+knitr::include_graphics("figures/moretti_multipliers.png")
+```
+]
 
 ---
 
@@ -270,12 +279,18 @@ class: inverse, middle, center
 
 # El síndrome chino
 
-- Autor, Dorn y Hanson (2013) estudian el efecto del crecimiento de las exportaciones provenientes de China en los mercados locales de EUA
+- [Autor, Dorn y Hanson (2013)](https://www.aeaweb.org/articles?id=10.1257/aer.103.6.2121) estudian el efecto del crecimiento de las exportaciones provenientes de China en los mercados locales de EUA (*el síndrome chino*)
 
-- Medida de exposición a la competencia de importaciones chinas
 
-$$\Delta IPW_{uit}=\sum_j \frac{L_{ijt}}{L_{ujt}}\frac{\Delta M_{ucjt}}{L_it}$$
+- Se desea estimar 
 
+$$\Delta L_{it}^m=\gamma_t+\beta_1 \Delta IPW_{uit}+X_{it}'\beta_2+e_it$$
+
+- $\Delta L_{it}^m$ es el cambio en la proporción de empleo manufacturero en la ciudad $i$ entre 1990 y 2007
+
+- $\Delta IPW_{uit}$ es el cambio en la exposición a las importaciones chinas
+
+$$\Delta IPW_{uit}=\sum_j \frac{L_{ijt}}{L_{ujt}}\frac{\Delta M_{ucjt}}{L_{it}}$$
 
 - $L_{ijt}$ es el trabajo en la región $i$ y la industria $j$ en el periodo $t$ y $L_{ujt}$ es el agregado nacional
 
@@ -291,31 +306,34 @@ $$\Delta IPW_{uit}=\sum_j \frac{L_{ijt}}{L_{ujt}}\frac{\Delta M_{ucjt}}{L_it}$$
 
 - MCO subestima el efecto de las importaciones chinas
 
---
-
 - Shift-share: calcular la exposición a importaciones chinas en ocho países industrializados
 
 $$\Delta IPW_{oit}=\sum_j \frac{L_{ijt-1}}{L_{ujt-1}}\frac{\Delta M_{ocjt}}{L_it-1}$$
-- $\Delta M_{ocjt}$ son ahora las importaciones chinas en la industria $j$ en ocho países industrializados
+- $\Delta M_{ocjt}$ son ahora las importaciones chinas en la industria $j$ en ocho países industrializados 
 
-- Los pesos están dados por la estructura del empleo 10 años antes de los cambios analizados
+- Los pesos están dados por la estructura del empleo 10 años antes de los cambios analizados para evitar efectos de anticipación
 
 
 ---
 
 # Resultados
 
-- La especificación econométrica es
+.pull-left[
+- Se encuentra que las importaciones chinas reducen la proporción de en la población en edad de trabajar
 
-$$\Delta L_{it}^m=\alpha_t+\beta_1 \Delta IPW_{uit}+X_{it}'\beta_2+e_{it}$$
+- Si se incrementa en $1,000 USD la exposición a importaciones chinas por trabajador, el empleo manufacturero normalizado por la población en edad de trabajar cae en 0.596 puntos porcentuales
 
-donde $\Delta L_{it}^m$ es el cambio en la proporción de empleo manufacturero en la región $i$ entre 1990 y 2007
+- Se encuentran también efectos negativos en los salarios y los ingresos de los hogares
 
-- El instrumento se construye con el empleo en los ocho países seleccionados en 1980
+- Se encuentra un incremento en las transferencias de programas públicos
 
-- Se encuentra que las importaciones crecientes causan mayor desempleo, reducen los salarios locales y reducen la participación en el mercado de trabajo
+]
 
-
+.pull-right[
+```{r, out.width="120%",fig.cap='Fuente: Moretti (2010)',fig.align='center'}
+knitr::include_graphics("figures/autor_china.png")
+```
+]
 
 ---
 
@@ -333,36 +351,48 @@ class: inverse, middle, center
 
 - Este resultado abre la caja para motivar el uso de shif-share en aplicaciones en las que son los shares los que se argumentan como exógenos
 
+- Que podamos construir una variable shift-share no garantiza que sea un buen instrumento
+
 ---
 
 # Descomposición del instrumento
 
-- Un segundo resultado muestra que el estimador de VI shift-share puede ser escrito como una combinación lineal de los estimadores de VI usando cada share $Z_k$ a como instrumento la vez
+- Un segundo resultado muestra que el estimador de VI shift-share puede ser escrito como una combinación lineal de los estimadores de VI usando cada share $Z_k$ como instrumento a la vez
 
 $$\hat{\beta}_{SS}=\sum_k\hat{\alpha}_k\hat{\beta}_k$$
---
-
-- Cada estimación de un $\hat{\beta}_k$ está sujeta a las mismas condiciones de identificación
-
-  - $Z_k$ debe ser exógeno y relevante
+- Cada estimación de un $\hat{\beta}_k$ está sujeta a las mismas condiciones de identificación ($Z_k$ debe ser exógeno y relevante)
   
-- Los pesos $\alpha_k$ se pueden estimar
+- Los pesos $\alpha_k$ suman uno y reflejan qué tanto peso tiene el instrumento $k$ en la variación de identificación en el instrumento shift-share
 
-- Este resultado nos dice que en una aplicación se debe argumentar sobre la exogeneidad de los shares que reciben más peso pues en ellos recae la identificación
+- En la práctica, solo $k$ son la fuente de variación de la variable shift-share y son sobre las que debe argumentarse su exogeneidad
 
+- Por ejemplo, podemos verificar la correlación entre los shares iniciales que explican la mayoría de la variación del shift-share y variables que pudieran confundir el efecto de la variable endógena de interés
+
+---
+
+# Conclusión
+
+- La identificación usando shift-share es un método usado en muchas aplicaciones
+
+  - Migración
+  - Comercio
+  - Economía laboral
+  
+- La construcción de una variable shift-share casi siempre está garantizada
+
+- Su uso como instrumento debe ser validado por la descripción del diseño
+
+  - Argumentar sobre la exogeneidad de los shares parece ser una de las formas más convicentes de exponer los supuestos de identificación
+  
+- Los resultados más recientes muestran formas aplicadas en que se puede argumentar empíricamente sobre la validez de un instrumento shift-share
 
 ---
 
 # Próxima sesión
 
-- Presentaciones de los últimos tres temas que vimos
+- Hablaremos sobre modelos de pares
 
-  + **Pares**: Carrell, S. E., Malmstrom, F. V., & West, J. E. (2008). Peer effects in academic cheating. *Journal of human resources*, 43(1), 173-207.
-
-  + **Shift share**: Peri, G., & Sparber, C. (2009). Task specialization, immigration, and wages. A*merican Economic Journal: Applied Economics*, 1(3), 135-69.
-
-  + **Espacial**: Li, Y., & Zhu, K. (2017). Spatial dependence and heterogeneity in the location processes of new high‐tech firms in Nanjing, China. *Papers in Regional Science*, 96(3), 519-535.
-
+  - Sacerdote, B. (2011). Peer effects in education: How might they work, how big are they and how much do we know thus far?. In *Handbook of the Economics of Education* (Vol. 3, pp. 249-277). Elsevier.
 ---
 
 class: center, middle

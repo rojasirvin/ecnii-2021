@@ -58,3 +58,5 @@ Clase 21. Aplicaciones con datos en panel
 [Clase 25](https://ecnii-2021.netlify.app/clases/clase_25.html#1). Econometría espacial
 
 Clase 26. Aplicaciones de bootstrap, modelos de sobrevivencia y regresión cuantil
+
+[Clase 27](https://ecnii-2021.netlify.app/clases/clase_27.html#1). Instrumentos de Bartik
