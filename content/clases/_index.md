@@ -60,3 +60,5 @@ Clase 21. Aplicaciones con datos en panel
 Clase 26. Aplicaciones de bootstrap, modelos de sobrevivencia y regresión cuantil
 
 [Clase 27](https://ecnii-2021.netlify.app/clases/clase_27.html#1). Instrumentos de Bartik
+
+[Clase 28](https://ecnii-2021.netlify.app/clases/clase_28.html#1). Modelos de pares
