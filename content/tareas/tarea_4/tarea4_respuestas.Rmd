@@ -18,7 +18,7 @@ library(stargazer)
 xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 ```
 
-#Respuestas
+# Respuestas
 
 # Pregunta 1
 
@@ -30,7 +30,7 @@ load("./MunichRent.rda")
 
 a. [10 puntos] Estime la densidad Kernel de las rentas por metro cuadrado, **rentsqm**, usando un Kernel gaussiano. Use el estimador *plug-in* de Silverman para estimar el ancho de ventana óptimo.
 
-    *Simplemente seguimos el procedimiento que vimos en clase para obtener $h^*$.
+    *Simplemente seguimos el procedimiento que vimos en clase para obtener $h$*.
 
     ```{r eval=T, include=T, echo=T, message=F}
 load("C:/Users/rojas/Dropbox/sitios_git/ECNII2020/tareas/MunichRent.rda")
@@ -235,7 +235,7 @@ a. [5 puntos] Represente nuevamente la función de sobrevivencia no paramétrica
                ylim = c(0.65,1))
     ```
     
-    **Parece ser que los individuos que recibieron ayuda financiera tienen una mayor probabilidad de no volver a ser arrestado (la curva verder está por encima de la roja). Aunque los intervalos de confianza se traslapan.*
+    *Parece ser que los individuos que recibieron ayuda financiera tienen una mayor probabilidad de no volver a ser arrestado (la curva verder está por encima de la roja). Aunque los intervalos de confianza se traslapan.*
 
 a. [10 puntos] Estime ahora un modelo paramátrico de duración asumiendo una distribución Weibull. ¿Cómo cambia la tasa de riesgo cuando la edad se incrementa en un año? Recuerde la expresión para este cambio en el caso Weibull que vimos en la [clase 22](https://ecnii-2021.netlify.app/clases/clase_22.html#24).
 
@@ -269,6 +269,6 @@ a. [10 puntos] Estime ahora un modelo paramátrico de duración asumiendo una di
     
     *Con la conversión, tenemos los efectos estimados con la parametrización vista en clase. Entonces sabemos que:*
     
-    $$\frac{d \lambda(t)}{d\quadedad}=\lambda(t)\beta_{edad}$$
+    $$\frac{d \lambda(t)}{d\enspace edad}=\lambda(t)\beta_{edad}$$
     
     *Es decir, en el modelo Weibull, los coeficientes tienen una interpretación de multiplicador del riesgo. En este caso, un año más de edad reduce el riesgo e incrementa la duración.*
