@@ -18,28 +18,7 @@ library(stargazer)
 xfun::pkg_load2(c('base64enc', 'htmltools', 'mime'))
 ```
 
-## Instrucciones
-  
-Las tareas deben entregarse de manera individual, pero se recomienda ampliamente colaborar en grupos de estudio. Las tareas deberán entregarse en Teams antes de la fecha y hora señalada. No se aceptarán tareas fuera de tiempo. Por favor, **no comprima los archivos** en carpetas comprimidas. Las tareas deberán contener dos archivos:
-
-Un primer documento de respuestas donde se incluyan las respuestas a las preguntas teóricas y conceptuales. Este documento puede ser redactado en Word o cualquier otro software, o si lo prefiere, a mano, pero deberá estar impreso en .pdf. En este documento también se deben incluir las respuestas a preguntas sobre conclusiones que se desprenden de las secciones prácticas. Por ejemplo, si una pregunta pide obtener la media de la variable x en cierta base de datos, entonces el documento de respuestas debe incluir la pregunta y respuesta correspondiente: “la media de la variable x es 32.6”. En este documento también deberán incluirse las tablas y gráficas que se soliciten.
-
-Un segundo archivo deberá contener el código replicable usado para generar los resultados de la sección práctica. El código debe también crear las tablas y gráficas solicitadas. Los archivos de código se verificarán para comprobar su replicabilidad.
-
-Recuerde que en Teams debe asegurarse de que los archivos se han subido correctamente.
-
-## Fecha de entrega
-
-Viernes 3 de diciembre a las 20:00.
-
-## Archivos
-
-[MunichRent.rda](/tareas/tarea_4/MunichRent.rda)
-
-[crimen_nc.csv](/tareas/tarea_4/crimen_nc.csv)
-
-[data_rossi.csv](/tareas/tarea_4/data_rossi.csv)
-
+#Respuestas
 
 # Pregunta 1
 
@@ -65,7 +44,7 @@ ajuste <- min(rentsqm.sd,rentsqm.iqr.adj)
 delta <- 0.7764
 h <- constante*delta*ajuste*rentsqm.N^(-0.2) 
 ```
-    *Ahora hacemos el gráfico alimentando el valor de $h$:
+    *Ahora hacemos el gráfico alimentando el valor de $h$:*
     
     ```{r eval=T, include=T, echo=T, message=F}
 MunichRent %>% 
@@ -110,6 +89,7 @@ plot(summary(r.q1_9), parm=c("area","antiguedad"))
 
 ```
 
+    *Los efectos de la antiguedad en la distribución de precios son no lineales. Los efectos en los cuantiles superiores crecen más rápido con la antiguedad. Quizás esto sugiera una preferencia por edificios viejos. La regresión cuantil sí fue útil para revelar esta característica.*
 
 # Pregunta 2
 
@@ -190,11 +170,15 @@ stargazer(cr.within,cr.within.iv1, cr.within.iv2, type = "text")
 
 a. [5 puntos] ¿Qué se debe de asumir sobre la exogeneidad de los instrumentos para implementar los estimadores de efectos fijos de las partes b. y c.?
 
+    *Para poder estimar el modelo whithin debemos asumir exogeneidad estricta. Intuitivamente esto ocurre porque al transformar el modelo within tenemos un error transformado $(\varepsilon_i-\sum_i \varepsilon_i)$ que incluye los errores de todos los periodos. Por tanto, debemos asumir que el instrumento no está correlacionado con el error en ninguno de esos esos periodos.*
+
 # Pregunta 3
 
 Los datos en *rossi_arrestos.csv* contienen información de 432 personas que fueron arrestadas en algún momento de sus vidas y luego puestas en libertad. A estas personas se les siguió durante 52 semanas para estudiar el tiempo que transcurrió hasta que reincidieron en cometer un delito y fueron arrestadas nuevamente. **week** indica cuántas semanas pasaron desde que fueron liberados hasta ser de nuevo arrestados y la variable **arrest** indica el evento de ser arrestado. Un programa público consistió en darle ayuda financiera a un grupo seleccionado al azar e identificado por **fin**. Las variables de control para el análisis son la edad (**age**), indicadoras de raza  (**race**), la experiencia laboral (**wexp**), indicadoras de estado civil (**mar**), una indicadora de si la liberación fue por perdón (**paro**), y el número de arrestos previos (**prio**).
 
 a. [10 puntos] Represente la función de sobrevivencia no paramétrica de Kaplan-Meier.
+
+    *Construimos un objeto de sobrevivencia con la función survfit. Luego podemos usar ggsurvplot:*
 
     ```{r eval=T, include=T, echo=T, message=T}
     data.rossi <- read_csv("./data_rossi.csv",
@@ -213,12 +197,11 @@ a. [10 puntos] Represente la función de sobrevivencia no paramétrica de Kaplan
                ylab = "Probabilidad de no ser arrestado",
                legend.title = "Estimación",
                legend.labs = "Kaplan-Meier",
-               cumcensor = T,
                ylim = c(0.65,1))
     
     ```
     
-
+    *Con el mismo objeto de sobrevivencia, usamos ggsurplot y la opción cumhaz:*
 
 a. [10 puntos] Represente la función de riesgo acumulado no paramétrica de Nelson-Aalen.
 
@@ -235,6 +218,8 @@ a. [10 puntos] Represente la función de riesgo acumulado no paramétrica de Nel
     
 a. [5 puntos] Represente nuevamente la función de sobrevivencia no paramétrica de Kaplan-Meier, pero ahora distinguiendo entre quienes recibieron y no recibieron ayuda del programa. ¿Qué observa?
 
+    *Construimos primero el objeto de sobrevivencia por grupos de la variable fin. Luego procedemos exactamente igual:*
+
     ```{r eval=T, include=T, echo=T, message=T}
     km.t <- survfit(Surv(week, arrest) ~ fin,
                      type = "kaplan-meier",
@@ -247,9 +232,10 @@ a. [5 puntos] Represente nuevamente la función de sobrevivencia no paramétrica
                xlab = "Semanas",
                ylab = "Probabilidad de no ser arrestado",
                legend.title = "Estimación",
-               cumcensor = T,
                ylim = c(0.65,1))
     ```
+    
+    **Parece ser que los individuos que recibieron ayuda financiera tienen una mayor probabilidad de no volver a ser arrestado (la curva verder está por encima de la roja). Aunque los intervalos de confianza se traslapan.*
 
 a. [10 puntos] Estime ahora un modelo paramátrico de duración asumiendo una distribución Weibull. ¿Cómo cambia la tasa de riesgo cuando la edad se incrementa en un año? Recuerde la expresión para este cambio en el caso Weibull que vimos en la [clase 22](https://ecnii-2021.netlify.app/clases/clase_22.html#24).
 
@@ -280,3 +266,9 @@ a. [10 puntos] Estime ahora un modelo paramátrico de duración asumiendo una di
     
     ConvertWeibull(sreg, conf.level = 0.95)
     ```
+    
+    *Con la conversión, tenemos los efectos estimados con la parametrización vista en clase. Entonces sabemos que:*
+    
+    $$\frac{d \lambda(t)}{d\quadedad}=\lambda(t)\beta_{edad}$$
+    
+    *Es decir, en el modelo Weibull, los coeficientes tienen una interpretación de multiplicador del riesgo. En este caso, un año más de edad reduce el riesgo e incrementa la duración.*
