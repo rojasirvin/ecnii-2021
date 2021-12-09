@@ -1,0 +1,102 @@
+---
+title: "Examen final"
+summary: " "
+weight: 1
+type: book
+toc: false
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(knitr)
+library(kableExtra)
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+## Instrucciones
+  
+El examen debe realizarse de manera individual y debe entregarse a más tardar las 13:05. en Teams. **El examen contiene cinco preguntas, pero solo deberá contestar cuatro de su elección. Si contesta las cinco preguntas, se calificarán solo las cuatro primeras en el orden reportado.** Puede compactar su notación para ahorrar tiempo. Por ejemplo, puede escribir $y_i$ simplemente como $y$ y en vez de $\beta_1$ puede escribir simplemente $b1$. Por favor, **no comprima los archivos** en carpetas comprimidas. Al igual que las tareas, el examen debe contener:
+
+Un primer documento de respuestas donde se incluyan las respuestas a las preguntas teóricas y conceptuales. Este documento puede ser redactado en Word o cualquier otro software, o si lo prefiere, a mano, pero deberá estar impreso en .pdf. En este documento también se deben incluir las respuestas a preguntas sobre conclusiones que se desprenden de las secciones prácticas. Por ejemplo, si una pregunta pide obtener la media de la variable x en cierta base de datos, entonces el documento de respuestas debe incluir la pregunta y respuesta correspondiente: “la media de la variable x es 32.6”.
+
+Un segundo archivo deberá contener el código replicable usado para generar los resultados de la sección práctica. Los archivos de código se verificarán para comprobar su replicabilidad.
+
+Recuerde que en Teams debe asegurarse de que los archivos se han subido correctamente.
+
+**Al realizar este examen usted se compromete a no recibir ayuda de ninguna otra persona, por ningún medio. Ante la situación especial en que vivimos, entiendo que debemos ser flexibles en la forma en que esperamos que los alumnos aprendan y cómo tratamos de monitorear dicho aprendizaje. Al mismo tiempo, apelo a su madurez y honestidad intelectual. Recuerde que se aplicarán estrictamente los lineamientos generales del CIDE en términos de plagio y fraude.**
+
+
+## Archivos
+
+
+[wage1.csv](/examenes/wage1)
+
+
+## Pregunta 1
+
+En una entrevista de trabajo tendrán que estar listas y listos para desarrollar conceptos técnicos de forma clara y breve. Desarrollo los siguientes conceptos con palabras y, solo de ser necesario, ecuaciones.
+
+a. [10 puntos] ¿Por qué se considera que el artículo clásico de White (1980), *A Heteroskedasticity-consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity*, es uno de los artículos más influyentes en la historia de la econometría?
+
+a. [10 puntos] ¿Para qué sirven y en qué consisten las rutinas bootstrap? Describa brevemente cómo utilizaría una rutina bootstrap para estimar el error estándar de una función no lineal de estimadores.
+
+a. [5 puntos] ¿Qué ventaja tiene disponer de datos en panel con respecto a usar una sección cruzada?
+
+
+## Pregunta 2
+
+Existe una preocupación de que la obesidad pueda tener efectos negativos en el mercado de trabajo. Suponga que dispone de datos de sección cruzada donde se registra el salario $w_i$ de una muestra representativa de la población nacional, además de un índice de masa corporal $IMC_i$ y un rico vector de caracteristicas sociodemográficas $X_i$.
+
+a. [10 puntos] Si estimamos por MCO la relación entre el $IMC_i$ y el salario, controlando por las características observables, ¿podemos interpretar el coeficiente sobre $IMC_i$ de forma causal? ¿Cuáles son los problemas para la estimación consistente de dicho parámetro?
+
+a. [10 puntos] Independientemente de su respuesta a la parte a., considere la posibilidad de usar el índice de masa corporal del hijo o hija de $i$ como instrumento para $IMC_i$. En el caso de que el individuo $i$ tenga más de un hijo o hija, se puede tomar el promedio de los índices de masa corporal de todas y todos ellos. Llamemos a esta variable $IMC^H_i$. ¿Qué supuestos deben cumplirse para seguir esta estrategia y qué posibles amenazas a la identificación considera que pueden existir?
+
+a. [5 puntos] Escriba la forma reducida y la primera etapa de la estrategia empírica descrita en b. En cada caso, interprete el coeficiente sobre $IMC^H_i$.
+
+
+
+
+
+
+# Pregunta 3
+
+Suponga que dispone de $T=2$ años de datos de $N$ trabajadores. Considere el siguiente modelo de (log) salarios: $$ln(salario_{it})=\theta_1+\theta_2 d2_t + \mathbf{z}_{it}\gamma+\delta_1 mujer_i +\delta_2 d2_t*mujer_i + c_i + u_{it}$$ Se asume que el efecto no observado $c_i$ puede estar correlacionado con $\mathbf{z}_{it}$ y $mujer_i$. La variable $d2_t$ es un indicador del periodo de tiempo, con $d2_t=1$ si $t=2$ y $d2_t=0$ is $t=1$. Asumamos también que $$E(u_{it}|mujer_i,\mathbf{z}_{i1},\mathbf{z}_{i2},c_i),\quad t=1,2$$
+
+a. [5 puntos] Sin hacer más supuestos, ¿qué parámetros pueden ser identificados de forma consistente en la ecuación de (log) salarios al usar un estimador de efectos fijos?
+
+a. [10 puntos] Interprete los coeficientes $\theta_2$ y $\delta_2$.
+
+a. [10 puntos] Escriba la ecuación de (log) salarios explícitamente para cada uno de los dos periodos. Provea una expresión paara $\Delta log(salario_i)=log(salario_{i2})-log(salario_{i1})$. En este modelo, ¿podemos identificar las diferencias en el crecimiento de los salarios entre hombres y mujeres?
+
+
+# Pregunta 4
+
+a. [10 puntos] En la pregunta 5 de la tarea 3 obtuvimos el error estándar de la razón de la participación capital-trabajo en una función de producción. Explique por qué decimos que el error estándar estimado usando el método delta es un resultado asintótico.
+
+a. [10 puntos] Suponga que tiene datos para $T$ periodos y $N$ hogares rurales en una encuesta de panel. Los hogares se encuentran geográficamente ubicados en $G$ localidades. Suponga que se desea estudiar el efecto de cierto regresor exógeno $x$ en el ingreso agrícola de los hogares. Explique en qué consisten y en qué difieren los siguientes dos conceptos: 1) controlar por efectos fijos de localidad y 2) estimar errores estándar agrupados a nivel localidad.
+
+a. [5 puntos] Considere un problema de sobrevivencia, como el que estudiamos en la pregunta 3 de la tarea 4, donde se estudió a un grupo de personas que habían sido arrestadas, buscando analizar el tiempo en que eran arrestadas nuevamente. Recordemos que a la mitad de estas personas se les asignó aleatoriamente a un programa para recibir ayuda financiera. Provea una expresión para la diferencia en el riesgo que ocurre entre quienes reciben o no ayuda financiera.
+
+
+
+
+# Pregunta 5
+
+En la clase 23 sobre métodos no paramétricos introdujimos el estimador parcialmente lineal de Robinson. Los datos en el archivo *wage1.csv* fueron los usados para estimar la relación entre el (log) salario como variable dependiente y la educación, el *tenure* y la experiencia como independientes. El modelo parcialmente no lineal era
+
+$$\ln w_i= \beta_0+\beta_1 educ_i + \beta_2 tenure_i + \lambda(exper_i) + \varepsilon_i$$
+
+a. [10 puntos] Cuando estudiamos métdos no paramétricos dijimos que en la estimación de densidades Kernel, la elección del ancho de banda es una decisión más sensible que la elección del tipo de Kernel. Muestre gráficamente este argumento usando la variable **lwage**.
+
+a. [10 puntos] Usando los mismos datos, estime por regresión cuantil la relación entre el (log) salario y la educación, el *tenure* y la experiencia, ignorando posibles no linealidades en cualquiera de las variables independientes. Es decir, asuma $$\ln w_i= \beta_0+\beta_1 educ_i + \beta_2 tenure_i + \beta_3 exper_i + \varepsilon_i $$. Estime la relación para cada uno de los 9 deciles y construya una gráfica para los coeficientes estimados sobre la variable experiencia. ¿Qué concluye?
+
+a. [5 puntos] ¿Cuál es la diferencia entre la relación que acaba de estimar y la relación que obtuvimos con el estimador parcialmente lineal de Robinson en la clase 23?
+
+
+
+
+
+
+
+
