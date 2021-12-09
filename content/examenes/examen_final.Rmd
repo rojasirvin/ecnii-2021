@@ -30,7 +30,7 @@ Recuerde que en Teams debe asegurarse de que los archivos se han subido correcta
 ## Archivos
 
 
-[wage1.csv](/examenes/wage1)
+[wage1.csv](/examenes/wage1.csv)
 
 
 ## Pregunta 1
