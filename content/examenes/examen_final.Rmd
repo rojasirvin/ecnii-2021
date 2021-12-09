@@ -61,7 +61,7 @@ a. [5 puntos] Escriba la forma reducida y la primera etapa de la estrategia emp�
 
 # Pregunta 3
 
-Suponga que dispone de $T=2$ años de datos de $N$ trabajadores. Considere el siguiente modelo de (log) salarios: $$ln(salario_{it})=\theta_1+\theta_2 d2_t + \mathbf{z}_{it}\gamma+\delta_1 mujer_i +\delta_2 d2_t*mujer_i + c_i + u_{it}$$ Se asume que el efecto no observado $c_i$ puede estar correlacionado con $\mathbf{z}_{it}$ y $mujer_i$. La variable $d2_t$ es un indicador del periodo de tiempo, con $d2_t=1$ si $t=2$ y $d2_t=0$ is $t=1$. Asumamos también que $$E(u_{it}|mujer_i,\mathbf{z}_{i1},\mathbf{z}_{i2},c_i),\quad t=1,2$$
+Suponga que dispone de $T=2$ años de datos de $N$ trabajadores. Considere el siguiente modelo de (log) salarios: $$ln(salario_{it})=\theta_1+\theta_2 d2_t + \mathbf{z}_{it}\gamma+\delta_1 mujer_i +\delta_2 d2_t*mujer_i + c_i + u_{it}$$ Se asume que el efecto no observado $c_i$ puede estar correlacionado con $\mathbf{z}_{it}$ y $mujer_i$. La variable $d2_t$ es un indicador del periodo de tiempo, con $d2_t=1$ si $t=2$ y $d2_t=0$ is $t=1$. Asumamos también que $$E(u_{it}|mujer_i,\mathbf{z}_{i1},\mathbf{z}_{i2},c_i)=0,\quad t=1,2$$
 
 a. [5 puntos] Sin hacer más supuestos, ¿qué parámetros pueden ser identificados de forma consistente en la ecuación de (log) salarios al usar un estimador de efectos fijos?
 
