@@ -1,0 +1,147 @@
+---
+title: "Respuestas al examen final"
+summary: " "
+weight: 2
+type: book
+toc: false
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(janitor)
+library(knitr)
+library(kableExtra)
+library(car)
+library(AER)
+library(np)
+library(quantreg)
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+
+## Pregunta 1
+
+En una entrevista de trabajo tendrán que estar listas y listos para desarrollar conceptos técnicos de forma clara y breve. Desarrollo los siguientes conceptos con palabras y, solo de ser necesario, ecuaciones.
+
+a. [10 puntos] ¿Por qué se considera que el artículo clásico de White (1980), *A Heteroskedasticity-consistent Covariance Matrix Estimator and a Direct Test for Heteroskedasticity*, es uno de los artículos más influyentes en la historia de la econometría?
+
+    *White muestra que en la matriz de varianzas de MCO de la forma $(X'X)^{-1}X'\Omega X (X'X)^{-1}$, basta con proveer un estimador consistente del término $X' \Omega X$ para obtener un estimador consistente de la varianza del estimador. Esto es, no es necesario realizar la, a veces imposible, tarea de estimar consistentemente cada entrada en la matriz $\Omega$. Esto permite relajar los supuestos de independencia y distribución idéntica en la estimación de MCO. Además, este resultado se extiende naturalmente a la estimación de una matriz de varianzas más general que permita, por ejemplo, errores agrupados y correlación serial.*
+
+a. [10 puntos] ¿Para qué sirven y en qué consisten las rutinas bootstrap? Describa brevemente cómo utilizaría una rutina bootstrap para estimar el error estándar de una función no lineal de estimadores.
+
+    *Son técnicas de remuestreo usadas para realizar inferencia. Ver notas del curso.*
+
+a. [5 puntos] ¿Qué ventaja tiene disponer de datos en panel con respecto a usar una sección cruzada?
+
+    *La principal ventaja es el tomar en cuenta la heterogeneidad observada y no observada.*
+
+
+## Pregunta 2
+
+Existe una preocupación de que la obesidad pueda tener efectos negativos en el mercado de trabajo. Suponga que dispone de datos de sección cruzada donde se registra el salario $w_i$ de una muestra representativa de la población nacional, además de un índice de masa corporal $IMC_i$ y un rico vector de caracteristicas sociodemográficas $X_i$.
+
+a. [10 puntos] Si estimamos por MCO la relación entre el $IMC_i$ y el salario, controlando por las características observables, ¿podemos interpretar el coeficiente sobre $IMC_i$ de forma causal? ¿Cuáles son los problemas para la estimación consistente de dicho parámetro?
+
+    *La principal preocupación es un problema de endogeneidad. Una persona con sobrepeso puede tener problemas para insertarse en el mercado de trabajo por las consecuencias de salud que su sobrepeso pueden acarrearle. Pero al mismo tiempo, las condiciones de su ocupación pueden causar problemas de sobrepeso y obesidad. Tenemos un problema de doble causalidad, por lo que usar MCO produce un estimador sesgado e inconsistente.*
+
+a. [10 puntos] Independientemente de su respuesta a la parte a., considere la posibilidad de usar el índice de masa corporal del hijo o hija de $i$ como instrumento para $IMC_i$. En el caso de que el individuo $i$ tenga más de un hijo o hija, se puede tomar el promedio de los índices de masa corporal de todas y todos ellos. Llamemos a esta variable $IMC^H_i$. ¿Qué supuestos deben cumplirse para seguir esta estrategia y qué posibles amenazas a la identificación considera que pueden existir?
+
+    *$IMC^H_i$ debe ser relevante y no pertenecer a la ecuación de salarios. La relevancia implica correlación de $IMC^H_i$ con el IMC del inidividuo en cuestión. La exogeneidad implica que $IMC^H_i$ afecta el salario solo a través de $IMC_i$. Un potencial problema surgiría si hay factores del hogar que afecten simulatáneamente al salario de $i$ y el IMC de sus hijos e hijas, tales como el estrés, la cognición y la salud.*
+
+a. [5 puntos] Escriba la forma reducida y la primera etapa de la estrategia empírica descrita en b. En cada caso, interprete el coeficiente sobre $IMC^H_i$.
+
+   *La forma reducida muestra la relación entre el salario y el instrumento. $\gamma_1$ es la correlación que surge entre el IMC de hijos e hijas en los resultados del mercado laboral de padres y madres.*
+   $$w_i=\gamma_0+\gamma_1 IMC^H_i  + \Gamma X_i + u_i$$
+    *La primera etapa indica la relación entre el IMC de padres y madres, por un lado, y el IMC de hijos e hijas por el otro. $\pi$ indica qué tan correlacionados están los IMC, esperando que $\pi\neq 0$ para que la primera etapa sea relevante.*
+   $$IMC_i=\pi_0+\pi_1 IMC^H_i  + \Pi X_i + e_i$$
+
+
+    *Si están interesados en este tipo de problemas, esta pregunta estuvo basada en dos estudios recientes en [México](http://www.scielo.org.mx/scielo.php?script=sci_arttext&pid=S0186-72022019000200156) y [Estados Unidos](https://www.sciencedirect.com/science/article/pii/S0167629611001366?casa_token=52z0JZW4SbMAAAAA:p1P5trkRB5IeG8nwVsxPGTvoDa5gR_0OneymCRcJkOk3FBshYdokrKd_civAwfzjpDPqpY0kltxT).*
+    
+    
+
+
+
+# Pregunta 3
+
+Suponga que dispone de $T=2$ años de datos de $N$ trabajadores. Considere el siguiente modelo de (log) salarios: $$ln(salario_{it})=\theta_1+\theta_2 d2_t + \mathbf{z}_{it}\gamma+\delta_1 mujer_i +\delta_2 d2_t*mujer_i + c_i + u_{it}$$ Se asume que el efecto no observado $c_i$ puede estar correlacionado con $\mathbf{z}_{it}$ y $mujer_i$. La variable $d2_t$ es un indicador del periodo de tiempo, con $d2_t=1$ si $t=2$ y $d2_t=0$ is $t=1$. Asumamos también que $$E(u_{it}|mujer_i,\mathbf{z}_{i1},\mathbf{z}_{i2},c_i)=0,\quad t=1,2$$
+
+a. [5 puntos] Sin hacer más supuestos, ¿qué parámetros pueden ser identificados de forma consistente en la ecuación de (log) salarios al usar un estimador de efectos fijos?
+
+    *Podemos estimar $\theta_2$, $\delta_2$ y $\gamma$ de forma consistente. No podemos estimar $\theta_1$ y el coeficiente sobre $mujer_i$, $\delta_1$.
+
+a. [10 puntos] Interprete los coeficientes $\theta_2$ y $\delta_2$.
+
+    *$\theta_2$ mide el cambio en el salario para los hombres. Si hacemmos $mujer_i=0$ y mantenemos las características observables constantes, $\mathbf{z}_{i1}=\mathbf{z}_{i2}$, entonces este coeficiente se puede interpretar como el cambio en el salario de los hombres debido a factores económicos agregados. $\delta_2$ da la diferencia en crecimiento de salarios entre hombres y mujeres. Así, si $\delta_2=0$, entonces hombres y mujeres con las mismas característicass observables tiene un crecimiento igual en salarios.*
+
+a. [10 puntos] Escriba la ecuación de (log) salarios explícitamente para cada uno de los dos periodos. Provea una expresión paara $\Delta log(salario_i)=log(salario_{i2})-log(salario_{i1})$. En este modelo, ¿podemos identificar las diferencias en el crecimiento de los salarios entre hombres y mujeres?
+
+    *Para $t=1$:*
+    $$ln(salario_{i1})=\theta_1+ \mathbf{z}_{i1}\gamma+\delta_1 mujer_i + c_i + u_{i1}$$
+    
+    *Para $t=2$:*
+    $$ln(salario_{i2})=\theta_1+\theta_2 + \mathbf{z}_{i2}\gamma+\ +\delta_2 mujer_i + c_i + u_{i2}$$
+    
+    *Por tanto:*
+    
+    $$\Delta log(salario_i)=\theta_2+\Delta\mathbf{z}_i\gamma + \delta_2 mujer_i+\Delta u_i$$
+    
+    *Manteniendo las características observables constantes en el tiempo, el crecimiento del salario para los hombres es $\theta_2$ y el de las mueres es $\theta_2+\delta_2$. Por tanto, aun cuando tengamos efectos fijos correlacionados $c_i$ es posible probar diferencias entre hombres y mujeres en el crecimiento de los salarios, aunque no podamos decir nada sobre las diferencias salariales entre hombres y mujeres en un periodo dado.*
+    
+
+
+# Pregunta 4
+
+a. [10 puntos] En la pregunta 5 de la tarea 3 obtuvimos el error estándar de la razón de la participación capital-trabajo en una función de producción. Explique por qué decimos que el error estándar estimado usando el método delta es un resultado asintótico.
+
+    *Es un resultado asintótico porque depende de la varianza asintótica del estimador de MCO de $\beta$.*
+
+a. [10 puntos] Suponga que tiene datos para $T$ periodos y $N$ hogares rurales en una encuesta de panel. Los hogares se encuentran geográficamente ubicados en $G$ localidades. Suponga que se desea estudiar el efecto de cierto regresor exógeno $x$ en el ingreso agrícola de los hogares. Explique en qué consisten y en qué difieren los siguientes dos conceptos: 1) controlar por efectos fijos de localidad y 2) estimar errores estándar agrupados a nivel localidad.
+
+    *Los efectos fijos controlan por características no observables y fijas en el tiempo comúnes para todos los hogares en una localidad. Los errores agrupados a nivel localidad ajustan los errores estándar clásicos para tomar en cuenta factores no observados comúnes entre los hogares que hacen que cada observación añada menos información que si tuviéramos observaciones independientes.*
+
+a. [5 puntos] Considere un problema de sobrevivencia, como el que estudiamos en la pregunta 3 de la tarea 4, donde se estudió a un grupo de personas que habían sido arrestadas, buscando analizar el tiempo en que eran arrestadas nuevamente. Recordemos que a la mitad de estas personas se les asignó aleatoriamente a un programa para recibir ayuda financiera. Provea una expresión para la diferencia en el riesgo que ocurre entre quienes reciben o no ayuda financiera.
+
+    *Si tuviéramos una variable continua, con una parametrización Weibull el cambio en el riesgo simplemente es:*
+    
+    $$\frac{d \lambda(t)}{d x_j}=\lambda(t)\beta_j$$
+    
+    *Pero como la variable de ayuda financiera toma solo valores de 0 y uno, entonces tendríamos que evaluar el cambio en los riesgos bajo ambas circunstancias. Esto ya lo habíamos hecho cuando hablamos de cambios en las razones de momios en los modelos logit. Recordemos que $\lambda(t)=exp(x'\beta)\alpha t^{\alpha-1}$. Por tanto, para cada individuo podríamos calcular:*
+    
+    $$\Delta\hat{\lambda}_i=\hat{\lambda}(t)|_{ayuda=1}-\hat{\lambda(t)}|_{ayuda=0}$$
+    
+    *Y luego podemos tomar el promedio sobre los $i$.*
+  
+
+
+
+
+# Pregunta 5
+
+En la clase 23 sobre métodos no paramétricos introdujimos el estimador parcialmente lineal de Robinson. Los datos en el archivo *wage1.csv* fueron los usados para estimar la relación entre el (log) salario como variable dependiente y la educación, el *tenure* y la experiencia como independientes. El modelo parcialmente no lineal era
+
+$$\ln w_i= \beta_0+\beta_1 educ_i + \beta_2 tenure_i + \lambda(exper_i) + \varepsilon_i$$
+
+a. [10 puntos] Cuando estudiamos métdos no paramétricos dijimos que en la estimación de densidades Kernel, la elección del ancho de banda es una decisión más sensible que la elección del tipo de Kernel. Muestre gráficamente este argumento usando la variable **lwage**.
+
+    *Mostrado en clase.*
+
+a. [10 puntos] Usando los mismos datos, estime por regresión cuantil la relación entre el (log) salario y la educación, el *tenure* y la experiencia, ignorando posibles no linealidades en cualquiera de las variables independientes. Es decir, asuma $$\ln w_i= \beta_0+\beta_1 educ_i + \beta_2 tenure_i + \beta_3 exper_i + \varepsilon_i $$. Estime la relación para cada uno de los 9 deciles y construya una gráfica para los coeficientes estimados sobre la variable experiencia. ¿Qué concluye?
+
+    ```{r echo=T}
+data(wage1)
+
+r.q1_9 <- rq(lwage ~ educ + tenure + exper,
+                data=wage1,
+                tau= 1:9/10)
+
+plot(summary(r.q1_9), parm=c("exper"))
+
+
+    ```
+
+    *Observamos que el efecto de la experiencia en el salario en los cuantiles inferiores e intermedios es muy parecido al estimado por MCO. Los efectos estimados para los cuantiles superiores son más grandes, aunque los errores estándar se traslapan con los errores estándar de MCO, sugiriendo que los efectos en la media condicional y en los cuantiles condicionales son muy parecidos.*
+
+a. [5 puntos] ¿Cuál es la diferencia entre la relación que acaba de estimar y la relación que obtuvimos con el estimador parcialmente lineal de Robinson en la clase 23?
+
+    *La regresión cuantil modela los cuantiles condicionales de los salarios en función de la experiencia y el resto de las características. Cada coeficiente estimado se refiere a un cuantil en específico. Este modelo nos permite una caracterización más completa de los efectos de la experiencia a lo largo de la distribución de salarios. Por otro lado, el estimador parcialmente lineal modela una potencial relación no lineal entre salarios y experiencia, sin imponer una forma paramétrica para dicha no linealidad.*
