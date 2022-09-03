@@ -4,7 +4,7 @@
     <title>Cuestiones prácticas de VI</title>
     <meta charset="utf-8" />
     <meta name="author" content="Irvin Rojas" />
-    <script src="libs/header-attrs-2.11/header-attrs.js"></script>
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link rel="stylesheet" href="libs/cide.css" type="text/css" />
@@ -67,42 +67,26 @@ class: title-slide
 
 # Estimador óptimo de MGM
 
-- Para obtener el estimador óptimo escogemos una forma particular para la matriz de pesos:
+Para obtener el **estimador óptimo** escogemos una forma particular para la matriz de pesos:
 
 `$$W=\hat{S}^{-1}$$`
-- Y entonces el estimador de MGM se vuelve:
+Y entonces el estimador de MGM se vuelve:
 
 `$$\hat{\beta}_{GMM,O}=(X'Z\hat{S}^{-1}Z'X)^{-1}X'Z\hat{S}^{-1}Z'y$$`
-- Y el estimador de varianza se simplifica a:
+Y el estimador de varianza se simplifica a:
 
 `$$\hat{V}(\hat{\beta}_{GMM,O})=N(X'Z\hat{S}^{-1}Z'X)^{-1}$$`
-- En estos dos estimadores no asumimos nada sobre la forma de los errores
+Hasta aquí no asumimos nada sobre la forma de los errores
 
-- Lo único que nos permitió pasar de la forma general al estimador óptimo es la elección de `\(W\)`
+Lo único que nos permitió pasar de la forma general al estimador óptimo es la elección de `\(W\)`
 
-- Con esto obtenemos el estimador más eficiente
-
----
-
-# Modelo sobreidentificado con posible heterocedasticidad
-
-- Con errores heterocedásticos, se estima `\(\hat{S}\)` en una primera etapa usando, por ejemplo `\(W=I\)`
-
-- Luego se estima `\(\hat{\beta}_{MGM,O}\)` resolviendo
-  
-`$$Q_N(\theta)=\left(\frac{1}{N}\sum_i (y − X\beta)'Z\right)\hat{S}^{-1}\left(\frac{1}{N}\sum_i Z'(y − X\beta)\right)$$`
-- Y luego estimamos la varianza
-
-`$$\hat{V}(\hat{\beta}_{GMM,O})=N(X'Z\tilde{S}^{-1}Z'X)^{-1}$$`
-- La diferencia es que usamos los residuales de  `\(\hat{\beta}_{MGM,O}\)` para construir `\(\tilde{S}\)`
-
-- Este es el **estimador óptimo de MGM**
+Con esto obtenemos el estimador más eficiente
 
 ---
 
 # Modelo sobreidentificado con homocedasticidad
 
-- Con errores homocedásticos:
+Si estamos dispuestos a asumir Con errores homocedásticos
 
 `$$\hat{S}^{-1}=\left(\frac{1}{N}\sigma^2Z'Z\right)^{-1}$$`
 - Y entonces hacemos
@@ -608,9 +592,7 @@ donde `\(\frac{\sigma_{\eta \xi}}{\sigma_{xi}^2}\)` es el sesgo del estimador de
 
 # Próxima sesión
 
-- Comenzaremos a hablar sobre panel
-
-  - CT, Capítulos 21 y 22
+Haremos precisiones para la estimación de errores estándar
 
 ---
 

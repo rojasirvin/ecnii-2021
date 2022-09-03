@@ -2,7 +2,7 @@
 widget: hero
 headless: true
 weight: 10
-title: 'Econometría II 2021'
+title: 'Econometría II'
 design:
   background:
     gradient_angle: 0
@@ -23,14 +23,16 @@ advanced:
 ---
 <br>
 
-Profesor: [Irvin Rojas](https://www.rojasirvin.com/) (irvin.rojas@cide.edu).
+**Bienvenidos, bienvenidas!**
 
-Laboratorista: Federico Daverio (federico.daverio@alumnos.cide.edu).
+Este es un curso sobre Econometría Avanzada creado por Irvin Rojas. Este sitio es usado para la clase de Evaluación de Programas de la Maestría en Economía del CIDE, donde lleva el nombre de Econometría II, sin embargo, cualquier persona puede aprender sobre teoría econométrica y sus aplicaciones usando este sitio.
 
-Horario de clases: martes y jueves (12:00 a 13:30) en Zoom.
+La lista de lecturas ofrece una forma ordenada de estudiar econometría y sus aplicaciones, comenzando por los conceptos básicos de teoría asintótica, pasando por la teoría y aplicaciones de modelos no lineales y revisando extensamente la teoría y aplicaciones de variables instrumentales y panel. 
 
-Horario de laboratorio: lunes (8:00 a 9:30).
+Las clases incluyen diapositivas sobre cada uno de los temas vistos en un curso semestral de 15 semanas y guían a las y los lectores en el estudio de temas avanzados de econometría, además de que introducen aplicaciones de todas las metodologías estudiadas en R.
 
-Plataforma del curso: Microsoft Teams.
+Las tareas ofrecen ejercicios conceptuales y prácticos para reforzar el estudio de la teoría y aplicaciones econométricas. Se incluyen las respuestas sugeridas, así como código en R que produce las estimaciones pedidas en los ejercicios.
 
-Horario de oficina: lunes y miércoles (12:00 a 13:00).
+Finalmente, los exámenes ofrecen ejercicios retadores, tanto conceptuales como prácticos, que permiten poner a prueba lo aprendido en el curso. Se incluyen tambien las respuestas a los ejercicios de examen, así como el código en R correspondiente.
+
+Si tienes dudas o comentarios, mándame un correo a <irvin.rojas@cide.edu>.
