@@ -67,6 +67,8 @@ Unidad 6. Extensiones
 + Variables instrumentales shift share
 + Econometría espacial
 
+<!---
+
 ## Evaluación del curso
 
 + Examen parcial: 30%.
@@ -93,3 +95,4 @@ R será el paquete standard usado en las sesiones prácticas. Más aún, el uso 
 ## Exposición
 
 Cada alumno realizará una presentación de uno de los artículos aplicados marcados con negritas en la lista de lecturas. Cada presentación deberá ser de máximo 15 minutos y deberá incluir el contenido que el presentador considere más relevante. La presentación deberá abordar, mínimamente: 1) el problema a investigar, 2) la metodología empleada, 3) la relación entre la metodología y la teoría vista en el curso, 4) los datos empleados, 5) los principales resultados, y 6) una crítica sobre la validez y las conclusiones del estudio.
+-->
