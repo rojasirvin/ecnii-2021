@@ -25,7 +25,7 @@ advanced:
 
 **Bienvenidos, bienvenidas!**
 
-Este es un curso sobre Econometría Avanzada creado por [Irvin Rojas](https://www.rojasirvin.com/). Este sitio es usado para la clase de Evaluación de Programas de la Maestría en Economía del CIDE, donde lleva el nombre de Econometría II, sin embargo, cualquier persona puede aprender sobre teoría econométrica y sus aplicaciones usando este sitio.
+Este es un curso sobre Econometría Avanzada creado por [Irvin Rojas](https://www.rojasirvin.com/). Este sitio es usado para la clase de Econometría II de la Maestría en Economía del CIDE, sin embargo, cualquier persona puede aprender sobre teoría econométrica y sus aplicaciones usando este sitio.
 
 La lista de [lecturas](https://curso-ecnii.netlify.app/lecturas/) ofrece una forma ordenada de estudiar econometría y sus aplicaciones, comenzando por los conceptos básicos de teoría asintótica, pasando por la teoría y aplicaciones de modelos no lineales y revisando extensamente la teoría y aplicaciones de variables instrumentales y panel. 
 
